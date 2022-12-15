@@ -41,4 +41,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function bots()
+    {
+        return $this->hasMany(Bot::class);
+    }
+
+    public function exchanges()
+    {
+        return $this->hasMany(Exchange::class);
+    }
+
+    public function grids()
+    {
+        return $this->hasMany(Grid::class);
+    }
 }
