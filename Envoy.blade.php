@@ -66,6 +66,12 @@
     yarn dev
 @endtask
 
+@before
+    if ($task === 'deploy') {
+        composer install --optimize-autoloader --no-dev
+    }
+@endbefore
+
 @task('deploy', ['on' => 'remote'])
     su -l {{ $username }}
     {{ $prepare_php }}
