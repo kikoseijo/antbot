@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-yellow-500 {
+    --tw-text-opacity: 1;
+    color:rgb(255 209 82 / var(--tw-text-opacity))
+}
+
+.text-turquesa-500 {
+    --tw-text-opacity: 1;
+    color:rgb(120 176 160 / var(--tw-text-opacity))
+}
