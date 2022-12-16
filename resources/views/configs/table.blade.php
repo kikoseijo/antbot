@@ -5,22 +5,18 @@
             <tr>
                 <th scope="col" class="py-3 px-6">#</th>
                 <th scope="col" class="py-3 px-6">Name</th>
-                <th scope="col" class="py-3 px-6">ApiKey</th>
                 <th scope="col" class="py-3 px-6">Date Created</th>
                 <th scope="col" class="py-3 px-6"></th>
             </tr>
         </thead>
         <tbody>
             @forelse($records as $record)
-                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
+                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-700'}}">
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $record->id }}
                     </th>
                     <td class="py-4 px-6">
                         {{ $record->name }}
-                    </td>
-                    <td class="py-4 px-6">
-                        {{ $record->api_key }}
                     </td>
                     <td class="py-4 px-6">
                         {{ $record->created_at->format('d-m-Y') }}
