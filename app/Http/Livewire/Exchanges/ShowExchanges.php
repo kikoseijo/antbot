@@ -11,7 +11,7 @@ class ShowExchanges extends Component
     use WithPagination;
 
     public $search = '';
-    public $deleteId = '';
+    public $deleteId = 0;
 
     public function updatingSearch()
     {
@@ -33,12 +33,13 @@ class ShowExchanges extends Component
 
     public function destroy()
     {
-        if ($this->deleteId) {
+        if ($this->deleteId > 0) {
             $record = Exchange::find($this->deleteId);
             if(auth()->user()->id == $record->user_id){
                 $record->delete();
                 session()->flash('message', 'Exchange successfully deleted.');
             }
+            $this->deleteId = 0;
         }
     }
 }
