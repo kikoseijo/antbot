@@ -1,12 +1,15 @@
 <x-slot name="header">
-    <div class="container mx-auto flex flex-row">
-        <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Add new exchange API') }}
-        </h2>
-    </div>
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        {{ __('Exchanges') }}
+    </h2>
 </x-slot>
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-    <div class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
-        @include('exchanges.form')
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="">
+                @include('exchanges.form')
+            </div>
+        </div>
     </div>
-</section>
+</div>

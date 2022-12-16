@@ -36,8 +36,12 @@ Route::middleware('auth')->group(function () {
     Route::get('exchanges', App\Http\Livewire\Exchanges\ShowExchanges::class)->name('exchanges.index');
     Route::get('exchange/add', App\Http\Livewire\Exchanges\CreateExchange::class)->name('exchanges.add');
 
-    Route::view('bots', 'bots.index')->name('bots.index');
-    Route::view('configs', 'configs.index')->name('configs.index');
+    Route::get('grids', App\Http\Livewire\Configs\ShowConfigs::class)->name('configs.index');
+    Route::get('grid/add', App\Http\Livewire\Configs\CreateConfig::class)->name('configs.add');
+
+    Route::get('bots', App\Http\Livewire\Bots\ShowBots::class)->name('bots.index');
+    Route::get('bot/add', App\Http\Livewire\Bots\CreateBot::class)->name('bots.add');
+
 });
 
 
