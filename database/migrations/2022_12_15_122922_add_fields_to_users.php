@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('admin')->default(0)->after('password');
             $table->unsignedTinyInteger('role')->default(2)->after('admin');
+            $table->timestamp('last_seen')->nullable()->after('remember_token');
         });
     }
 
@@ -27,7 +28,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['admin', 'role']);
+            $table->dropColumn(['admin', 'role', 'last_seen']);
         });
     }
 };

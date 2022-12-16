@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,13 +24,19 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/user', App\Http\Livewire\ShowUsers::class);
+    Route::get('/user/add', App\Http\Livewire\CreateUser::class);
+    Route::get('status', [UserController::class, 'userOnlineStatus']);
+
+    Route::view('bots', 'bots.index')->name('bots');
+    Route::view('exchanges', 'exchanges.index')->name('exchanges');
+    Route::view('configs', 'configs.index')->name('configs');
 });
 
-Route::view('bots', 'bots.index')->name('bots');
-Route::view('exchanges', 'exchanges.index')->name('exchanges');
-Route::view('configs', 'configs.index')->name('configs');
 
 require __DIR__.'/auth.php';
