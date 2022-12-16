@@ -12,16 +12,16 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.*')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('bots.index')" :active="request()->routeIs('bots')">
-                        {{ __('Bots') }}
+                    <x-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
+                        {{ __('Antbots') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges')">
+                    <x-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
                         {{ __('Exchanges') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('configs.index')" :active="request()->routeIs('configs')">
+                    <x-nav-link :href="route('configs.index')" :active="request()->routeIs('configs.*')">
                         {{ __('Configs') }}
                     </x-nav-link>
                 </div>
