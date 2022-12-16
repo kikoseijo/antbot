@@ -8,7 +8,7 @@
 
     <div class="py-12">
         <div class="flex justify-center mx-auto p-4 max-w-4xl rounded-lg mb-4 bg-white dark:bg-slate-400 drop-shadow-sm">
-            @livewire('bot')
+            @livewire('bots.bot')
         </div>
     </div>
 </x-app-layout>

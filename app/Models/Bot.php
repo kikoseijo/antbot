@@ -11,7 +11,7 @@ use App\Enums\ExchangesEnum;
 
 class Bot extends Model
 {
-    use HasFactory;
+    use HasFactory, Traits\ScopeMineTrait;
 
     protected $guarded = ['id'];
 

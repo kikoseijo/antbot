@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Bots;
 
 use Livewire\Component;
 use App\Models\Bot as AntBot;

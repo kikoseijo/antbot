@@ -29,13 +29,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/user', App\Http\Livewire\ShowUsers::class);
-    Route::get('/user/add', App\Http\Livewire\CreateUser::class);
+    Route::get('/user', App\Http\Livewire\Users\ShowUsers::class);
+    Route::get('/user/add', App\Http\Livewire\Users\CreateUser::class);
     Route::get('status', [UserController::class, 'userOnlineStatus']);
 
-    Route::view('bots', 'bots.index')->name('bots');
-    Route::view('exchanges', 'exchanges.index')->name('exchanges');
-    Route::view('configs', 'configs.index')->name('configs');
+    Route::get('exchanges', App\Http\Livewire\Exchanges\ShowExchanges::class)->name('exchanges.index');
+    Route::get('exchange/add', App\Http\Livewire\Exchanges\CreateExchange::class)->name('exchanges.add');
+
+    Route::view('bots', 'bots.index')->name('bots.index');
+    Route::view('configs', 'configs.index')->name('configs.index');
 });
 
 

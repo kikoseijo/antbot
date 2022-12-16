@@ -1,5 +1,5 @@
 
-<footer class="absolute p-4 bg-white sm:p-6 dark:bg-gray-900 inset-x-0 bottom-0">
+<footer class="mt-8 p-4 bg-white sm:p-6 dark:bg-gray-900 inset-x-0 bottom-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">

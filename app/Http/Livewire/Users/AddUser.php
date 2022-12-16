@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Users;
 
 use Livewire\Component;
 
@@ -8,6 +8,6 @@ class AddUser extends Component
 {
     public function render()
     {
-        return view('livewire.add-user');
+        return view('livewire.users.add-user');
     }
 }
