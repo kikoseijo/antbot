@@ -20,16 +20,15 @@ return new class extends Migration
             $table->string('symbol');
             $table->string('market_type', 12)->default('futures');
             $table->string('grid_mode', 12)->default('recursive');
-            $table->unsignedInteger('grid_id')->default(0);
+            $table->unsignedInteger('grid_id')->nullable();
             $table->unsignedInteger('exchange_id')->default(0);
+            $table->unsignedInteger('assigned_balance')->default(0);
             // Long mode settings
             $table->string('lm', 2)->default('n');
-            $table->unsignedFloat('lwe', 4, 2)->default(0.10);
-            $table->unsignedInteger('lab')->default(0);
+            $table->unsignedFloat('lwe', 4, 2)->default(0.20);
             // Short mode settings
             $table->string('sm', 2)->default('n');
-            $table->unsignedFloat('swe', 4, 2)->default(0.10);
-            $table->unsignedInteger('sab')->default(0);
+            $table->unsignedFloat('swe', 4, 2)->default(0.15);
             // Runtime
             $table->unsignedInteger('pid')->nullable()->unique();
             // Timestamps

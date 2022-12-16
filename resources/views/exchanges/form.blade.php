@@ -20,7 +20,6 @@
             <div class="relative">
                 <x-input-label for="exchange" :value="__('Exchange')" />
                 <x-select-input id="exchange" name="exchange" type="text" class="mt-1 block w-full" wire:model="exchange" required autocomplete="exchange">
-                    <option value="">Select exchange</option>
                     @foreach (config('antbot.exchanges') as $key => $value)
                         <option value="{{$value}}">{{$key}}</option>
                     @endforeach
