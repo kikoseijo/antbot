@@ -8,7 +8,6 @@
                 <th scope="col" class="py-3 px-6">Symbol</th>
                 <th scope="col" class="py-3 px-6">Market type</th>
                 <th scope="col" class="py-3 px-6">Grid mode</th>
-                <th scope="col" class="py-3 px-6">Custom grid</th>
                 <th scope="col" class="py-3 px-6">Long WE</th>
                 <th scope="col" class="py-3 px-6">Short WE</th>
                 <th scope="col" class="py-3 px-6">Status</th>
@@ -22,10 +21,9 @@
                         {{ $record->id }}
                     </th>
                     <td class="py-4 px-6">{{ $record->exchange->name ?? '' }}</td>
-                    <td class="py-4 px-6">{{ $record->symbol }}</td>
+                    <td class="py-4 px-6 font-bold">{{ $record->symbol }}</td>
                     <td class="py-4 px-6">{{ $record->market_type }}</td>
                     <td class="py-4 px-6">{{ $record->grid_mode }}</td>
-                    <td class="py-4 px-6">{{ $record->grid->name ?? '' }}</td>
                     <td class="py-4 px-6">{{ $record->lwe }}</td>
                     <td class="py-4 px-6">{{ $record->swe }}</td>
                     <td class="py-4 px-6">{{ $record->started_at ? $record->started_at->diffForHumans() ?? 'Stopped' : '-' }}</td>
@@ -40,7 +38,7 @@
                             @endif
 
                         </x-btn-link>
-                        <x-btn-link class="py-1 px-2 mr-2" href="/bots/edit/{{ $record->id }}" >
+                        <x-btn-link class="py-1 px-2 mr-2" href="{{ route('bots.edit', $record) }}" >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                         </x-btn-link>
                         <x-danger-button class="py-1 px-2"

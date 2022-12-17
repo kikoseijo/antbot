@@ -8,9 +8,9 @@ return [
     ],
 
     'exchanges' => [
-        'Bybit' => 'bybit',
-        'Binance' => 'binance',
-        'Bitget' => 'bitget',
+        'bybit' => 'Bybit',
+        'binance' => 'Binance',
+        'bitget' => 'Bitget',
     ],
 
     'market_types' => [

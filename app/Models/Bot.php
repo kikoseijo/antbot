@@ -32,6 +32,6 @@ class Bot extends Model
 
     public function exchange()
     {
-        return $this->belongsTo(Exchange::class);
+        return $this->belongsTo(Exchange::class, 'exchange_id', 'id');
     }
 }
