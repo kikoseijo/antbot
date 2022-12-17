@@ -37,6 +37,11 @@
     ];
 @endsetup
 
+@before
+    if ($task == 'deploy') {
+        composer install --optimize-autoloader --no-dev
+    }
+@endbefore
 
 @task('php', ['on' => 'remote'])
     su -l {{ $username }}
@@ -66,11 +71,7 @@
     yarn dev
 @endtask
 
-@before
-    if ($task === 'deploy') {
-        composer install --optimize-autoloader --no-dev
-    }
-@endbefore
+
 
 @task('deploy', ['on' => 'remote'])
     su -l {{ $username }}

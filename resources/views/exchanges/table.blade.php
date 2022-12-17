@@ -6,11 +6,15 @@
                 <th scope="col" class="py-3 px-6">#</th>
                 <th scope="col" class="py-3 px-6">Name</th>
                 <th scope="col" class="py-3 px-6">ApiKey</th>
+                <th scope="col" class="py-3 px-6">Exchange</th>
                 <th scope="col" class="py-3 px-6">Date Created</th>
                 <th scope="col" class="py-3 px-6"></th>
             </tr>
         </thead>
         <tbody>
+            @php
+                $our_exchanges = config('antbot.exchanges');
+            @endphp
             @forelse($records as $record)
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -23,10 +27,13 @@
                         {{ $record->api_key }}
                     </td>
                     <td class="py-4 px-6">
+                        {{ $our_exchanges[$record->exchange] }}
+                    </td>
+                    <td class="py-4 px-6">
                         {{ $record->created_at->format('d-m-Y') }}
                     </td>
                     <td class="py-4 px-6 text-right">
-                        <x-btn-link class="py-1 px-2 mr-2" href="/exchanges/edit/{{ $record->id }}" >Edit</x-btn-link>
+                        <x-btn-link class="py-1 px-2 mr-2" href="{{ route('exchanges.edit', $record) }}" >Edit</x-btn-link>
                         <x-danger-button class="py-1 px-2"
                             wire:click="deleteId({{ $record->id }})"
                             x-data=""
