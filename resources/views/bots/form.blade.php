@@ -18,12 +18,12 @@
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             <div>
                 <x-input-label for="symbol" :value="__('Symbol')" />
-                <x-text-input id="symbol" type="text" class="mt-1 block w-full uppercase" wire:model="bot.symbol" required autofocus/>
+                <x-text-input id="symbol" type="text" class="mt-1 block w-full uppercase" wire:model.lazy="bot.symbol" required autofocus/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.symbol')" />
             </div>
             <div>
                 <x-input-label for="assigned_balance" :value="__('Assigned balance')" />
-                <x-text-input id="assigned_balance" type="number" step="1" class="mt-1 block w-full" wire:model="bot.assigned_balance" required/>
+                <x-text-input id="assigned_balance" type="number" step="1" class="mt-1 block w-full" wire:model.lazy="bot.assigned_balance" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.assigned_balance')" />
             </div>
         </div>
@@ -93,19 +93,19 @@
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             <div>
                 <x-input-label for="lwe" :value="__('Long wallet exposure (LWE)')" />
-                <x-text-input id="lwe" type="number" step="0.05" min="0" class="mt-1 block w-full" wire:model="bot.lwe" required/>
+                <x-text-input id="lwe" type="number" step="0.05" min="0" class="mt-1 block w-full" wire:model.lazy="bot.lwe" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.lwe')" />
             </div>
             <div>
                 <x-input-label for="swe" :value="__('Short wallet exposure (SWE)')" />
-                <x-text-input id="swe" type="number" step="0.05" class="mt-1 block w-full" wire:model="bot.swe" required/>
+                <x-text-input id="swe" type="number" step="0.05" class="mt-1 block w-full" wire:model.lazy="bot.swe" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.swe')" />
             </div>
         </div>
 
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ isset($on_update) ? __('Update Antbot') : __('Create Antbot') }}</x-primary-button>
+            <x-primary-button>{{ isset($on_edit) ? __('Update Antbot') : __('Create Antbot') }}</x-primary-button>
 
             @if (session('status') === 'bot-created' || session('status') === 'bot-updated')
                 <p

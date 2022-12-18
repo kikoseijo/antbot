@@ -14,7 +14,7 @@
         <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
             <div>
                 <x-input-label for="name" :value="__('Name')" />
-                <x-text-input id="name" type="text" class="mt-1 block w-full" wire:model="exchange.name" required autofocus />
+                <x-text-input id="name" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.name" required autofocus />
                 <x-input-error class="mt-2" :messages="$errors->get('exchange.name')" />
             </div>
             <div>
@@ -29,7 +29,7 @@
             @if (!isset($on_edit))
                 <div>
                     <x-input-label for="api_key" :value="__('Api key')" />
-                    <x-text-input id="api_key" type="text" class="mt-1 block w-full" wire:model="exchange.api_key" required />
+                    <x-text-input id="api_key" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.api_key" required />
                     <x-input-error class="mt-2" :messages="$errors->get('exchange.api_key')" />
                 </div>
             @endif
@@ -39,7 +39,7 @@
             <div class="grid grid-cols-none">
                 <div>
                     <x-input-label for="api_secret" :value="__('Api secret')" />
-                    <x-text-input id="api_secret" type="text" class="mt-1 block w-full" wire:model="exchange.api_secret" required />
+                    <x-text-input id="api_secret" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.api_secret" required />
                     <x-input-error class="mt-2" :messages="$errors->get('exchange.api_secret')" />
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     x-data="{ show: true }"
                     x-show="show"
                     x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
+                    x-init="setTimeout(() => show = false, 4000)"
                     class="text-sm text-green-600 dark:text-green-400"
                 >{{ __('Saved.') }}</p>
             @endif
