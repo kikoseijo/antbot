@@ -20,11 +20,14 @@ class ShowBots extends Component
 
     public function render()
     {
+        $records = Bot::where('symbol', 'like', '%'.$this->search.'%')
+            ->orderBy('id', 'desc')
+            ->mine()
+            ->with('exchange', 'grid')
+            ->paginate(10);
+
         return view('livewire.bots.show-bots', [
-            'records' => Bot::where('symbol', 'like', '%'.$this->search.'%')
-                ->mine()
-                ->with('exchange', 'grid')
-                ->paginate(5)
+            'records' => $records
         ]);
     }
 

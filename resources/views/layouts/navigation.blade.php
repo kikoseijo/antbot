@@ -15,8 +15,13 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard.*')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if (auth() && auth()->user()->admin)
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
-                        {{ __('Antbots') }}
+                        {{ __('Bots') }}
                     </x-nav-link>
                     <x-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
                         {{ __('Exchanges') }}
