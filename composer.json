@@ -51,7 +51,10 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [],
+            "aliases": {
+               "Python": "App\\Facades\\PythonFacade"
+            }
         }
     },
     "config": {

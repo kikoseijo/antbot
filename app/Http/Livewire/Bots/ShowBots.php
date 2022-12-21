@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Bots;
 
 use App\Models\Bot;
+use App\Models\Exchange;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -38,9 +39,14 @@ class ShowBots extends Component
             $bot->started_at = NULL;
             $bot->pid = 0;
         } else {
-            $configs = config('antbot.grid_configs');
+            // dd($bot);
+            $grid_configs = config('antbot.grid_configs');
+            // dd($grid_configs);
+            $exchange = Exchange::find($bot->exchange_id);
             $args = [
-                $bot->exchange->name, $bot->symbol, $configs[$bot->grid_mode],
+                $exchange->name,
+                $bot->symbol,
+                \Arr::get($bot->grid_mode, $grid_configs),
                 '-m', $bot->market_type,
                 '-ab', $bot->assigned_balance,
                 '-lm', $bot->lm,
@@ -48,7 +54,7 @@ class ShowBots extends Component
                 '-sm', $bot->sm,
                 '-sw', $bot->swe,
             ];
-            $pid = python('/home/antbot/passivbotpassivbot.py', $args);
+            $pid = \Python::run('/home/antbot/passivbotpassivbot.py', $args);
             \Log::info($bot->symbol . ' PID: ' . $pid);
             $bot->started_at = now();
 
