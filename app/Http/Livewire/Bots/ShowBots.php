@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Bots;
 
+
 use App\Models\Bot;
 use App\Models\Exchange;
 use Livewire\Component;
@@ -35,32 +36,11 @@ class ShowBots extends Component
     public function changeBotStatus(Bot $bot)
     {
         \Log::info($bot->started_at . ' PID: ' . $bot->pid);
-        if ($bot->started_at && $bot->pid > 0) {
-            $bot->started_at = NULL;
-            $bot->pid = 0;
+        if ($bot->started_at) {
+            $bot->stop();
         } else {
-            // dd($bot);
-            $grid_configs = config('antbot.grid_configs');
-            // dd($grid_configs);
-            $exchange = Exchange::find($bot->exchange_id);
-            $args = [
-                $exchange->name,
-                $bot->symbol,
-                \Arr::get($bot->grid_mode, $grid_configs),
-                '-m', $bot->market_type,
-                '-ab', $bot->assigned_balance,
-                '-lm', $bot->lm,
-                '-lw', $bot->lwe,
-                '-sm', $bot->sm,
-                '-sw', $bot->swe,
-            ];
-            $pid = \Python::run('/home/antbot/passivbotpassivbot.py', $args);
-            \Log::info($bot->symbol . ' PID: ' . $pid);
-            $bot->started_at = now();
-
-            $bot->pid = $pid;
+            $bot->start();
         }
-        $bot->save();
     }
 
     public function deleteId($id)

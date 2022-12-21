@@ -14,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-         $this->app->singleton('python', function () { return new LaravelPython();});
+        // Solo cargamos esta clase cuando la inyectemos una única vez.
+        $this->app->singleton('python', function () { return new LaravelPython();});
     }
 
     /**
