@@ -93,12 +93,12 @@
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             <div>
                 <x-input-label for="lwe" :value="__('Long wallet exposure (LWE)')" />
-                <x-text-input id="lwe" type="number" step="0.05" min="0" class="mt-1 block w-full" wire:model.lazy="bot.lwe" required/>
+                <x-text-input id="lwe" type="number" step="0.01" min="0" class="mt-1 block w-full" wire:model.lazy="bot.lwe" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.lwe')" />
             </div>
             <div>
                 <x-input-label for="swe" :value="__('Short wallet exposure (SWE)')" />
-                <x-text-input id="swe" type="number" step="0.05" class="mt-1 block w-full" wire:model.lazy="bot.swe" required/>
+                <x-text-input id="swe" type="number" step="0.01" min="0" class="mt-1 block w-full" wire:model.lazy="bot.swe" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.swe')" />
             </div>
         </div>
