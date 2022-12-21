@@ -25,6 +25,12 @@ return [
         'custom' => 'Custom grid',
     ],
 
+    'grid_configs' => [
+        'recursive' => 'recursive.json',
+        'neat' => 'neat.json',
+        'static' => 'static.json',
+    ],
+
     'bot_modes' => [
         'n' => 'Normal',
         'm' => 'Manual',
@@ -32,4 +38,5 @@ return [
         't' => 'Take profit only',
         'p' => 'Panic',
     ],
+
 ];

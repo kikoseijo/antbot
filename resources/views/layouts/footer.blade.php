@@ -4,8 +4,8 @@
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
                 <a href="https://antbot.sunnyface.com/" class="flex items-center">
-                    <img src="{{ asset('img/svg/ant-logo-white.svg')}}" class="mr-3 h-8 font-bold" alt="Antbot Logo" />
-                    <span class="self-center text-2xl mt-3 font-semibold whitespace-nowrap dark:text-white">Antbot</span>
+                    <x-application-logo class="block h-12 w-auto mx-4 fill-current text-teal-400 dark:text-teal-600" />
+                    <span class="self-center text-2xl mt-3 font-semibold whitespace-nowrap text-teal-400 dark:text-teal-600">Antbot</span>
                 </a>
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">

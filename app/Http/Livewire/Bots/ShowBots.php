@@ -38,8 +38,21 @@ class ShowBots extends Component
             $bot->started_at = NULL;
             $bot->pid = 0;
         } else {
+            $configs = config('antbot.grid_configs');
+            $args = [
+                $bot->exchange->name, $bot->symbol, $configs[$bot->grid_mode],
+                '-m', $bot->market_type,
+                '-ab', $bot->assigned_balance,
+                '-lm', $bot->lm,
+                '-lw', $bot->lwe,
+                '-sm', $bot->sm,
+                '-sw', $bot->swe,
+            ];
+            $pid = python('/home/antbot/passivbotpassivbot.py', $args);
+            \Log::info($bot->symbol . ' PID: ' . $pid);
             $bot->started_at = now();
-            $bot->pid = 50000;
+
+            $bot->pid = $pid;
         }
         $bot->save();
     }
