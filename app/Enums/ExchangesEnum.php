@@ -3,7 +3,7 @@
 namespace App\Enums;
 
 enum ExchangesEnum:string {
-    case Bybit = 'bybit';
-    case Binance = 'binance';
-    case Bitget = 'bitget';
+    case BYBIT = 'bybit';
+    case BINANCE = 'binance';
+    case BITGET = 'bitget';
 }

@@ -3,6 +3,6 @@
 namespace App\Enums;
 
 enum MarketTypeEnum:string {
-    case Spot = 'spot';
-    case Futures = 'futures';
+    case SPOT = 'spot';
+    case FUTURES = 'futures';
 }

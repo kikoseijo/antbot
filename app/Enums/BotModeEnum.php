@@ -3,9 +3,9 @@
 namespace App\Enums;
 
 enum BotModeEnum:string {
-    case Normal = 'n';
-    case Manual = 'm';
-    case GracefulStop = 'gs';
-    case Panic = 'p';
-    case TakeProfitOnly = 't';
+    case NORMAL = 'n';
+    case MANUAL = 'm';
+    case GRACEFULSTOP = 'gs';
+    case PANIC = 'p';
+    case TAKEPROFITONLY = 't';
 }
