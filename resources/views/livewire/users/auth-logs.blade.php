@@ -4,7 +4,7 @@
         <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
             <div class="">
                 <section>
-                    <livewire:authentication-log :user="$user" />
+                    <livewire:users.authentication-log :user="$user" />
                 </section>
             </div>
         </div>

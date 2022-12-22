@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Users;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,12 +15,12 @@ class AuthenticationLog extends DataTableComponent
     // public string $defaultSortDirection = 'desc';
     public string $tableName = 'authentication-log-table';
 
-    protected $model = User::class;
+    protected $model = Log::class;
     public User $user;
 
     public function configure(): void
     {
-        $this->setDefaultSort('login_at', 'desc');
+        $this->setPrimaryKey('id')->setDefaultSort('login_at', 'desc');
     }
 
     public function mount(User $user)
