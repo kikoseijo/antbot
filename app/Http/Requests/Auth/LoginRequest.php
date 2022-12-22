@@ -54,7 +54,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        event(new Login($user));
+        // event(new Login($user));
 
         RateLimiter::clear($this->throttleKey());
     }

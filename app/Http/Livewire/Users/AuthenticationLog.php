@@ -11,16 +11,22 @@ use Rappasoft\LaravelAuthenticationLog\Models\AuthenticationLog as Log;
 
 class AuthenticationLog extends DataTableComponent
 {
-    public string $defaultSortColumn = 'login_at';
-    public string $defaultSortDirection = 'desc';
+    // public string $defaultSortColumn = 'login_at';
+    // public string $defaultSortDirection = 'desc';
     public string $tableName = 'authentication-log-table';
 
+    protected $model = User::class;
     public User $user;
+
+    public function configure(): void
+    {
+        $this->setDefaultSort('login_at', 'desc');
+    }
 
     public function mount(User $user)
     {
         if (! auth()->user() || ! auth()->user()->isAdmin()) {
-            $this->redirectRoute('frontend.index');
+            $this->redirectRoute('dashboard');
         }
 
         $this->user = $user;
