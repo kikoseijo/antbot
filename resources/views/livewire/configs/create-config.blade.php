@@ -10,5 +10,5 @@
 </div>
 
 @pushOnce('scripts')
-    {{-- <script src="{{ asset('/js/code-mirror.js') }}"></script> --}}
+    @vite(['resources/js/code-mirror.js'])
 @endPushOnce

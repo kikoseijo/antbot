@@ -8,7 +8,7 @@
     ]
   },
   "resources/js/code-mirror.js": {
-    "file": "assets/code-mirror.21aa40de.js",
+    "file": "assets/code-mirror.80e352df.js",
     "src": "resources/js/code-mirror.js",
     "isEntry": true,
     "imports": [

@@ -11,7 +11,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     lineNumbers: true,
     theme: 'dracula',
     matchBrackets: true,
-    mode: "application/x-httpd-php",
+    mode: "application/json",
     indentUnit: 4,
     indentWithTabs: true,
     tabSize: 4,
