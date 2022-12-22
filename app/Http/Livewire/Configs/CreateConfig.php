@@ -26,7 +26,7 @@ class CreateConfig extends Component
     {
         $this->grid->name = '';
         $this->grid->description = '';
-        $this->grid->grid_json = '{"type": "string", "format": "sql", "options": { "ace": { "theme": "ace/theme/vibrant_ink", "tabSize": 2, "useSoftTabs": true, "wrap": true }}}';
+        $this->grid->grid_json = '';
     }
 
     public function submit()

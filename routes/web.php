@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('grids', App\Http\Livewire\Configs\ShowConfigs::class)->name('configs.index');
     Route::get('grid/add', App\Http\Livewire\Configs\CreateConfig::class)->name('configs.add');
+    Route::get('grid/{grid}/edit', App\Http\Livewire\Configs\EditConfig::class)->name('configs.edit');
 
     Route::get('bots', App\Http\Livewire\Bots\ShowBots::class)->name('bots.index');
     Route::get('bot/add', App\Http\Livewire\Bots\CreateBot::class)->name('bots.add');

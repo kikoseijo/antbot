@@ -40,7 +40,11 @@
                         {{ $record->exchange->name ?? '' }}
                         x{{ $record->leverage }}
                     </td>
-                    <td class="py-2 px-4 font-bold {{$status_color}}">{{ $record->symbol }}</td>
+                    <td class="py-2 px-4 font-bold {{$status_color}}">
+                        <a href="{{ route('bots.edit', $record) }}">
+                            {{ $record->symbol }}
+                        </a>
+                    </td>
                     <td class="py-2 px-4">{{ $record->market_type }}</td>
                     <td class="py-2 px-4">{{ $record->grid_mode }}</td>
                     <td class="py-2 px-4{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ $record->lwe }}</td>

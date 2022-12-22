@@ -5,7 +5,8 @@
             <tr>
                 <th scope="col" class="py-3 px-6">#</th>
                 <th scope="col" class="py-3 px-6">Name</th>
-                <th scope="col" class="py-3 px-6">Date Created</th>
+                <th scope="col" class="py-3 px-6">Created</th>
+                <th scope="col" class="py-3 px-6">Updated</th>
                 <th scope="col" class="py-3 px-6"></th>
             </tr>
         </thead>
@@ -16,12 +17,15 @@
                         {{ $record->id }}
                     </th>
                     <td class="py-4 px-6">
-                        {{ $record->name }}
-                        <br />
-                        {{ $record->description }}
+                        <a href="{{ route('configs.edit', $record) }}">
+                            <span class="uppercase">{{ $record->name }}</span> <span class="ml-3 italic text-sm">{{ $record->description }}</span>
+                        </a>
                     </td>
                     <td class="py-4 px-6">
-                        {{ $record->created_at->format('d-m-Y') }}
+                        {{ $record->created_at->format('d-m-Y H:i') }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ $record->updated_at->format('d-m-Y H:i') }}
                     </td>
                     <td class="py-4 px-6 text-right">
                         <x-btn-link class="py-1 px-2 mr-2" href="/exchanges/edit/{{ $record->id }}" >Edit</x-btn-link>
