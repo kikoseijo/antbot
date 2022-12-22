@@ -17,6 +17,8 @@
                     </th>
                     <td class="py-4 px-6">
                         {{ $record->name }}
+                        <br />
+                        {{ $record->description }}
                     </td>
                     <td class="py-4 px-6">
                         {{ $record->created_at->format('d-m-Y') }}

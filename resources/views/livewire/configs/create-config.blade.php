@@ -8,3 +8,7 @@
         </div>
     </div>
 </div>
+
+@pushOnce('scripts')
+    {{-- <script src="{{ asset('/js/code-mirror.js') }}"></script> --}}
+@endPushOnce

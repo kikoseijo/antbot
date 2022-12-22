@@ -9,6 +9,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
+        @stack('styles')
         <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
             if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -35,6 +36,7 @@
         </div>
         @livewireScripts
         <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
+        @stack('scripts')
         @include('partials.js-theme-switcher')
     </body>
 </html>
