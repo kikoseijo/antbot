@@ -7,6 +7,7 @@
                     <x-application-logo class="block h-12 w-auto mx-4 fill-current text-teal-400 dark:text-teal-600" />
                     <span class="self-center text-2xl mt-3 font-semibold whitespace-nowrap text-teal-400 dark:text-teal-600">Antbot</span>
                 </a>
+                <p>{{config('version.string')}}</p>
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>
