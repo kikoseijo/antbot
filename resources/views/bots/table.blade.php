@@ -16,16 +16,22 @@
         </thead>
         <tbody>
             @forelse($records as $record)
+                @php
+                    $status_color = $record->is_running ? 'text-green-500 dark:text-green-500' : 'text-red-900 dark:text-red';
+                @endphp
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $record->id }}
                     </th>
-                    <td class="py-4 px-6">{{ $record->exchange->name ?? '' }}</td>
-                    <td class="py-4 px-6 font-bold">{{ $record->symbol }}</td>
+                    <td class="py-4 px-6">
+                        {{ $record->exchange->name ?? '' }}
+                        x{{ $record->leverage }}
+                    </td>
+                    <td class="py-4 px-6 font-bold {{$status_color}}">{{ $record->symbol }}</td>
                     <td class="py-4 px-6">{{ $record->market_type }}</td>
                     <td class="py-4 px-6">{{ $record->grid_mode }}</td>
-                    <td class="py-4 px-6">{{ $record->lwe }}</td>
-                    <td class="py-4 px-6">{{ $record->swe }}</td>
+                    <td class="py-4 px-6{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ $record->lwe }}</td>
+                    <td class="py-4 px-6{{ $record->sm->value == 'm' ? ' line-through' : ''}}">{{ $record->swe }}</td>
                     <td class="py-4 px-6">{{ $record->started_at ? $record->started_at->diffForHumans() ?? 'Stopped' : '-' }}</td>
                     <td class="py-4 px-6 text-right">
                         <x-btn-link class="py-1 px-2 mr-2 dark:bg-cyan-500" wire:click="changeBotStatus({{ $record->id }})" >
