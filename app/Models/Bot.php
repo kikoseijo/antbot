@@ -47,9 +47,20 @@ class Bot extends Model
         return "{$log_path}/{$this->exchange->id}/{$this->symbol}.log";
     }
 
+    public function isRunning()
+    {
+        $command = 'ps -p ' . $this->pid;
 
+        exec($command, $op);
 
-    public function start()
+        if (!isset($op[1])){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function start($force = false)
     {
         $grid_configs = config('antbot.grid_configs');
         $args = [

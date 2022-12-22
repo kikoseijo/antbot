@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // cd /home/antbot/antbot && /opt/remi/php81/root/usr/bin/php artisan sche
+        $schedule->command('antbot:keep-alive')->everyFiveMinutes();
     }
 
     /**
