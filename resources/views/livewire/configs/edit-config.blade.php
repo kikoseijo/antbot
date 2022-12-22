@@ -8,3 +8,7 @@
         </div>
     </div>
 </div>
+
+@pushOnce('scripts')
+    @vite(['resources/js/code-mirror.js'])
+@endPushOnce

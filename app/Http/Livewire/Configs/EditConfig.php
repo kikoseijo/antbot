@@ -20,6 +20,6 @@ class EditConfig extends Component
         $this->validate();
         $this->grid->save();
 
-        session()->flash('status', 'config-updated');
+        session()->flash('status', 'grid-updated');
     }
 }

@@ -28,7 +28,7 @@
                         {{ $record->updated_at->format('d-m-Y H:i') }}
                     </td>
                     <td class="py-4 px-6 text-right">
-                        <x-btn-link class="py-1 px-2 mr-2" href="/exchanges/edit/{{ $record->id }}" >Edit</x-btn-link>
+                        <x-btn-link class="py-1 px-2 mr-2" href="{{ route('configs.edit', $record) }}" >Edit</x-btn-link>
                         <x-danger-button class="py-1 px-2"
                             wire:click="deleteId({{ $record->id }})"
                             x-data=""
