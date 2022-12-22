@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "geoip2/geoip2": "^2.13",
         "guzzlehttp/guzzle": "^7.2",
         "jamesmills/laravel-timezone": "^1.11",
         "jenssegers/agent": "^2.6",

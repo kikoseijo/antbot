@@ -37,11 +37,7 @@
     ];
 @endsetup
 
-@before
-    if ($task == 'deploy') {
-        composer install --optimize-autoloader --no-dev
-    }
-@endbefore
+
 
 @task('php', ['on' => 'remote'])
     su -l {{ $username }}
