@@ -38,5 +38,10 @@ return [
         't' => 'Take profit only',
         'p' => 'Panic',
     ],
+    // config('antbot.paths.bot_path')
+    'paths' => [
+        'bot_path' => '/home/antbot/passivbot',
+        'logs_path' => '/home/antbot/klogs',
+    ],
 
 ];

@@ -40,13 +40,20 @@ class Bot extends Model
         return $this->started_at && $this->pid > 0;
     }
 
+    public function getLogPathAttribute()
+    {
+        $log_path = config('antbot.paths.logs_path');
+
+        return "{$log_path}/{$this->exchange->id}/{$this->symbol}.log";
+    }
+
+
+
     public function start()
     {
         $grid_configs = config('antbot.grid_configs');
-        // dd($grid_configs);
-        $exchange = Exchange::find($this->exchange_id);
         $args = [
-            $exchange->name,
+            $this->exchange->name,
             $this->symbol,
             \Arr::get($grid_configs, $this->grid_mode->value),
             '-lev', $this->leverage,
@@ -55,19 +62,13 @@ class Bot extends Model
             '-sm', $this->sm->value,
             '-sw', $this->swe,
         ];
-
         if ($this->assigned_balance > 0) {
             array_push($args, ['-ab', $this->assigned_balance]);
         }
-
         if ($this->market_type != MarketTypeEnum::FUTURES) {
             array_push($args, ['-m', $this->market_type->value]);
         }
-
-        $log_file = "/home/antbot/klogs/{$exchange->id}/{$this->symbol}.log";
-        $pid = \Python::run('passivbot.py', $args, $log_file);
-        // \Log::info('Symbol: ' . $this->symbol . ' PID: ' . $pid);
-
+        $pid = \Python::run('passivbot.py', $args, $this->log_path);
         if ($pid > 0) {
             $this->started_at = now();
             $this->pid = $pid;
