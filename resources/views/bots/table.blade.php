@@ -10,7 +10,7 @@
                 <th scope="col" class="py-3 px-4">Grid mode</th>
                 <th scope="col" class="py-3 px-4">Long WE</th>
                 <th scope="col" class="py-3 px-4">Short WE</th>
-                <th scope="col" class="py-3 px-4">Status</th>
+                <th scope="col" class="py-3 px-4">RunTime</th>
                 <th scope="col" class="py-3 px-4"></th>
             </tr>
         </thead>
@@ -18,12 +18,19 @@
             @php
                 $twes = 0;
                 $twel = 0;
+                $count = 0;
+                $total_running = 0;
             @endphp
             @forelse($records as $record)
                 @php
+                    $count++;
                     $twel += $record->lwe;
                     $twes += $record->swe;
-                    $status_color = $record->is_running ? 'text-green-500 dark:text-green-500' : 'text-red-500 dark:text-red-500';
+                    $status_color = 'text-red-500 dark:text-red-500';
+                    if ($record->is_running) {
+                        $status_color =  'text-green-500 dark:text-green-500';
+                        $total_running++;
+                    }
                 @endphp
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
                     <th scope="row" class="py-2 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -51,13 +58,13 @@
         </tbody>
         <tfoot>
             <tr class="font-semibold text-gray-900 dark:text-white">
-                <th scope="row" colspan="2" class="py-3 px-4 text-base">Total</th>
+                <th scope="row" colspan="2" class="py-3 px-4 text-base text-left">Totals</th>
                 <th scope="col" class="py-3 px-4"></th>
                 <th scope="col" class="py-3 px-4"></th>
                 <th scope="col" class="py-3 px-4"></th>
                 <th scope="col" class="py-3 px-4">{{ $twel }}</th>
                 <th scope="col" class="py-3 px-4">{{ $twes }}</th>
-                <th scope="col" class="py-3 px-4"></th>
+                <th scope="col" class="py-3 px-4">Running: {{$total_running . '/' . $count}}</th>
                 <th scope="col" class="py-3 px-4"></th>
             </tr>
         </tfoot>

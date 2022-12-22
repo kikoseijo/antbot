@@ -34,6 +34,7 @@
             @include('layouts.footer')
         </div>
         @livewireScripts
+        <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
         @include('partials.js-theme-switcher')
     </body>
 </html>

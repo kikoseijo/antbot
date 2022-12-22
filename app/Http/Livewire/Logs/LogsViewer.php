@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Logs;
 
+use App\Models\Bot;
 use Illuminate\Support\Facades\File;
+use Illuminate\Auth\Access\AuthorizationException;
 use Livewire\Component;
 use SplFileInfo;
 
@@ -13,13 +15,16 @@ class LogsViewer extends Component
     public $file=0;
     public $page=1;
     public $total;
-    public $perPage = 500;
+    public $perPage = 100;
     public $paginator;
 
     protected $queryString=['page'];
 
     public function render()
     {
+        if ($this->bot->user_id != auth()->user()->id) {
+            return abort(403, 'Unauthorized action.');
+        }
         $files = $this->getLogFiles();
 
         $log=collect(file($files[$this->file]->getPathname(), FILE_IGNORE_NEW_LINES));
@@ -44,11 +49,11 @@ class LogsViewer extends Component
 
     public function goto($page)
     {
-        $this->page=$page;
+        $this->page = $page;
     }
 
     public function updatingFile()
     {
-        $this->page=1;
+        $this->page = $this->total;
     }
 }
