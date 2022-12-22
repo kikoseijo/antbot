@@ -5,6 +5,7 @@
             <tr>
                 <th scope="col" class="py-3 px-6">#</th>
                 <th scope="col" class="py-3 px-6">Name</th>
+                <th scope="col" class="py-3 px-6">Description</th>
                 <th scope="col" class="py-3 px-6">Created</th>
                 <th scope="col" class="py-3 px-6">Updated</th>
                 <th scope="col" class="py-3 px-6"></th>
@@ -13,21 +14,26 @@
         <tbody>
             @forelse($records as $record)
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-700'}}">
-                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <th scope="row" class="py-2 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $record->id }}
                     </th>
-                    <td class="py-4 px-6">
+                    <td class="py-2 px-4">
                         <a href="{{ route('configs.edit', $record) }}">
-                            <span class="uppercase">{{ $record->name }}</span> <span class="ml-3 italic text-sm">{{ $record->description }}</span>
+                            <span class="uppercase">{{ $record->name }}</span>
                         </a>
                     </td>
-                    <td class="py-4 px-6">
+                    <td class="py-2 px-4">
+                        <a href="{{ route('configs.edit', $record) }}">
+                            <span class="ml-3 italic text-sm">{{ $record->description }}</span>
+                        </a>
+                    </td>
+                    <td class="py-2 px-4">
                         {{ $record->created_at->format('d-m-Y H:i') }}
                     </td>
-                    <td class="py-4 px-6">
+                    <td class="py-2 px-4">
                         {{ $record->updated_at->format('d-m-Y H:i') }}
                     </td>
-                    <td class="py-4 px-6 text-right">
+                    <td class="py-2 px-4 text-right">
                         <x-btn-link class="py-1 px-2 mr-2" href="{{ route('configs.edit', $record) }}" >Edit</x-btn-link>
                         <x-danger-button class="py-1 px-2"
                             wire:click="deleteId({{ $record->id }})"

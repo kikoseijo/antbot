@@ -14,27 +14,27 @@
         <div class="grid grid-cols-2 grid-flow-col gap-4">
             <div>
                 <x-input-label for="name" :value="__('Name')" />
-                <x-text-input id="name" type="text" class="mt-1 block w-full uppercase" wire:model.lazy="grid.name" required autofocus/>
+                <x-text-input id="name" type="text" class="mt-1 block w-full uppercase" wire:model.defer="grid.name" required autofocus/>
                 <x-input-error class="mt-2" :messages="$errors->get('grid.name')" />
             </div>
         </div>
         <div class="grid grid-cols-1 grid-flow-col">
             <div>
                 <x-input-label for="description" :value="__('Description')" />
-                <x-text-input id="description" type="text" class="mt-1 block w-full" wire:model.lazy="grid.description"/>
+                <x-text-input id="description" type="text" class="mt-1 block w-full" wire:model.defer="grid.description"/>
                 <x-input-error class="mt-2" :messages="$errors->get('grid.description')" />
             </div>
         </div>
         <div class="grid grid-cols-1 grid-flow-col">
             <div>
                 <x-input-label for="grid_json" :value="__('Grid configuration JSON')" />
-                <x-textarea-input id="code" rows="12" type="text" class="mt-1 block w-full" wire:model.lazy="grid.grid_json" required/>
+                <x-textarea-input id="code" name="code" rows="12" type="text" class="mt-1 block w-full" wire:model.lazy="grid.grid_json" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('grid.grid_json')" />
             </div>
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ isset($on_edit) ? __('Update config') : __('Create new config') }}</x-primary-button>
+            <x-primary-button wire:click="submit">{{ isset($on_edit) ? __('Update config') : __('Create new config') }}</x-primary-button>
 
             @if (session('status') === 'grid-created' || session('status') === 'grid-updated')
                 <p

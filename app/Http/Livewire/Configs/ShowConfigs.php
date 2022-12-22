@@ -22,7 +22,9 @@ class ShowConfigs extends Component
     {
         return view('livewire.configs.show-configs', [
             'records' => Grid::where('name', 'like', '%'.$this->search.'%')
-                ->mine()->paginate(5)
+                ->orderBy('name')
+                ->mine()
+                ->paginate(20)
         ]);
     }
 
