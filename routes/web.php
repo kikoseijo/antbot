@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::get('bot/add', App\Http\Livewire\Bots\CreateBot::class)->name('bots.add');
     Route::get('bot/{bot}/edit', App\Http\Livewire\Bots\EditBot::class)->name('bots.edit');
 
+    Route::get('logs/{bot}/show', App\Http\Livewire\Logs\LogsViewer::class)->name('logs.index');
+
 });
 
 
