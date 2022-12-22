@@ -102,6 +102,13 @@
                 <x-input-error class="mt-2" :messages="$errors->get('bot.swe')" />
             </div>
         </div>
+        <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
+            <div>
+                <x-input-label for="leverage" :value="__('Exchange leverage')" />
+                <x-text-input id="leverage" type="number" step="1" min="1" class="mt-1 block w-full" wire:model.lazy="bot.leverage" required/>
+                <x-input-error class="mt-2" :messages="$errors->get('bot.leverage')" />
+            </div>
+        </div>
 
 
         <div class="flex items-center gap-4">

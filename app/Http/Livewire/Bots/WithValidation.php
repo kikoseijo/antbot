@@ -17,6 +17,7 @@ trait WithValidation
         'bot.exchange_id' => 'required',
         'bot.grid_id' => 'nullable',
         'bot.assigned_balance' => 'required|numeric|between:0,2',
+        'bot.leverage' => 'required|numeric|between:1,50',
         'bot.lm' => 'required|in:n,m,gs,t,p',
         'bot.lwe' => 'required|numeric|between:0,10.99',
         'bot.sm' => 'required|in:n,m,gs,t,p',

@@ -49,6 +49,7 @@ class Bot extends Model
             $exchange->name,
             $this->symbol,
             \Arr::get($grid_configs, $this->grid_mode->value),
+            '-lev', $this->leverage,
             '-lm', $this->lm->value,
             '-lw', $this->lwe,
             '-sm', $this->sm->value,

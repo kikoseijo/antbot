@@ -34,6 +34,7 @@ class CreateBot extends Component
         $this->bot->lwe = 0.2;
         $this->bot->sm = 'm';
         $this->bot->swe = 0.15;
+        $this->bot->leverage = 7;
     }
 
     public function submit()
