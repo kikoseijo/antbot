@@ -35,8 +35,8 @@ class ShowBots extends Component
 
     public function changeBotStatus(Bot $bot)
     {
-        \Log::info($bot->started_at . ' PID: ' . $bot->pid);
-        if ($bot->started_at) {
+        // \Log::info($bot->started_at . ' PID: ' . $bot->pid);
+        if ($bot->is_running) {
             $bot->stop();
         } else {
             $bot->start();
@@ -50,13 +50,17 @@ class ShowBots extends Component
 
     public function destroy()
     {
-        if ($this->deleteId > 0) {
-            $record = Bot::find($this->deleteId);
-            if(auth()->user()->id == $record->user_id){
-                $record->delete();
-                session()->flash('message', 'Bot successfully deleted.');
+        if (!$bot->is_running) {
+            if ($this->deleteId > 0) {
+                $record = Bot::find($this->deleteId);
+                if(auth()->user()->id == $record->user_id){
+                    $record->delete();
+                    session()->flash('message', 'Bot successfully deleted.');
+                }
+                $this->deleteId = 0;
             }
-            $this->deleteId = 0;
+        } else {
+            session()->flash('error', 'Can\'t delete a bot that it\'s running.');
         }
     }
 }

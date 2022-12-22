@@ -10,24 +10,16 @@ class LaravelPython
 {
     public function run(string $filename, array $parameters = [], $log_file)
     {
+        $params = implode(" ", $parameters);
         $args = [
-            'nohup', '/usr/local/bin/python3.8', $filename,
+            'nohup', 'python3.8', '-u', $filename, $params,
+            '>', $log_file, '2>&1', '& echo $!; '
         ];
-        $args = array_merge($args, $parameters);
-        $args = array_merge($args, ['>', $log_file, '2>&1', '&']);
-        $process = new Process($args);
-        $process->setWorkingDirectory('/home/antbot/passivbot');
-        // $process->setOptions(['create_new_console' => true]);
-        // $process->disableOutput();
-        // $process->start();
-        $process->run();
-        $process->wait();
+        $command = implode(" ", $args);
+        chdir('/home/antbot/passivbot');
+        $pid = exec($command, $out);
 
-        if ($process->isSuccessful()) {
-            return $process->getPid();
-        }
-
-        return 0;
+        return $pid;
     }
 
     public function kill($pid): bool

@@ -35,6 +35,11 @@ class Bot extends Model
         return $this->belongsTo(Exchange::class);
     }
 
+    public function getIsRunningAttribute()
+    {
+        return $this->started_at && $this->pid > 0;
+    }
+
     public function start()
     {
         $grid_configs = config('antbot.grid_configs');
@@ -60,11 +65,11 @@ class Bot extends Model
 
         $log_file = "/home/antbot/klogs/{$exchange->id}/{$this->symbol}.log";
         $pid = \Python::run('passivbot.py', $args, $log_file);
-        \Log::info('Symbol: ' . $this->symbol . ' PID: ' . $pid);
+        // \Log::info('Symbol: ' . $this->symbol . ' PID: ' . $pid);
 
         if ($pid > 0) {
             $this->started_at = now();
-            $this->pid = $process->getPid();
+            $this->pid = $pid;
             $this->save();
         }
     }
@@ -73,8 +78,8 @@ class Bot extends Model
     {
         $success = \Python::kill($this->pid);
         if ($success) {
-            $bot->started_at = NULL;
-            $bot->pid = 0;
+            $this->started_at = NULL;
+            $this->pid = 0;
             $this->save();
         }
     }
