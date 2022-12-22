@@ -10,8 +10,8 @@ return [
 
     // The events the package listens for to log
     'events' => [
-        // 'login' => \App\Events\Login::class,
-        'login' => \Illuminate\Auth\Events\Login::class,
+        'login' => \App\Events\Login::class,
+        // 'login' => \Illuminate\Auth\Events\Login::class,
         'failed' => \Illuminate\Auth\Events\Failed::class,
         'logout' => \Illuminate\Auth\Events\Logout::class,
         'logout-other-devices' => \Illuminate\Auth\Events\OtherDeviceLogout::class,

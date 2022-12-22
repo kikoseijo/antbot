@@ -124,7 +124,8 @@ return [
     |
     */
 
-    'cache_tags' => ['torann-geoip-location'],
+    'cache_tags' => null,
+    // 'cache_tags' => ['torann-geoip-location'],
 
     /*
     |--------------------------------------------------------------------------
@@ -148,18 +149,18 @@ return [
 
     'default_location' => [
         'ip' => '127.0.0.0',
-        'iso_code' => 'US',
-        'country' => 'United States',
-        'city' => 'New Haven',
-        'state' => 'CT',
-        'state_name' => 'Connecticut',
-        'postal_code' => '06510',
+        'iso_code' => 'ES',
+        'country' => 'Spain',
+        'city' => 'Mijas',
+        'state' => 'MA',
+        'state_name' => 'Malaga',
+        'postal_code' => '29649',
         'lat' => 41.31,
         'lon' => -72.92,
-        'timezone' => 'America/New_York',
+        'timezone' => 'Europe/Madrid',
         'continent' => 'NA',
         'default' => true,
-        'currency' => 'USD',
+        'currency' => 'EUR',
     ],
 
 ];
