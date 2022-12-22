@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/users', App\Http\Livewire\Users\ShowUsers::class)->name('users.index');
     Route::get('/user/add', App\Http\Livewire\Users\CreateUser::class)->name('users.add');
+    Route::get('/user-auth-logs', App\Http\Livewire\Users\AuthLogs::class)->name('users.auth-logs');
     Route::get('status', [UserController::class, 'userOnlineStatus']);
 
     Route::get('exchanges', App\Http\Livewire\Exchanges\ShowExchanges::class)->name('exchanges.index');

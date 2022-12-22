@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Events\Login;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -52,6 +53,8 @@ class LoginRequest extends FormRequest
                 'email' => trans('auth.failed'),
             ]);
         }
+
+        event(new Login($user));
 
         RateLimiter::clear($this->throttleKey());
     }
