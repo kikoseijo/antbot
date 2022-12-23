@@ -11,7 +11,7 @@ trait WithValidation
     protected $rules = [
         'grid.name' => 'required|string|max:12',
         'grid.description' => 'sometimes|string',
-        'grid.grid_json' => 'required|string'
+        'grid.grid_json' => 'required|json'
     ];
 
     protected $validationAttributes = [

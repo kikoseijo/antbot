@@ -14,6 +14,7 @@ class ShowBots extends Component
 
     public $search = '';
     public $deleteId = 0;
+    public $title = 'Bots';
 
     public function updatingSearch()
     {
@@ -32,6 +33,8 @@ class ShowBots extends Component
 
         return view('livewire.bots.show-bots', [
             'records' => $records
+        ])->layoutData([
+            'title' => $this->title,
         ]);
     }
 

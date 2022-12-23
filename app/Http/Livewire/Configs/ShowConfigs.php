@@ -12,6 +12,7 @@ class ShowConfigs extends Component
 
     public $search = '';
     public $deleteId = 0;
+    public $title = 'Grid configurations';
 
     public function updatingSearch()
     {
@@ -25,6 +26,8 @@ class ShowConfigs extends Component
                 ->orderBy('name')
                 ->mine()
                 ->paginate(20)
+        ])->layoutData([
+            'title' => $this->title,
         ]);
     }
 

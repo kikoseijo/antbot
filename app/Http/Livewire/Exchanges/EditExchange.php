@@ -8,6 +8,7 @@ use App\Models\Exchange;
 class EditExchange extends Component
 {
     public Exchange $exchange;
+    public $title = 'Exchanges';
 
     protected $rules = [
         'exchange.name' => 'required|string',
@@ -22,7 +23,9 @@ class EditExchange extends Component
 
     public function render()
     {
-        return view('livewire.exchanges.edit-exchange');
+        return view('livewire.exchanges.edit-exchange')->layoutData([
+            'title' => $this->title,
+        ]);
     }
 
     public function submit()

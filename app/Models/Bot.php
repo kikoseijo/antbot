@@ -61,11 +61,17 @@ class Bot extends Model
 
     public function start($force = false)
     {
+        if ($this->grid_mode == GridModeEnum::CUSTOM && $this->grid_id > 0) {
+            $grid_config = "configs/live/{$this->user_id}/{$this->grid->file_name}";
+        } else {
+            $grid_config = \Arr::get($grid_configs, $this->grid_mode->value);
+        }
+
         $grid_configs = config('antbot.grid_configs');
         $args = [
             $this->exchange->name,
             $this->symbol,
-            \Arr::get($grid_configs, $this->grid_mode->value),
+            $grid_config,
             '-lev', $this->leverage,
             '-lm', $this->lm->value,
             '-lw', $this->lwe,

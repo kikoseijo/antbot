@@ -9,6 +9,7 @@ use Livewire\WithPagination;
 class ShowExchanges extends Component
 {
     use WithPagination;
+    public $title = 'Exchanges';
 
     public $search = '';
     public $deleteId = 0;
@@ -23,6 +24,8 @@ class ShowExchanges extends Component
         return view('livewire.exchanges.show-exchanges', [
             'records' => Exchange::where('name', 'like', '%'.$this->search.'%')
                 ->mine()->paginate(5)
+        ])->layoutData([
+            'title' => $this->title,
         ]);
     }
 

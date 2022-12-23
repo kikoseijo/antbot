@@ -17,6 +17,7 @@ class LogsViewer extends Component
     public $total;
     public $perPage = 100;
     public $paginator;
+    public $title = 'Logs viewer';
 
     protected $queryString=['page'];
 
@@ -33,7 +34,12 @@ class LogsViewer extends Component
 
         $log = $log->slice(($this->page - 1) * $this->perPage, $this->perPage)->values();
 
-        return view('livewire.logs.logs-viewer')->withFiles($files)->withLog($log);
+        return view('livewire.logs.logs-viewer')
+              ->layoutData([
+                  'title' => $this->title,
+              ])
+              ->withFiles($files)
+              ->withLog($log);
     }
 
     protected function getLogFiles()

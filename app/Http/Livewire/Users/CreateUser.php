@@ -8,6 +8,7 @@ use Livewire\Component;
 class CreateUser extends Component
 {
     public User $users ;
+    public $title = 'Users';
 
     protected $rules = [
         'users.name' => 'required|string|min:6',
@@ -32,6 +33,8 @@ class CreateUser extends Component
 
     public function render()
     {
-        return view('livewire.users.create-user');
+        return view('livewire.users.create-user')->layoutData([
+            'title' => $this->title,
+        ]);
     }
 }

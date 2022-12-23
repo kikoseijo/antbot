@@ -12,6 +12,7 @@ class ShowUsers extends Component
 
     public $search = '';
     public $deleteId = 0;
+    public $title = 'Users';
 
     public function updatingSearch()
     {
@@ -26,6 +27,8 @@ class ShowUsers extends Component
 
         return view('livewire.users.show-users', [
             'records' => $records
+        ])->layoutData([
+            'title' => $this->title,
         ]);
     }
 

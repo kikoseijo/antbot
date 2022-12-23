@@ -8,6 +8,7 @@ use App\Models\Exchange;
 class CreateExchange extends Component
 {
     public Exchange $exchange;
+    public $title = 'Exchanges';
 
     protected $rules = [
         'exchange.name' => 'required|string',
@@ -23,7 +24,9 @@ class CreateExchange extends Component
 
     public function render()
     {
-        return view('livewire.exchanges.create-exchange');
+        return view('livewire.exchanges.create-exchange')->layoutData([
+            'title' => $this->title,
+        ]);
     }
 
     public function clearForm()

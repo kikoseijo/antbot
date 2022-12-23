@@ -9,11 +9,15 @@ class CreateConfig extends Component
 {
     use WithValidation;
 
+    public $title = 'Grid configurations';
+
     public function render()
     {
         $rederData = $this->renderData();
 
-        return view('livewire.configs.create-config', $rederData);
+        return view('livewire.configs.create-config', $rederData)->layoutData([
+            'title' => $this->title,
+        ]);
     }
 
     public function mount()
@@ -35,6 +39,8 @@ class CreateConfig extends Component
 
         $this->grid->user_id = request()->user()->id;
         $this->grid->save();
+
+        $this->grid->saveConfigToDisk();
 
         session()->flash('message', 'Configuration successfully created.');
         // session()->flash('status', 'config-created');

@@ -9,11 +9,15 @@ class EditBot extends Component
 {
     use WithValidation;
 
+    public $title = 'Bots';
+
     public function render()
     {
         $rederData = $this->renderData();
 
-        return view('livewire.bots.edit-bot', $rederData);
+        return view('livewire.bots.edit-bot', $rederData)->layoutData([
+            'title' => $this->title,
+        ]);
     }
 
     public function submit()

@@ -11,6 +11,7 @@ class UserController extends Controller
 {
     /**
      * Show user online status.
+     * Middleware desactivado: ActivityByUser
      */
     public function userOnlineStatus()
     {

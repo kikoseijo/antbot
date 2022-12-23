@@ -8,12 +8,16 @@ use Livewire\Component;
 class CreateBot extends Component
 {
     use WithValidation;
+    
+    public $title = 'Bots';
 
     public function render()
     {
         $rederData = $this->renderData();
 
-        return view('livewire.bots.create-bot', $rederData);
+        return view('livewire.bots.create-bot', $rederData)->layoutData([
+            'title' => $this->title,
+        ]);
     }
 
     public function mount()
