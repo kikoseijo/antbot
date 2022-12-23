@@ -54,9 +54,9 @@
                     $count[$exchange->id] += 1;
                     $twel[$exchange->id] += $record->lwe;
                     $twes[$exchange->id] += $record->swe;
-                    $status_color = 'text-red-500 dark:text-red-500';
+                    $status_color = 'red';
                     if ($record->is_running) {
-                        $status_color =  'text-green-500 dark:text-green-500';
+                        $status_color =  'green';
                         $total_running[$exchange->id] += 1;
                         if ($record->sm->value != 'm') {
                             $twes_on[$exchange->id] += $record->swe;
@@ -71,17 +71,19 @@
                         {{ $record->id }}
                     </th>
                     <td class="py-2 px-4">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                        {{ \Str::headline($record->exchange->name) }}
+                        <span class="justify-end bg-yellow-100 text-yellow-800 text-xs font-semibold ml-2 px-1 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
                           x{{ $record->leverage }}
                         </span>
-                        {{ \Str::headline($record->exchange->name) }}
                     </td>
-                    <td class="py-2 px-4 font-bold {{$status_color}}">
-                        <a href="{{ route('bots.edit', $record) }}">
-                            {{ $record->symbol }}
-                        </a>
+                    <td class="py-2 px-4 font-bold ">
+                        <div class="flex items-center">
+                            <a href="{{ route('bots.edit', $record) }}">
+                                <div class="h-2.5 w-2.5 rounded-full bg-{{$status_color}}-400 mr-2"></div> {{ $record->symbol }}
+                            </a>
+                        </div>
                     </td>
-                    <td class="py-2 px-4">{{ $record->market_type }}</td>
+                    <td class="py-2 px-4">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
                     <td class="py-2 px-4">{{ $record->grid_mode->value == 'custom' ? $record->grid->name : $record->grid_mode }}</td>
                     <td class="py-2 px-4{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ $record->lwe }}</td>
                     <td class="py-2 px-4{{ $record->sm->value == 'm' ? ' line-through' : ''}}">{{ $record->swe }}</td>
