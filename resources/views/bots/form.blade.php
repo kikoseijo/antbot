@@ -23,7 +23,7 @@
             </div>
             <div>
                 <x-input-label for="assigned_balance" :value="__('Assigned balance')" />
-                <x-text-input id="assigned_balance" type="number" step="1" class="mt-1 block w-full" wire:model.lazy="bot.assigned_balance" required/>
+                <x-text-input id="assigned_balance" type="number" step="0.00001" class="mt-1 block w-full" wire:model.lazy="bot.assigned_balance" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.assigned_balance')" />
             </div>
         </div>
@@ -58,10 +58,10 @@
                 <x-input-error class="mt-2" :messages="$errors->get('bot.grid_mode')" />
             </div>
             <div>
-                <x-input-label for="grid_id" :value="__('Customized grid')" />
+                <x-input-label for="grid_id" :value="__('Custom grid')" />
                 <x-select-input id="grid_id" type="text" class="mt-1 block w-full" wire:model="bot.grid_id">
-                    @foreach ($my_configs as $grid)
-                        <option value="{{$grid->id}}">{{$grid->name}}</option>
+                    @foreach ($my_configs as $my_grid)
+                        <option value="{{$my_grid->id}}">{{$my_grid->name}}</option>
                     @endforeach
                 </x-select-input>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.grid_id')" />

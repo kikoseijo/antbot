@@ -20,7 +20,6 @@ class Bot extends Model
         'sm' => BotModeEnum::class,
         'market_type' => MarketTypeEnum::class,
         'grid_mode' => GridModeEnum::class,
-        'exchange' => ExchangesEnum::class,
         'started_at' => 'datetime',
         'stopped_at' => 'datetime',
     ];

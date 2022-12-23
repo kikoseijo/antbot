@@ -43,7 +43,7 @@ class CreateBot extends Component
 
         $this->bot->user_id = request()->user()->id;
         $this->bot->symbol = strtoupper($this->bot->symbol);
-        if($this->bot->grid_id = 'null')
+        if($this->bot->grid_id == 'null')
             $this->bot->grid_id = null;
         $this->bot->save();
 

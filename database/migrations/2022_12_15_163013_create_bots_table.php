@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('grid_mode', 12)->default('recursive');
             $table->unsignedInteger('grid_id')->nullable();
             $table->unsignedInteger('exchange_id')->default(0);
-            $table->unsignedInteger('assigned_balance')->default(0);
+            $table->unsignedFloat('assigned_balance', 50, 5)->default(0);
             // Long mode settings
             $table->string('lm', 2)->default('n');
             $table->unsignedFloat('lwe', 4, 2)->default(0.20);

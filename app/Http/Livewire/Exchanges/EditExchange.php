@@ -28,6 +28,7 @@ class EditExchange extends Component
     public function submit()
     {
         $this->validate();
+        $this->exchange->name = Str::snake($this->exchange->name);
         $this->exchange->save();
 
         session()->flash('status', 'exchange-updated');

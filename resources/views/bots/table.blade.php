@@ -7,7 +7,7 @@
                 <th scope="col" class="py-3 px-4">Exchange</th>
                 <th scope="col" class="py-3 px-4">Symbol</th>
                 <th scope="col" class="py-3 px-4">Market type</th>
-                <th scope="col" class="py-3 px-4">Grid mode</th>
+                <th scope="col" class="py-3 px-4">Grid/Config</th>
                 <th scope="col" class="py-3 px-4">Long WE</th>
                 <th scope="col" class="py-3 px-4">Short WE</th>
                 <th scope="col" class="py-3 px-4">RunTime</th>
@@ -37,8 +37,10 @@
                         {{ $record->id }}
                     </th>
                     <td class="py-2 px-4">
-                        {{ $record->exchange->name ?? '' }}
-                        x{{ $record->leverage }}
+                        <span class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                          x{{ $record->leverage }}
+                        </span>
+                        {{ \Str::headline($record->exchange->name) }}
                     </td>
                     <td class="py-2 px-4 font-bold {{$status_color}}">
                         <a href="{{ route('bots.edit', $record) }}">
@@ -46,7 +48,7 @@
                         </a>
                     </td>
                     <td class="py-2 px-4">{{ $record->market_type }}</td>
-                    <td class="py-2 px-4">{{ $record->grid_mode }}</td>
+                    <td class="py-2 px-4">{{ $record->grid_mode->value == 'custom' ? $record->grid->name : $record->grid_mode }}</td>
                     <td class="py-2 px-4{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ $record->lwe }}</td>
                     <td class="py-2 px-4{{ $record->sm->value == 'm' ? ' line-through' : ''}}">{{ $record->swe }}</td>
                     <td class="py-2 px-4">{{ $record->started_at ? $record->started_at->diffForHumans() ?? 'Stopped' : '-' }}</td>

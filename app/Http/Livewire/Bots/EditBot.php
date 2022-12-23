@@ -21,7 +21,7 @@ class EditBot extends Component
         $this->validate();
         $this->bot->symbol = strtoupper($this->bot->symbol);
         // dd($this->bot->grid_id);
-        if($this->bot->grid_id = 'null')
+        if($this->bot->grid_id == 'null')
             $this->bot->grid_id = null;
         $this->bot->save();
 

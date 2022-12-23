@@ -35,6 +35,7 @@ class CreateExchange extends Component
     {
         $this->validate();
 
+        $this->exchange->name = Str::snake($this->exchange->name);
         $this->exchange->user_id = request()->user()->id;
         $this->exchange->save();
 
