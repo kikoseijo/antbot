@@ -26,6 +26,11 @@
                     </header>
                     <div class="mt-6 space-y-6">
                         @include('bots.table')
+                        <div class="flex items-center text-center">
+                            <a href="{{ route('bots.add') }}" class='px-4 py-2 bg-yellow-300 border border-transparent rounded-md font-semibold text-md text-white uppercase tracking-widest hover:bg-yellow-500 active:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150'>
+                                {{ __('Create new Bot') }}
+                            </a>
+                        </div>
                     </div>
                     <div class="mt-2">
                         {{ $records->links() }}

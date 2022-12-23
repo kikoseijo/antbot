@@ -3,7 +3,7 @@
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="py-3 px-4">#</th>
+                <th scope="col" class="py-3 px-4"></th>
                 <th scope="col" class="py-3 px-4">Exchange</th>
                 <th scope="col" class="py-3 px-4">Symbol</th>
                 <th scope="col" class="py-3 px-4">Market type</th>
@@ -54,9 +54,7 @@
                     $count[$exchange->id] += 1;
                     $twel[$exchange->id] += $record->lwe;
                     $twes[$exchange->id] += $record->swe;
-                    $status_color = 'red';
                     if ($record->is_running) {
-                        $status_color =  'green';
                         $total_running[$exchange->id] += 1;
                         if ($record->sm->value != 'm') {
                             $twes_on[$exchange->id] += $record->swe;
@@ -68,7 +66,12 @@
                 @endphp
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
                     <th scope="row" class="py-2 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $record->id }}
+                        @if ($record->is_running)
+                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+                        @else
+                            <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+
+                        @endif
                     </th>
                     <td class="py-2 px-4">
                         {{ \Str::headline($record->exchange->name) }}
@@ -79,7 +82,7 @@
                     <td class="py-2 px-4 font-bold ">
                         <div class="flex items-center">
                             <a href="{{ route('bots.edit', $record) }}">
-                                <div class="h-2.5 w-2.5 rounded-full bg-{{$status_color}}-400 mr-2"></div> {{ $record->symbol }}
+                                 {{ $record->symbol }}
                             </a>
                         </div>
                     </td>
@@ -101,10 +104,7 @@
         <tfoot>
             @foreach ($exchanges as $exchange)
                 <tr class="font-semibold text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
-                    <th scope="row" colspan="2" class="py-3 px-4 text-base text-left">{{ \Str::headline($exchange->name)  }}</th>
-                    <th scope="col" class="py-3 px-4"></th>
-                    <th scope="col" class="py-3 px-4"></th>
-                    <th scope="col" class="py-3 px-4"></th>
+                    <th scope="row" colspan="5" class="py-3 px-4 text-base text-right"><span class="mr-3">{{ Str::headline($exchange->name)  }}</span></th>
                     <th scope="col" class="py-3 px-4">{{ $twel_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
                     <th scope="col" class="py-3 px-4">{{ $twes_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
                     <th scope="col" class="py-3 px-4">Running: {{$total_running[$exchange->id] . '/' . $count[$exchange->id]}}</th>
