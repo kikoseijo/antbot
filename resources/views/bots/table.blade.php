@@ -16,20 +16,54 @@
         </thead>
         <tbody>
             @php
-                $twes = 0;
-                $twel = 0;
-                $count = 0;
-                $total_running = 0;
+                $exchanges = [];
+                $twes = [];
+                $twel = [];
+                $twes_on = [];
+                $twel_on = [];
+                $count = [];
+                $total_running = [];
             @endphp
             @forelse($records as $record)
                 @php
-                    $count++;
-                    $twel += $record->lwe;
-                    $twes += $record->swe;
+                    $exchange = $record->exchange;
+                    if (!\Arr::has($count, $exchange->id)) {
+                        $count[$exchange->id] = 0;
+                    }
+                    if (!\Arr::has($twel, $exchange->id)) {
+                        $twel[$exchange->id] = 0;
+                    }
+                    if (!\Arr::has($twes, $exchange->id)) {
+                        $twes[$exchange->id] = 0;
+                    }
+                    if (!\Arr::has($twes_on, $exchange->id)) {
+                        $twes_on[$exchange->id] = 0;
+                    }
+                    if (!\Arr::has($twel_on, $exchange->id)) {
+                        $twel_on[$exchange->id] = 0;
+                    }
+                    if (!\Arr::has($count, $exchange->id)) {
+                        $count[$exchange->id] = 0;
+                    }
+                    if (!\Arr::has($total_running, $exchange->id)) {
+                        $total_running[$exchange->id] = 0;
+                    }
+                    if (!in_array($exchange, $exchanges)){
+                        array_push($exchanges, $exchange);
+                    }
+                    $count[$exchange->id] += 1;
+                    $twel[$exchange->id] += $record->lwe;
+                    $twes[$exchange->id] += $record->swe;
                     $status_color = 'text-red-500 dark:text-red-500';
                     if ($record->is_running) {
                         $status_color =  'text-green-500 dark:text-green-500';
-                        $total_running++;
+                        $total_running[$exchange->id] += 1;
+                        if ($record->sm->value != 'm') {
+                            $twes_on[$exchange->id] += $record->swe;
+                        }
+                        if ($record->lm->value != 'm') {
+                            $twel_on[$exchange->id] += $record->lwe;
+                        }
                     }
                 @endphp
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
@@ -37,7 +71,7 @@
                         {{ $record->id }}
                     </th>
                     <td class="py-2 px-4">
-                        <span class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
                           x{{ $record->leverage }}
                         </span>
                         {{ \Str::headline($record->exchange->name) }}
@@ -63,16 +97,18 @@
             @endforelse
         </tbody>
         <tfoot>
-            <tr class="font-semibold text-gray-900 dark:text-white">
-                <th scope="row" colspan="2" class="py-3 px-4 text-base text-left">Totals</th>
-                <th scope="col" class="py-3 px-4"></th>
-                <th scope="col" class="py-3 px-4"></th>
-                <th scope="col" class="py-3 px-4"></th>
-                <th scope="col" class="py-3 px-4">{{ $twel }}</th>
-                <th scope="col" class="py-3 px-4">{{ $twes }}</th>
-                <th scope="col" class="py-3 px-4">Running: {{$total_running . '/' . $count}}</th>
-                <th scope="col" class="py-3 px-4"></th>
-            </tr>
+            @foreach ($exchanges as $exchange)
+                <tr class="font-semibold text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
+                    <th scope="row" colspan="2" class="py-3 px-4 text-base text-left">{{ \Str::headline($exchange->name)  }}</th>
+                    <th scope="col" class="py-3 px-4"></th>
+                    <th scope="col" class="py-3 px-4"></th>
+                    <th scope="col" class="py-3 px-4"></th>
+                    <th scope="col" class="py-3 px-4">{{ $twel_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
+                    <th scope="col" class="py-3 px-4">{{ $twes_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
+                    <th scope="col" class="py-3 px-4">Running: {{$total_running[$exchange->id] . '/' . $count[$exchange->id]}}</th>
+                    <th scope="col" class="py-3 px-4"></th>
+                </tr>
+            @endforeach
         </tfoot>
     </table>
 </div>
