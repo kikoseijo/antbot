@@ -28,6 +28,8 @@ class ShowBots extends Component
             ->with('exchange', 'grid')
             ->paginate(10);
 
+        // $stats = $this->getStats($records);
+
         return view('livewire.bots.show-bots', [
             'records' => $records
         ]);
@@ -61,6 +63,33 @@ class ShowBots extends Component
             }
         } else {
             session()->flash('error', 'Can\'t delete a bot that it\'s running.');
+        }
+    }
+
+    protected function getStats($bots)
+    {
+        $res = [];
+        $exchanges = [];
+        $total_wallet_exposure_short = 0;
+        $total_wallet_exposure_long = 0;
+        $total_wallet_exposure_short_on = 0;
+        $total_wallet_exposure_long_on = 0;
+        $count = [];
+        $total_running = [];
+        foreach ($bots as $bot) {
+            $total_wallet_exposure_long += $bot->lwe;
+            $total_wallet_exposure_short += $bot->swe;
+            if ($bot->is_running()) {
+                if ($record->sm->value != 'm') {
+                    $total_wallet_exposure_short_on += $bot->lwe;
+                }
+                if ($record->lm->value != 'm') {
+                    $total_wallet_exposure_long_on += $bot->lwe;
+                }
+            }
+            $stats = [
+
+            ];
         }
     }
 }

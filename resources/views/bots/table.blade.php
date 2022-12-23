@@ -4,14 +4,15 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="py-3 px-4"></th>
-                <th scope="col" class="py-3 px-4">Exchange</th>
-                <th scope="col" class="py-3 px-4">Symbol</th>
-                <th scope="col" class="py-3 px-4">Market type</th>
-                <th scope="col" class="py-3 px-4">Grid/Config</th>
-                <th scope="col" class="py-3 px-4">Long WE</th>
-                <th scope="col" class="py-3 px-4">Short WE</th>
-                <th scope="col" class="py-3 px-4">RunTime</th>
                 <th scope="col" class="py-3 px-4"></th>
+                <th scope="col" class="py-3 px-4 text-center">Exchange</th>
+                <th scope="col" class="py-3 px-4 text-center">Symbol</th>
+                <th scope="col" class="py-3 px-4 text-center">Market type</th>
+                <th scope="col" class="py-3 px-4 text-center">Grid/Config</th>
+                <th scope="col" class="py-3 px-4 text-center">Long WE</th>
+                <th scope="col" class="py-3 px-4 text-center">Short WE</th>
+                <th scope="col" class="py-3 px-4 text-center">RunTime</th>
+                <th scope="col" class="py-3 px-4 text-center"></th>
             </tr>
         </thead>
         <tbody>
@@ -73,24 +74,24 @@
 
                         @endif
                     </th>
-                    <td class="py-2 px-4">
-                        {{ \Str::headline($record->exchange->name) }}
-                        <span class="justify-end bg-yellow-100 text-yellow-800 text-xs font-semibold ml-2 px-1 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                    <td class="py-2 px-4 text-center">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold ml-2 px-0.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
                           x{{ $record->leverage }}
                         </span>
                     </td>
-                    <td class="py-2 px-4 font-bold ">
-                        <div class="flex items-center">
-                            <a href="{{ route('bots.edit', $record) }}">
-                                 {{ $record->symbol }}
-                            </a>
-                        </div>
+                    <td class="py-2 px-4 text-center">
+                        {{ \Str::headline($record->exchange->name) }}
                     </td>
-                    <td class="py-2 px-4">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
-                    <td class="py-2 px-4">{{ $record->grid_mode->value == 'custom' ? $record->grid->name : $record->grid_mode }}</td>
-                    <td class="py-2 px-4{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ $record->lwe }}</td>
-                    <td class="py-2 px-4{{ $record->sm->value == 'm' ? ' line-through' : ''}}">{{ $record->swe }}</td>
-                    <td class="py-2 px-4">{{ $record->started_at ? $record->started_at->diffForHumans() ?? 'Stopped' : '-' }}</td>
+                    <td class="py-2 px-4 font-bold text-center">
+                        <a href="{{ route('bots.edit', $record) }}">
+                             {{ $record->symbol }}
+                        </a>
+                    </td>
+                    <td class="py-2 px-4 text-center">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
+                    <td class="py-2 px-4 text-center">{{ $record->grid_mode->value == 'custom' ? $record->grid->name : $record->grid_mode }}</td>
+                    <td class="py-2 px-4 text-right{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ $record->lwe }}</td>
+                    <td class="py-2 px-4 text-right{{ $record->sm->value == 'm' ? ' line-through' : ''}}">{{ $record->swe }}</td>
+                    <td class="py-2 px-4 text-right">{{ $record->started_at ? $record->started_at->diffForHumans() ?? 'Stopped' : '-' }}</td>
                     <td class="py-2 px-4 text-right">
                         @include('partials.bot-table-menu', ['bot' => $record])
                     </td>
@@ -103,11 +104,11 @@
         </tbody>
         <tfoot>
             @foreach ($exchanges as $exchange)
-                <tr class="font-semibold text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
-                    <th scope="row" colspan="5" class="py-3 px-4 text-base text-right"><span class="mr-3">{{ Str::headline($exchange->name)  }}</span></th>
-                    <th scope="col" class="py-3 px-4">{{ $twel_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
-                    <th scope="col" class="py-3 px-4">{{ $twes_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
-                    <th scope="col" class="py-3 px-4">Running: {{$total_running[$exchange->id] . '/' . $count[$exchange->id]}}</th>
+                <tr class="text-xs font-semibold text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
+                    <th scope="row" colspan="6" class="py-3 px-4 text-right"><span class="mr-3">{{ Str::headline($exchange->name)  }}</span></th>
+                    <th scope="col" class="py-3 px-4 text-right">{{ $twel_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
+                    <th scope="col" class="py-3 px-4 text-right">{{ $twes_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
+                    <th scope="col" class="py-3 px-4 text-right font-bold"><span class="text-green-500">{{$total_running[$exchange->id] }}</span> / <span class="text-red-600">{{ $count[$exchange->id]}}</span></th>
                     <th scope="col" class="py-3 px-4"></th>
                 </tr>
             @endforeach
