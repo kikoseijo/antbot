@@ -13,7 +13,7 @@ class LaravelPython
         $bot_path = config('antbot.paths.bot_path');
         $params = implode(" ", $parameters);
         $args = [
-            'nohup', 'python3.8', '-u', $filename, $params,
+            'nohup', '/usr/local/bin/python3.8', '-u', $filename, $params,
             '>', $log_file, '2>&1', '& echo $!; '
         ];
         $command = implode(" ", $args);
