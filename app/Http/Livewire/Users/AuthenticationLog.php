@@ -20,7 +20,12 @@ class AuthenticationLog extends DataTableComponent
 
     public function configure(): void
     {
-        $this->setPrimaryKey('id')->setDefaultSort('login_at', 'desc');
+        $this->setPrimaryKey('id')
+            ->setDefaultSort('login_at', 'desc')
+            ->setTheadAttributes([
+                'id' => 'my-id',
+                'class' => config('antbot.css.thead'),
+            ]);
     }
 
     public function mount(User $user)
@@ -53,13 +58,13 @@ class AuthenticationLog extends DataTableComponent
                 ->format(fn ($value) => $value && $value['default'] === false ? $value['city'] . ', ' . \Arr::get($value, 'state') : '-'),
             Column::make('Login At')
                 ->sortable()
-                ->format(fn($value) => $value ? \Timezone::convertToLocal($value) : '-'),
-            Column::make('Login Successful')
+                ->format(fn($value) => $value ? \Timezone::convertToLocal($value, 'd/m/Y h:i') : '-'),
+            Column::make('Success', 'login_successful')
                 ->sortable()
                 ->format(fn($value) => $value === true ? 'Yes' : 'No'),
             Column::make('Logout At')
                 ->sortable()
-                ->format(fn($value) => $value ? \Timezone::convertToLocal($value) : '-'),
+                ->format(fn($value) => $value ? \Timezone::convertToLocal($value, 'd/m/Y h:i') : '-'),
             Column::make('Cleared By User')
                 ->sortable()
                 ->format(fn($value) => $value === true ? 'Yes' : 'No'),
