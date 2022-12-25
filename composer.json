@@ -15,6 +15,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.10",
+        "opcodesio/log-viewer": "^1.7",
         "rappasoft/laravel-authentication-log": "^2.0",
         "rappasoft/laravel-livewire-tables": "^2.9",
         "torann/geoip": "^3.0"

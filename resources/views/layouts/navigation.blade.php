@@ -59,6 +59,11 @@
                             {{ __('Login logs') }}
                         </x-dropdown-link>
 
+                        @if (auth() && auth()->user()->admin)
+                            <x-dropdown-link href="/log-viewer">
+                                {{ __('Logs') }}
+                            </x-dropdown-link>
+                        @endif
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -108,6 +113,12 @@
                 <x-responsive-nav-link :href="route('users.auth-logs', auth()->user())">
                     {{ __('Login logs') }}
                 </x-responsive-nav-link>
+
+                @if (auth() && auth()->user()->admin)
+                    <x-responsive-nav-link href="/log-viewer">
+                        {{ __('Logs') }}
+                    </x-responsive-nav-link>
+                @endif
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

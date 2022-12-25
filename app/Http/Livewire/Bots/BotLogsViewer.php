@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Logs;
+namespace App\Http\Livewire\Bots;
 
 use App\Models\Bot;
 use Illuminate\Support\Facades\File;
@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Livewire\Component;
 use SplFileInfo;
 
-class LogsViewer extends Component
+class BotLogsViewer extends Component
 {
     public Bot $bot;
 
