@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire\Exchanges;
 
-use Livewire\Component;
 use App\Models\Exchange;
+use App\Enums\ExchangeModeEnum;
+use App\Enums\ExchangesEnum;
+use Illuminate\Validation\Rules\Enum;
+use Livewire\Component;
 
 class CreateExchange extends Component
 {
@@ -12,19 +15,27 @@ class CreateExchange extends Component
 
     protected $rules = [
         'exchange.name' => 'required|string',
-        'exchange.exchange' => 'required|string|max:12',
+        'exchange.exchange' => 'required',
+        'exchange.risk_mode' => 'required',
         'exchange.api_key' => 'required|string|max:100',
         'exchange.api_secret' => 'required|string|max:100',
     ];
 
     public function mount()
     {
+        $this->rules['exchange.exchange'] = ['required', new Enum(ExchangesEnum::class)];
+        $this->rules['exchange.risk_mode'] = ['required', new Enum(ExchangeModeEnum::class)];
         $this->exchange = new Exchange;
     }
 
     public function render()
     {
-        return view('livewire.exchanges.create-exchange')->layoutData([
+        $data = [
+            'risk_modes' => config('antbot.exchange_mode'),
+            'exchanges' => config('antbot.exchanges')
+        ];
+
+        return view('livewire.exchanges.create-exchange', $data)->layoutData([
             'title' => $this->title,
         ]);
     }
@@ -38,7 +49,7 @@ class CreateExchange extends Component
     {
         $this->validate();
 
-        $this->exchange->name = Str::snake($this->exchange->name);
+        $this->exchange->name = \Str::snake($this->exchange->name);
         $this->exchange->user_id = request()->user()->id;
         $this->exchange->save();
 

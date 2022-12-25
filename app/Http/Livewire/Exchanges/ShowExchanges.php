@@ -21,10 +21,14 @@ class ShowExchanges extends Component
 
     public function render()
     {
-        return view('livewire.exchanges.show-exchanges', [
+        $data = [
             'records' => Exchange::where('name', 'like', '%'.$this->search.'%')
-                ->mine()->paginate(5)
-        ])->layoutData([
+                ->withCount('bots')->mine()->paginate(5),
+            'risk_modes' => config('antbot.exchange_mode'),
+            'exchanges' => config('antbot.exchanges')
+        ];
+
+        return view('livewire.exchanges.show-exchanges', $data)->layoutData([
             'title' => $this->title,
         ]);
     }

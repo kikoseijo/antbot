@@ -13,6 +13,12 @@ return [
         'bitget' => 'Bitget',
     ],
 
+    'exchange_mode' => [
+        '1' => 'Conservative',
+        '2' => 'Moderate',
+        '3' => 'Kamikaze',
+    ],
+
     'market_types' => [
         'futures' => 'Futures',
         'spot' => 'Spot',

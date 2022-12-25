@@ -20,23 +20,30 @@
             <div>
                 <x-input-label for="exchange" :value="__('Exchange')" />
                 <x-select-input id="exchange" type="text" class="mt-1 block w-full" wire:model="exchange.exchange" required>
-                    @foreach (config('antbot.exchanges') as $key => $value)
+                    @foreach ($exchanges as $key => $value)
                         <option value="{{$key}}">{{$value}}</option>
                     @endforeach
                 </x-select-input>
                 <x-input-error class="mt-2" :messages="$errors->get('exchange.exchange')" />
             </div>
-            @if (!isset($on_edit))
+            <div>
+                <x-input-label for="risk_mode" :value="__('Risk Mode')" />
+                <x-select-input id="risk_mode" type="text" class="mt-1 block w-full" wire:model="exchange.risk_mode" required>
+                    @foreach ($risk_modes as $key => $value)
+                        <option value="{{$key}}">{{$value}}</option>
+                    @endforeach
+                </x-select-input>
+                <x-input-error class="mt-2" :messages="$errors->get('exchange.risk_mode')" />
+            </div>
+        </div>
+
+        @if (!isset($on_edit))
+            <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
                 <div>
                     <x-input-label for="api_key" :value="__('Api key')" />
                     <x-text-input id="api_key" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.api_key" required />
                     <x-input-error class="mt-2" :messages="$errors->get('exchange.api_key')" />
                 </div>
-            @endif
-        </div>
-
-        @if (!isset($on_edit))
-            <div class="grid grid-cols-none">
                 <div>
                     <x-input-label for="api_secret" :value="__('Api secret')" />
                     <x-text-input id="api_secret" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.api_secret" required />
