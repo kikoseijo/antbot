@@ -60,7 +60,7 @@
                         </x-dropdown-link>
 
                         @if (auth() && auth()->user()->admin)
-                            <x-dropdown-link href="/log-viewer">
+                            <x-dropdown-link href="/log-viewer" target="_blank">
                                 {{ __('Logs') }}
                             </x-dropdown-link>
                         @endif
@@ -115,7 +115,7 @@
                 </x-responsive-nav-link>
 
                 @if (auth() && auth()->user()->admin)
-                    <x-responsive-nav-link href="/log-viewer">
+                    <x-responsive-nav-link href="/log-viewer" target="_blank">
                         {{ __('Logs') }}
                     </x-responsive-nav-link>
                 @endif
