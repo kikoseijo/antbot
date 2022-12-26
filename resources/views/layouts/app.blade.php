@@ -31,28 +31,6 @@
         </div>
         @livewireScripts
         <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
-
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-right',
-                showConfirmButton: false,
-                showCloseButton: true,
-                timer: 5000,
-                timerProgressBar:true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            });
-
-            window.addEventListener('alert',({detail:{type,message}})=>{
-                Toast.fire({
-                    icon:type,
-                    title:message
-                })
-            })
-        </script>
         @include('partials.toast_message')
         @stack('scripts')
         @include('partials.js-theme-switcher')
