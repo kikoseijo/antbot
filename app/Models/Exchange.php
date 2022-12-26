@@ -52,16 +52,13 @@ class Exchange extends Model
 
     public function updateExchangesFile()
     {
-        $configs = [];
+        $configs = new \stdClass();
         foreach ($this->user->exchanges as $exchange) {
-            $config = [
-                $exchange->name => [
+            $configs->{$exchange->name} = [
                     "exchange" => $exchange->exchange->value,
                     "key" => $exchange->api_key,
                     "secret" => $exchange->api_secret
-                ]
             ];
-            array_push($configs, $config);
         }
 
         $bot_path = config('antbot.paths.bot_path');
@@ -71,7 +68,7 @@ class Exchange extends Model
             'driver' => 'local',
             'root' => $path,
         ]);
-        $disk->put($file_name, json_encode($configs));
+        $disk->put($file_name, json_encode($configs, JSON_FORCE_OBJECT|JSON_PRETTY_PRINT));
 
         return "$path/$file_name";
     }

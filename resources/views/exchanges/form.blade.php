@@ -54,7 +54,7 @@
             <span class="text-md text-gray-800 dark:text-gray-400">
                 <span class="font-bold">API Key:</span> <span class="mr-3">{{$exchange->api_key}}</span>
                 <br />
-                <span class="font-bold">API password:</span> <span class="mr-3">***** (for your security)</span>
+                <span class="font-bold">API password:</span> <span class="mr-3">{{ Str::mask($exchange->api_secret, '*', 3, strlen($exchange->api_secret) - 6); }}</span>
             </span>
 
         @endif

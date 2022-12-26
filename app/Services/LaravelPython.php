@@ -17,6 +17,7 @@ class LaravelPython
             '>', $log_file, '2>&1', '& echo $!; '
         ];
         $command = implode(" ", $args);
+        // \Log::debug($command);
         chdir($bot_path);
         $pid = exec($command, $out);
 

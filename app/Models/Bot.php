@@ -100,7 +100,7 @@ class Bot extends Model
     public function stop()
     {
         $success = \Python::kill($this->pid);
-        if ($success) {
+        if ($success || !$this->isRunning()) {
             $this->started_at = NULL;
             $this->pid = 0;
             $this->save();

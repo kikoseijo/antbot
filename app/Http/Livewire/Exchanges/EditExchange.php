@@ -36,7 +36,7 @@ class EditExchange extends Component
     public function submit()
     {
         $this->validate();
-        $this->exchange->name = \Str::snake($this->exchange->name);
+        $this->exchange->name = \Str::slug(\Str::squish($this->exchange->name));
         $this->exchange->save();
 
         $res = $this->exchange->updateExchangesFile();

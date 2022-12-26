@@ -81,7 +81,7 @@
                     </td>
                     <td class="py-2 px-4 text-center">
                         <a href="https://www.bybit.com/trade/usdt/{{$record->symbol}}" target="_blank">
-                          {{ \Str::headline($record->exchange->name) }}
+                          {{ $record->exchange->name }}
                         </a>
                     </td>
                     <td class="py-2 px-4 font-bold text-center">

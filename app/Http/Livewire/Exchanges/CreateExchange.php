@@ -49,7 +49,7 @@ class CreateExchange extends Component
     {
         $this->validate();
 
-        $this->exchange->name = \Str::snake($this->exchange->name);
+        $this->exchange->name = \Str::slug(\Str::squish($this->exchange->name));
         $this->exchange->user_id = request()->user()->id;
         $this->exchange->save();
 
