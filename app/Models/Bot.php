@@ -50,9 +50,10 @@ class Bot extends Model
         return "{$log_path}/{$this->exchange->id}/{$this->symbol}.log";
     }
 
-    public function isRunning()
+    public function isRunning($pid = null)
     {
-        $command = 'ps -p ' . $this->pid;
+        $run_pid = $pid > 0 ? $pid : $this->pid;
+        $command = 'ps -p ' .  $run_pid;
 
         exec($command, $op);
 
@@ -105,5 +106,16 @@ class Bot extends Model
             $this->pid = 0;
             $this->save();
         }
+    }
+
+    public function restart()
+    {
+        // TODO: Revisar que no se forme un bucle infinito.
+        $pid = $this->pid;
+        $this->stop();
+        while($this->isRunning($pid)){
+            sleep(1);
+        }
+        $this->start();
     }
 }

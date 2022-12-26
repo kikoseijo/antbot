@@ -8,7 +8,7 @@ use Symfony\Component\Process\Process;
 
 class LaravelPython
 {
-    public function run(string $filename, array $parameters = [], $log_file)
+    public function run(string $filename, array $parameters = [], string $log_file)
     {
         $bot_path = config('antbot.paths.bot_path');
         $params = implode(" ", $parameters);
@@ -17,7 +17,7 @@ class LaravelPython
             '>', $log_file, '2>&1', '& echo $!; '
         ];
         $command = implode(" ", $args);
-        // \Log::debug($command);
+        // \Log::debug(escapeshellarg($command));
         chdir($bot_path);
         $pid = exec($command, $out);
 

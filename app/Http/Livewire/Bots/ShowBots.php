@@ -29,11 +29,14 @@ class ShowBots extends Component
             ->with('exchange', 'grid')
             ->paginate(10);
 
+        $data = [
+            'records' => $records,
+            'bot_modes' => config('antbot.bot_modes')
+        ];
+
         // $stats = $this->getStats($records);
 
-        return view('livewire.bots.show-bots', [
-            'records' => $records
-        ])->layoutData([
+        return view('livewire.bots.show-bots', $data)->layoutData([
             'title' => $this->title,
         ]);
     }
@@ -48,6 +51,11 @@ class ShowBots extends Component
         }
     }
 
+    public function restartBot(Bot $bot)
+    {
+        $bot->restart();
+    }
+
     public function deleteId($id)
     {
         $this->deleteId = $id;
@@ -55,18 +63,26 @@ class ShowBots extends Component
 
     public function destroy()
     {
-        if (!$bot->is_running) {
-            if ($this->deleteId > 0) {
-                $record = Bot::find($this->deleteId);
-                if(auth()->user()->id == $record->user_id){
-                    $record->delete();
+        if ($this->deleteId > 0) {
+            $bot = Bot::find($this->deleteId);
+            if (!$bot->is_running) {
+                if(auth()->user()->id == $bot->user_id){
+                    $bot->delete();
                     session()->flash('message', 'Bot successfully deleted.');
                 }
                 $this->deleteId = 0;
+            } else {
+                $this->dispatchBrowserEvent('alert',[
+                    'type' => 'error',
+                    'message' => "Can't delete a bot that it's running."
+                ]);
             }
-        } else {
-            session()->flash('error', 'Can\'t delete a bot that it\'s running.');
         }
+    }
+
+    public function changeStatus()
+    {
+
     }
 
     protected function getStats($bots)

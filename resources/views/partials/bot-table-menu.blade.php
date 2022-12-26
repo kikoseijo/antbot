@@ -15,6 +15,13 @@
             {{ $change_status_text }}
         </a>
       </li>
+      @if ($bot->is_running)
+          <li>
+              <a href="#" wire:click="restartBot({{ $bot->id }})" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  Restart bot
+              </a>
+          </li>
+      @endif
       <li>
         <a href="{{ route('bots.edit', $bot) }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
             Edit bot
@@ -23,7 +30,7 @@
       <li>
           <a href="{{ route('bots.logs', $bot)}}"
           class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-          View logs
+          Show logs
       </a>
       </li>
     </ul>

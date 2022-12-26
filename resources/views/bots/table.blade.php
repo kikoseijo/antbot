@@ -91,8 +91,22 @@
                     </td>
                     <td class="py-2 px-4 text-center">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
                     <td class="py-2 px-4 text-center">{{ $record->grid_mode->value == 'custom' ? $record->grid->name : $record->grid_mode }}</td>
-                    <td class="py-2 px-4 text-right{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ $record->lwe }}</td>
-                    <td class="py-2 px-4 text-right{{ $record->sm->value == 'm' ? ' line-through' : ''}}">{{ $record->swe }}</td>
+                    <td class="py-2 px-4 text-center" data-tooltip-target="tooltip-idl-{{$record->id}}" data-tooltip-placement="left">
+                        <span class="uppercase">{{ $record->lm->value }}:</span>
+                        <span class="{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ number_format($record->lwe, 2) }}</span>
+                    </td>
+                    <div id="tooltip-idl-{{$record->id}}" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
+                        {{ \Arr::get($bot_modes, $record->lm->value)}}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                    <td class="py-2 px-4 text-center" data-tooltip-target="tooltip-ids-{{$record->id}}" data-tooltip-placement="left">
+                        <span class="uppercase">{{ $record->sm->value }}:</span>
+                        <span class="{{ $record->sm->value == 'm' ? ' line-through' : ''}}">{{ number_format($record->swe, 2) }}</span>
+                    </td>
+                    <div id="tooltip-ids-{{$record->id}}" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
+                        {{ \Arr::get($bot_modes, $record->sm->value)}}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
                     <td class="py-2 px-4 text-right">{{ $record->started_at ? $record->started_at->diffForHumans() ?? 'Stopped' : '-' }}</td>
                     <td class="py-2 px-4 text-right">
                         @include('partials.bot-table-menu', ['bot' => $record])

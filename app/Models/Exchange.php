@@ -75,9 +75,7 @@ class Exchange extends Model
 
     public function getFilePath()
     {
-        $bot_path = config('antbot.paths.bot_path');
-
-        return "$bot_path/configs/live/{$this->user->id}/XASPUSDT.json";
+        return "configs/live/{$this->user->id}/XASPUSDT.json";
     }
 
 }
