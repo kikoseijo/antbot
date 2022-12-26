@@ -5,9 +5,9 @@
             <tr>
                 <th scope="col" class="py-3 px-4 text-center">Exchange</th>
                 <th scope="col" class="py-3 px-4 text-center">Name</th>
-                <th scope="col" class="py-3 px-4 text-center">Risk mode</th>
                 <th scope="col" class="py-3 px-4 text-center">Wallet Exposure</th>
                 <th scope="col" class="py-3 px-4 text-center">Total</th>
+                <th scope="col" class="py-3 px-4 text-center">Risk mode</th>
                 <th scope="col" class="py-3 px-4 text-center">Bots</th>
                 <th scope="col" class="py-3 px-4 text-center">Date Created</th>
                 <th scope="col" class="py-3 px-4 text-center"></th>
@@ -31,13 +31,13 @@
                         </a>
                     </td>
                     <td class="py-3 px-4 text-center">
-                        {{ \Arr::get($risk_modes, $record->risk_mode) }}
-                    </td>
-                    <td class="py-3 px-4 text-center">
                         Long: {{ number_format($lwe, 2) }}&nbsp;&nbsp;Short: {{ number_format($swe, 2) }}
                     </td>
                     <td class="py-3 px-4 text-right font-bold text-{{ $total_we > $record->max_exposure ? 'red-600' : 'green-500'}}">
                         {{ number_format($total_we, 2) }}
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        {{ \Arr::get($risk_modes, $record->risk_mode) }}
                     </td>
                     <td class="py-3 px-4 text-center">
                         {{ $record->bots_count }}
