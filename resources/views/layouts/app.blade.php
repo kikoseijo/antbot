@@ -31,7 +31,7 @@
         </div>
         @livewireScripts
         <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
         <script>
             const Toast = Swal.mixin({
                 toast: true,

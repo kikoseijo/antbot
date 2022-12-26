@@ -1,5 +1,6 @@
 import _ from 'lodash';
 window._ = _;
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
