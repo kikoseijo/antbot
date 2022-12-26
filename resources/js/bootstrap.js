@@ -1,25 +1,7 @@
 import _ from 'lodash';
 window._ = _;
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-window.Toast = Swal.mixin({
-    toast: true,
-    position: 'top-right',
-    showConfirmButton: false,
-    showCloseButton: true,
-    timer: 5000,
-    timerProgressBar:true,
-    didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-});
-
-window.addEventListener('alert',({detail:{type,message}})=>{
-    window.Toast.fire({
-        icon:type,
-        title:message
-    })
-})
+window.Swal = Swal;
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
