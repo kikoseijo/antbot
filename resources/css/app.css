@@ -1,6 +1,5 @@
 @import 'codemirror/lib/codemirror.css';
 @import 'codemirror/theme/dracula.css';
-@import '@sweetalert2/theme-dark/dark.css';
 
 @tailwind base;
 @tailwind components;

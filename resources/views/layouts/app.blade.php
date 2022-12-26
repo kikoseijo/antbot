@@ -9,6 +9,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
+
         @stack('styles')
         <style media="screen">
             [x-cloak] { display: none !important; }
@@ -30,28 +31,29 @@
             @include('layouts.footer')
         </div>
         @livewireScripts
-        <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
-
-        <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-right',
-                showConfirmButton: false,
-                showCloseButton: true,
-                timer: 5000,
-                timerProgressBar:true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
+        <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-right',
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    timer: 5000,
+                    timerProgressBar:true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+                window.Toast = Toast;
+                window.addEventListener('alert',({detail:{type,message}})=>{
+                    Toast.fire({
+                        icon:type,
+                        title:message
+                    })
+                });
             });
-
-            window.addEventListener('alert',({detail:{type,message}})=>{
-                Toast.fire({
-                    icon:type,
-                    title:message
-                })
-            })
         </script>
         @include('partials.toast_message')
         @stack('scripts')
