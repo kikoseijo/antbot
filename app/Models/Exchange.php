@@ -2,14 +2,20 @@
 
 namespace App\Models;
 
+use App\Enums\ExchangesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Exchange extends Model
 {
     use HasFactory, Traits\ScopeMineTrait;
 
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'exchange' => ExchangesEnum::class,
+    ];
 
     public function bots()
     {
@@ -43,4 +49,38 @@ class Exchange extends Model
             default => 1.8,
         };
     }
+
+    public function updateExchangesFile()
+    {
+        $configs = [];
+        foreach ($this->user->exchanges as $exchange) {
+            $config = [
+                $exchange->name => [
+                    "exchange" => $exchange->exchange->value,
+                    "key" => $exchange->api_key,
+                    "secret" => $exchange->api_secret
+                ]
+            ];
+            array_push($configs, $config);
+        }
+
+        $bot_path = config('antbot.paths.bot_path');
+        $path = "$bot_path/configs/live/{$this->user->id}";
+        $file_name = 'XASPUSDT.json';
+        $disk = Storage::build([
+            'driver' => 'local',
+            'root' => $path,
+        ]);
+        $disk->put($file_name, json_encode($configs));
+
+        return "$path/$file_name";
+    }
+
+    public function getFilePath()
+    {
+        $bot_path = config('antbot.paths.bot_path');
+
+        return "$bot_path/configs/live/{$this->user->id}/XASPUSDT.json";
+    }
+
 }

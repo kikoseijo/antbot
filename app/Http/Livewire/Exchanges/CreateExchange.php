@@ -53,6 +53,11 @@ class CreateExchange extends Component
         $this->exchange->user_id = request()->user()->id;
         $this->exchange->save();
 
+
+        $res = $this->exchange->updateExchangesFile();
+        if (auth()->user()->isAdmin()) {
+            session()->flash('message', 'File saved into: ' . $res);
+        }
         // session()->flash('message', 'Exchange successfully created.');
         session()->flash('status', 'exchange-created');
 

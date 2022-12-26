@@ -39,6 +39,11 @@ class EditExchange extends Component
         $this->exchange->name = \Str::snake($this->exchange->name);
         $this->exchange->save();
 
+        $res = $this->exchange->updateExchangesFile();
+        if (auth()->user()->isAdmin()) {
+            session()->flash('message', 'File saved into: ' . $res);
+        }
+
         session()->flash('status', 'exchange-updated');
     }
 }

@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Enums\BotModeEnum;
 use App\Enums\MarketTypeEnum;
 use App\Enums\GridModeEnum;
-use App\Enums\ExchangesEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Bot extends Model
 {
@@ -23,6 +22,11 @@ class Bot extends Model
         'started_at' => 'datetime',
         'stopped_at' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function grid()
     {
@@ -77,6 +81,7 @@ class Bot extends Model
             '-lw', $this->lwe,
             '-sm', $this->sm->value,
             '-sw', $this->swe,
+            '-ak', $this->exchange->getFilePath(),
         ];
         if ($this->assigned_balance > 0) {
             array_push($args, ['-ab', $this->assigned_balance]);

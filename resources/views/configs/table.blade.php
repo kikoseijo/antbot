@@ -34,12 +34,17 @@
                         {{ $record->updated_at->format('d-m-Y H:i') }}
                     </td>
                     <td class="py-2 px-4 text-right">
-                        <x-btn-link class="py-1 px-2 mr-2" href="{{ route('configs.edit', $record) }}" >Edit</x-btn-link>
-                        <x-danger-button class="py-1 px-2"
-                            wire:click="deleteId({{ $record->id }})"
-                            x-data=""
-                            x-on:click.prevent="$dispatch('open-modal', 'confirm-exchange-deletion')"
-                        >{{ __('Delete') }}</x-danger-button>
+
+                        <div class="inline-flex rounded-md shadow-sm">
+
+                          <a class="inline-flex items-center py-2 px-4 " href="{{ route('configs.edit', $record) }}" >Edit</a>
+                          <a class="inline-flex items-center py-2 px-4 bg-red-600"
+                          wire:click="deleteId({{ $record->id }})"
+                          x-data=""
+                          x-on:click.prevent="$dispatch('open-modal', 'confirm-exchange-deletion')"
+                          >{{ __('Delete') }}</a>
+                        </div>
+
                     </td>
                 </tr>
             @empty

@@ -23,7 +23,7 @@
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
 
                     <td class="py-3 px-4">
-                        {{ \Arr::get($exchanges, $record->exchange) }}
+                        {{ \Arr::get($exchanges, $record->exchange->value) }}
                     </td>
                     <td class="py-3 px-4 font-bold">
                         <a href="{{ route('exchanges.edit', $record) }}">

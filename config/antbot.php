@@ -10,7 +10,9 @@ return [
     'exchanges' => [
         'bybit' => 'Bybit',
         'binance' => 'Binance',
+        'binance_us' => 'Binance US',
         'bitget' => 'Bitget',
+        'oxk' => 'OKX',
     ],
 
     'exchange_mode' => [

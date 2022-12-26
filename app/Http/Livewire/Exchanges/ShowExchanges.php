@@ -45,8 +45,24 @@ class ShowExchanges extends Component
             if(auth()->user()->id == $record->user_id){
                 $record->delete();
                 session()->flash('message', 'Exchange successfully deleted.');
+                $this->updateExchangeFile();
             }
             $this->deleteId = 0;
+        }
+    }
+
+    protected function updateExchangeFile()
+    {
+        $user = auth()->user();
+        $exchange = $user->exchanges->first();
+        if ($exchange) {
+            $res = $exchange->updateExchangesFile();
+            if (auth()->user()->isAdmin()) {
+                session()->flash('message', 'File saved into: ' . $res);
+            }
+        } else {
+            $bot_path = config('antbot.paths.bot_path');
+            unlink("$bot_path/configs/live/{$user->id}/XASPUSDT.json");
         }
     }
 }
