@@ -1,7 +1,7 @@
 import _ from 'lodash';
 window._ = _;
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-const Toast = Swal.mixin({
+window.Toast = Swal.mixin({
     toast: true,
     position: 'top-right',
     showConfirmButton: false,
@@ -15,7 +15,7 @@ const Toast = Swal.mixin({
 });
 
 window.addEventListener('alert',({detail:{type,message}})=>{
-    Toast.fire({
+    window.Toast.fire({
         icon:type,
         title:message
     })
