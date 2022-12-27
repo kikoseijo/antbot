@@ -7,7 +7,9 @@ import 'codemirror/mode/css/css.js';
 import 'codemirror/mode/clike/clike.js';
 import 'codemirror/mode/php/php.js';
 
-var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+const input = document.getElementById("code");
+
+var editor = CodeMirror.fromTextArea(input, {
     lineNumbers: true,
     theme: 'dracula',
     indentUnit: 4,
@@ -23,7 +25,6 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     foldOptions: {
       widget: (from, to) => {
         var count = undefined;
-
         // Get open / close token
         var startToken = '{', endToken = '}';
         var prevLine = window.editor_json.getLine(from.line);
@@ -44,4 +45,11 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         return count ? `\u21A4${count}\u21A6` : '\u2194';
       }
     }
+});
+
+editor.on("change", function() {
+    input.dispatchEvent(new CustomEvent('input', {
+        detail: editor.getValue(),
+        bubbles: true,
+    }));
 });

@@ -13,6 +13,10 @@ class Grid extends Model
 
     protected $guarded = ['id'];
 
+    // protected $casts = [
+    //     'grid_json' => 'json',
+    // ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -25,12 +29,13 @@ class Grid extends Model
 
     public function saveConfigToDisk()
     {
-        $disk = Storage::build([
-            'driver' => 'local',
-            'root' => $this->storage_path,
-        ]);
-
-        $disk->put($this->file_name, $this->grid_json);
+        if (!\App::environment('local')) {
+            $disk = Storage::build([
+                'driver' => 'local',
+                'root' => $this->storage_path,
+            ]);
+            $disk->put($this->file_name, $this->grid_json);
+        }
     }
 
     public function getFilePathAttribute()
@@ -51,5 +56,23 @@ class Grid extends Model
         $u_id = $this->user->id;
 
         return "$bot_path/configs/live/$u_id";
+    }
+
+    public function getGridAttribute()
+    {
+        return json_decode($this->grid_json, true);
+    }
+
+    public function getTypeAttribute()
+    {
+        $grid = $this->grid;
+        if (\Arr::get($grid, 'long.ddown_factor'))
+            return 'recursive';
+        elseif (\Arr::get($grid, 'long.eprice_exp_base'))
+            return 'static';
+        elseif (\Arr::get($grid, 'long.eqty_exp_base'))
+            return 'neat';
+        else
+            return 'N/A';
     }
 }

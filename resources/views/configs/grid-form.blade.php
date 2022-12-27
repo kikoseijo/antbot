@@ -6,22 +6,18 @@
                 <x-text-input id="name" type="text" class="mt-1 block w-full uppercase" wire:model.defer="grid.name" required autofocus/>
                 <x-input-error class="mt-2" :messages="$errors->get('grid.name')" />
             </div>
+            <div class="mb-3">
+                <x-input-label for="config_name" :value="__('Config name')" />
+                <x-text-input id="config_name" type="text" class="mt-1 block w-full" wire:model.defer="common.config_name" required/>
+                <x-input-error class="mt-2" :messages="$errors->get('common.config_name')" />
+            </div>
+            <div class="mb-3">
+                <x-input-label for="logging_level" :value="__('Loggin level')" />
+                <x-text-input id="logging_level" type="number" class="mt-1 block w-full" wire:model.defer="common.logging_level" required/>
+                <x-input-error class="mt-2" :messages="$errors->get('common.logging_level')" />
+            </div>
 
-            <div class="mb-3">
-                <x-input-label for="auto_unstuck_ema_dist" :value="__('AU EMA dist')" />
-                <x-text-input id="auto_unstuck_ema_dist" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.auto_unstuck_ema_dist" required/>
-                <x-input-error class="mt-2" :messages="$errors->get('l_grid.auto_unstuck_ema_dist')" />
-            </div>
-            <div class="mb-3">
-                <x-input-label for="auto_unstuck_wallet_exposure_threshold" :value="__('AU WE threshold')" />
-                <x-text-input id="auto_unstuck_wallet_exposure_threshold" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.auto_unstuck_wallet_exposure_threshold" required/>
-                <x-input-error class="mt-2" :messages="$errors->get('l_grid.auto_unstuck_wallet_exposure_threshold')" />
-            </div>
-            <div class="mb-3">
-                <x-input-label for="backwards_tp" :value="__('Backwards Take profit')" />
-                <x-text-input id="backwards_tp" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.backwards_tp" required/>
-                <x-input-error class="mt-2" :messages="$errors->get('l_grid.backwards_tp')" />
-            </div>
+
             <div class="mb-6">
                 <x-input-label for="description" :value="__('Notes')" />
                 <x-textarea-input id="description" rows="3" type="text" class="mt-1 block w-full" wire:model.defer="grid.description" />
@@ -31,108 +27,34 @@
                 <img class="max-w-full h-auto rounded-lg" src="{{ asset('img/passivbot_grid_parameters.jpeg')}}" alt="Image representation" onclick="showModal('{{ asset('img/passivbot_grid_parameters.jpeg')}}')">
             </div>
         </div>
-        <div class="col-span-6">
+        <div class="col-span-6" wire:ignore>
             <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">Chart preview</h4>
             <div id="tv-grid-edit" symbol="{{ $grid->name }}" style="width:100%; height:450px;"></div>
 
-            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mt-3 mb-3">Primary grid</h3>
-            <div class="grid grid-cols-4 grid-flow-col gap-2 mb-6">
-                <div>
-                    <x-input-label for="initial_qty_pct" :value="__('PBR allocation %')" />
-                    <x-text-input id="initial_qty_pct" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.initial_qty_pct" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.initial_qty_pct')" />
+            <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="gridEditTab" data-tabs-toggle="#gridEditTabContent" role="tablist">
+                    <li class="mr-2" role="presentation">
+                        <button class="inline-block p-4 rounded-t-lg border-b-2" id="long-tab" data-tabs-target="#longs" type="button" role="tab" aria-controls="longs" aria-selected="false">Long mode</button>
+                    </li>
+                    <li class="mr-2" role="presentation">
+                        <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="short-tab" data-tabs-target="#shorts" type="button" role="tab" aria-controls="shorts" aria-selected="false">Short mode</button>
+                    </li>
+
+                </ul>
+            </div>
+            <div id="gridEditTabContent">
+                <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="longs" role="tabpanel" aria-labelledby="long-tab">
+                    @include('configs.grid-fields', ['grid_mode' => 'l_grid'])
                 </div>
-                <div>
-                    <x-input-label for="initial_eprice_ema_dist" :value="__('initial_eprice_ema_dist')" />
-                    <x-text-input id="initial_eprice_ema_dist" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.initial_eprice_ema_dist" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.initial_eprice_ema_dist')" />
+                <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="shorts" role="tabpanel" aria-labelledby="short-tab">
+                    @include('configs.grid-fields', ['grid_mode' => 's_grid'])
                 </div>
-                <div>
-                    <x-input-label for="ema_span_0" :value="__('EMA span 0')" />
-                    <x-text-input id="ema_span_0" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.ema_span_0" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.ema_span_0')" />
-                </div>
-                <div>
-                    <x-input-label for="ema_span_1" :value="__('EMA span 1')" />
-                    <x-text-input id="ema_span_1" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.ema_span_1" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.ema_span_1')" />
-                </div>
+
             </div>
 
-
-            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-3">Take profit</h3>
-            <div class="grid grid-cols-3 grid-flow-col gap-2 mb-6">
-                <div>
-                    <x-input-label for="markup_range" :value="__('Markup range')" />
-                    <x-text-input id="markup_range" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.markup_range" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.markup_range')" />
-                </div>
-                <div>
-                    <x-input-label for="min_markup" :value="__('Min markup')" />
-                    <x-text-input id="min_markup" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.min_markup" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.min_markup')" />
-                </div>
-                <div>
-                    <x-input-label for="n_close_orders" :value="__('n_close_orders')" />
-                    <x-text-input id="n_close_orders" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.n_close_orders" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.n_close_orders')" />
-                </div>
-            </div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-3">Recursive grid</h3>
-            <div class="grid grid-cols-3 grid-flow-col gap-2 mb-6">
-                <div>
-                    <x-input-label for="rentry_pprice_dist_wallet_exposure_weighting" :value="__('PBR allocation %')" />
-                    <x-text-input id="rentry_pprice_dist_wallet_exposure_weighting" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.rentry_pprice_dist_wallet_exposure_weighting" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.rentry_pprice_dist_wallet_exposure_weighting')" />
-                </div>
-                <div>
-                    <x-input-label for="rentry_pprice_dist" :value="__('Rentry pprice dist')" />
-                    <x-text-input id="rentry_pprice_dist" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.rentry_pprice_dist" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.rentry_pprice_dist')" />
-                </div>
-                <div>
-                    <x-input-label for="ddown_factor" :value="__('ddown_factor')" />
-                    <x-text-input id="ddown_factor" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.ddown_factor" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.ddown_factor')" />
-                </div>
+            <div class="">
             </div>
 
-            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-3">Static grid</h3>
-            <div class="grid grid-cols-5 grid-flow-col gap-2 mb-6">
-                <div>
-                    <x-input-label for="eprice_exp_base" :value="__('eprice_exp_base')" />
-                    <x-text-input id="eprice_exp_base" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.eprice_exp_base" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.eprice_exp_base')" />
-                </div>
-                <div>
-                    <x-input-label for="eprice_pprice_diff" :value="__('eprice_pprice_diff')" />
-                    <x-text-input id="eprice_pprice_diff" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.eprice_pprice_diff" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.eprice_pprice_diff')" />
-                </div>
-                <div>
-                    <x-input-label for="grid_span" :value="__('grid_span')" />
-                    <x-text-input id="grid_span" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.grid_span" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.grid_span')" />
-                </div>
-                <div>
-                    <x-input-label for="secondary_allocation" :value="__('secondary_allocation')" />
-                    <x-text-input id="secondary_allocation" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.secondary_allocation" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.secondary_allocation')" />
-                </div>
-                <div>
-                    <x-input-label for="secondary_pprice_diff" :value="__('secondary_pprice_diff')" />
-                    <x-text-input id="secondary_pprice_diff" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.secondary_pprice_diff" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.secondary_pprice_diff')" />
-                </div>
-            </div>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-3">Neat grid</h3>
-            <div class="grid grid-cols-5 grid-flow-col gap-2 mb-6">
-                <div>
-                    <x-input-label for="eqty_exp_base" :value="__('eqty_exp_base')" />
-                    <x-text-input id="eqty_exp_base" type="text" class="mt-1 block w-full uppercase" wire:model.defer="l_grid.eqty_exp_base" required/>
-                    <x-input-error class="mt-2" :messages="$errors->get('l_grid.eqty_exp_base')" />
-                </div>
-            </div>
         </div>
     </div>
 
@@ -142,7 +64,7 @@
 
 
     <div class="flex items-center gap-4">
-        <x-primary-button wire:click="submit">{{ isset($on_edit) ? __('Update config') : __('Create new config') }}</x-primary-button>
+        <x-primary-button wire:click="submit">{{ __('Save grid') }}</x-primary-button>
         @if (session('status') === 'grid-created' || session('status') === 'grid-updated')
             <p
             x-data="{ show: true }"

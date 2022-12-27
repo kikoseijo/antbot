@@ -72,7 +72,6 @@
             <div>
                 <x-input-label for="lm" :value="__('Long mode (LM)')" />
                 <x-select-input id="lm" type="text" class="mt-1 block w-full" wire:model="bot.lm" required>
-                    <option value="">Select grid mode</option>
                     @foreach ($bot_modes as $mode_id => $mode_name)
                         <option value="{{$mode_id}}">{{$mode_name}}</option>
                     @endforeach
@@ -82,7 +81,6 @@
             <div>
                 <x-input-label for="sm" :value="__('Short mode (SM)')" />
                 <x-select-input id="sm" type="text" class="mt-1 block w-full" wire:model="bot.sm" required>
-                    <option value="">Select grid mode</option>
                     @foreach ($bot_modes as $mode_id => $mode_name)
                         <option value="{{$mode_id}}">{{$mode_name}}</option>
                     @endforeach

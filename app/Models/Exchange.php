@@ -52,6 +52,11 @@ class Exchange extends Model
 
     public function updateExchangesFile()
     {
+        if (\App::environment('local')){
+            // The environment is local
+            return 'local-mode';
+        }
+
         $configs = new \stdClass();
         foreach ($this->user->exchanges as $exchange) {
             $configs->{$exchange->name} = [
@@ -68,7 +73,7 @@ class Exchange extends Model
             'driver' => 'local',
             'root' => $path,
         ]);
-        $disk->put($file_name, json_encode($configs, JSON_FORCE_OBJECT|JSON_PRETTY_PRINT));
+        $disk->put($file_name, json_encode($configs, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT));
 
         return "$path/$file_name";
     }

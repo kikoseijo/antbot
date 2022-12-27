@@ -3,8 +3,7 @@ import { getEndDateFromStartDateForLimit1000, getKline} from "./binance";
 
 var container = document.getElementById('tv-grid-edit');
 var my_symbol = container.getAttribute('symbol');
-console.log(my_symbol);
-
+const my_timeframe = '1h';
 // https://github.com/enarjord/passivbot/blob/master/docs/passivbot_modes.md
 
 function calculatePrecision(price)
@@ -50,8 +49,8 @@ const chart = createChart(container, {
 		mode: CrosshairMode.Normal,
 	},
     watermark: {
-        text: "XYZ",
-        fontSize: 256,
+        text: my_symbol + ' ' + my_timeframe,
+        fontSize: 100,
         color: "rgba(256, 256, 256, 0.1)",
         visible: true
     }
@@ -60,13 +59,13 @@ const chart = createChart(container, {
 const candlestickSeries = chart.addCandlestickSeries();
 const limit = 1000;
 const startDate = getEndDateFromStartDateForLimit1000(
-    '1h',
+    my_timeframe,
     new Date(),
     limit
 );
 const data = await getKline(
     my_symbol,
-    '1h',
+    my_timeframe,
     startDate,
     new Date().getTime(),
     limit
