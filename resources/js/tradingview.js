@@ -63,33 +63,68 @@ const startDate = getEndDateFromStartDateForLimit1000(
     new Date(),
     limit
 );
-const data = await getKline(
-    my_symbol,
-    my_timeframe,
-    startDate,
-    new Date().getTime(),
-    limit
-);
-candlestickSeries.setData(data);
 
-var series = chart.addLineSeries({
-	color: 'rgb(0, 120, 255)',
-	lineWidth: 2,
-	crosshairMarkerVisible: false,
-	lastValueVisible: true,
-	priceLineVisible: true,
+getKline(my_symbol, my_timeframe, startDate, new Date().getTime(), limit)
+.then((data) => {
+    candlestickSeries.setData(data);
+    addLinesToChart(data);
+    configureChartPriceBar(data);
 });
 
-var minPriceLine = {
-	price: data[data.length - 1].close,
-	color: '#0D9488',
-	lineWidth: 2,
-	lineStyle: LineStyle.Solid,
-	axisLabelVisible: true,
-	title: 'Position entry',
-};
+function addLinesToChart(data)
+{
+    var series = chart.addLineSeries({
+        color: 'rgb(0, 120, 255)',
+        lineWidth: 2,
+        crosshairMarkerVisible: false,
+        lastValueVisible: true,
+        priceLineVisible: true,
+    });
 
-candlestickSeries.createPriceLine(minPriceLine);
+    var minPriceLine = {
+        price: data[data.length - 1].close,
+        color: '#0D9488',
+        lineWidth: 2,
+        lineStyle: LineStyle.Solid,
+        axisLabelVisible: true,
+        title: 'Position entry',
+    };
+    candlestickSeries.createPriceLine(minPriceLine);
+}
+
+function configureChartPriceBar(data)
+{
+    var indexOfMinPrice = 0;
+    var indexOfMaxPrice = 0;
+    for (var i = 1; i < data.length; i++) {
+    	if (data[i].low < data[indexOfMinPrice].low) {
+    		indexOfMinPrice = i;
+    	}
+    	if (data[i].high > data[indexOfMaxPrice].high) {
+    		indexOfMaxPrice = i;
+    	}
+    }
+    candlestickSeries.priceScale().applyOptions({
+        autoScale: true, // disables auto scaling based on visible content
+        mode: 0,
+        scaleMargins: {
+            top: data[indexOfMaxPrice].high * 1.2,
+            bottom: data[indexOfMinPrice].low * 1.2,
+        },
+    });
+    const precision = calculatePrecision(data[data.length - 1].close);
+    const minMove = calculateMinMove(precision);
+    candlestickSeries.applyOptions({
+        priceFormat: {
+            type: 'price',
+            precision: precision,
+            minMove: minMove,
+        },
+    });
+    chart.timeScale().fitContent();
+}
+
+
 
 // const myPriceFormatter = p => Number.parseFloat(p).toFixed(2);
 // chart.applyOptions({
@@ -97,43 +132,3 @@ candlestickSeries.createPriceLine(minPriceLine);
 //         priceFormatter: myPriceFormatter,
 //     },
 // });
-
-
-
-
-var indexOfMinPrice = 0;
-var indexOfMaxPrice = 0;
-for (var i = 1; i < data.length; i++) {
-	if (data[i].low < data[indexOfMinPrice].low) {
-		indexOfMinPrice = i;
-	}
-	if (data[i].high > data[indexOfMaxPrice].high) {
-		indexOfMaxPrice = i;
-	}
-}
-
-candlestickSeries.priceScale().applyOptions({
-    autoScale: true, // disables auto scaling based on visible content
-    mode: 0,
-    scaleMargins: {
-        top: data[indexOfMaxPrice].high * 1.2,
-        bottom: data[indexOfMinPrice].low * 1.2,
-    },
-});
-
-const precision = calculatePrecision(data[data.length - 1].close);
-const minMove = calculateMinMove(precision);
-
-console.log(precision);
-console.log(data[0].close);
-console.log(data[data.length - 1].close);
-
-candlestickSeries.applyOptions({
-    priceFormat: {
-        type: 'price',
-        precision: precision,
-        minMove: minMove,
-    },
-});
-
-chart.timeScale().fitContent();
