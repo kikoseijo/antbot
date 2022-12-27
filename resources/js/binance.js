@@ -84,7 +84,6 @@ export function getEndDateFromStartDateForLimit1000(
       startDate.setMinutes(startDate.getMinutes() - 30 * limit);
       break;
     case "1h":
-      console.log(startDate.getHours());
       startDate.setHours(startDate.getHours() - 1 * limit);
       break;
     case "4h":

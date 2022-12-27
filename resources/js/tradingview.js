@@ -67,27 +67,48 @@ const startDate = getEndDateFromStartDateForLimit1000(
 getKline(my_symbol, my_timeframe, startDate, new Date().getTime(), limit)
 .then((data) => {
     candlestickSeries.setData(data);
-    addLinesToChart(data);
+    addLinesToChart();
     configureChartPriceBar(data);
 });
 
-function addLinesToChart(data)
+function addLinesToChart()
 {
-    var series = chart.addLineSeries({
-        color: 'rgb(0, 120, 255)',
-        lineWidth: 2,
-        crosshairMarkerVisible: false,
-        lastValueVisible: true,
-        priceLineVisible: true,
-    });
 
+    const grids = [
+        [1.0, 0.3886, "long_ientry_normal", 1.0, 0.3886, 0.003886],
+        [2.0, 0.3724, "long_rentry", 3.0, 0.3778, 0.011334],
+        [6.0, 0.3621, "long_rentry", 9.0, 0.3673333333333333, 0.03306],
+        [18.0, 0.3521, "long_rentry", 27.0, 0.35717777777777776, 0.09643799999999998],
+        [53.0, 0.3423, "long_rentry", 80.0, 0.34732125, 0.277857],
+        [156.0, 0.3329, "long_rentry", 236.0, 0.3377885593220339, 0.7971809999999999],
+        [63.0, 0.3237, "long_rentry", 299.0, 0.33482006688963206, 1.0011119999999998]
+    ];
+
+
+    var color, text;
+    for (var i = 0; i < grids.length; i++) {
+        const grid = grids[i]
+        if (grid[2] === 'long_ientry_normal') {
+            color = '#0D9488';
+            text = 'Initial entry';
+        } else {
+            color = '#FFD152';
+            text = 'Re entry ' + i;
+        }
+        createLine(parseFloat(grid[1]), color, text);
+    }
+}
+
+function createLine(price, color, text)
+{
+    console.log(price, color, text);
     var minPriceLine = {
-        price: data[data.length - 1].close,
-        color: '#0D9488',
+        price: price,
+        color: color,
         lineWidth: 2,
         lineStyle: LineStyle.Solid,
         axisLabelVisible: true,
-        title: 'Position entry',
+        title: text,
     };
     candlestickSeries.createPriceLine(minPriceLine);
 }
@@ -123,6 +144,7 @@ function configureChartPriceBar(data)
     });
     chart.timeScale().fitContent();
 }
+
 
 
 

@@ -1,5 +1,5 @@
 <h3 class="text-lg font-medium text-gray-900 dark:text-gray-500 mt-3 mb-3">Auto unstuck + Backward take profit</h3>
-<div class="grid grid-cols-4 grid-flow-col gap-2 mb-3">
+<div class="grid grid-cols-3 grid-flow-col gap-2 mb-3">
     <div class="mb-3">
         <x-input-label for="auto_unstuck_ema_dist" :value="__('AU EMA dist')" />
         <x-text-input id="auto_unstuck_ema_dist" type="text" class="mt-1 block w-full" wire:model.defer="{{$grid_mode}}.auto_unstuck_ema_dist" required/>
