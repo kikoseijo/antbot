@@ -8,15 +8,24 @@
     ]
   },
   "resources/js/binance.js": {
-    "file": "assets/binance.2f68c58f.js",
+    "file": "assets/binance.9404786e.js",
     "src": "resources/js/binance.js",
     "isEntry": true,
     "imports": [
       "__commonjsHelpers.4e997714.js"
     ]
   },
+  "resources/js/tradingview.js": {
+    "file": "assets/tradingview.a8a2d09e.js",
+    "src": "resources/js/tradingview.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/binance.js",
+      "__commonjsHelpers.4e997714.js"
+    ]
+  },
   "resources/js/code-mirror.js": {
-    "file": "assets/code-mirror.3a8fedc0.js",
+    "file": "assets/code-mirror.8ae8fcfd.js",
     "src": "resources/js/code-mirror.js",
     "isEntry": true,
     "imports": [

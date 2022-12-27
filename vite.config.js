@@ -8,6 +8,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/binance.js',
+                'resources/js/tradingview.js',
                 'resources/js/code-mirror.js',
             ],
             refresh: true,

@@ -64,7 +64,7 @@ const startDate = getEndDateFromStartDateForLimit1000(
     new Date(),
     limit
 );
-const data = await getKline(
+const data = getKline(
     my_symbol,
     '1h',
     startDate,
