@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/binance.js',
                 'resources/js/code-mirror.js',
             ],
             refresh: true,

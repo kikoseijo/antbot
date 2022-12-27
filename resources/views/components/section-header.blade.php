@@ -7,7 +7,7 @@
             </h2>
             @isset($ptext)
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    {{ $ptext  }}
+                    {!! $ptext  !!}
                 </p>
             @endisset
         </div>

@@ -9,7 +9,6 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
-
         @stack('styles')
         <style media="screen">
             [x-cloak] { display: none !important; }
