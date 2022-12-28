@@ -15,6 +15,8 @@
 
     <form wire:submit.prevent="submit" class="mt-6 space-y-6">
 
+        <x-input-error class="mt-2" :messages="$errors->get('bot_limits')" />
+
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             <div>
                 <x-input-label for="symbol" :value="__('Symbol')" />
@@ -109,6 +111,8 @@
         </div>
 
 
+
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ isset($on_edit) ? __('Update Antbot') : __('Create Antbot') }}</x-primary-button>
 
@@ -122,5 +126,6 @@
                 >{{ __('Data saved.') }}</p>
             @endif
         </div>
+        <input type="hidden" name="bot_limits" id="bot_limits" wire:model.lazy="bot_limits" value="10">
     </form>
 </section>

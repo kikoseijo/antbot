@@ -6,6 +6,7 @@ use App\Models\Exchange;
 use App\Enums\ExchangeModeEnum;
 use App\Enums\ExchangesEnum;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class CreateExchange extends Component
@@ -48,8 +49,13 @@ class CreateExchange extends Component
     public function submit()
     {
         $this->validate();
-
         $this->exchange->name = \Str::slug(\Str::squish($this->exchange->name));
+        $this->validate([
+            'exchange.name' => [
+                Rule::unique('exchanges', 'name')
+                    ->ignore(auth()->user()->id)
+            ],
+        ]);
         $this->exchange->user_id = request()->user()->id;
         $this->exchange->save();
 
@@ -58,11 +64,11 @@ class CreateExchange extends Component
         if (auth()->user()->isAdmin()) {
             session()->flash('message', 'File saved into: ' . $res);
         }
-        // session()->flash('message', 'Exchange successfully created.');
+        session()->flash('message', 'Exchange successfully created.');
         session()->flash('status', 'exchange-created');
 
         $this->clearForm();
 
-        // return redirect()->route('exchanges.index');
+        return redirect()->route('exchanges.index');
     }
 }

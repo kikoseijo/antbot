@@ -6,6 +6,7 @@ use App\Enums\ExchangeModeEnum;
 use App\Enums\ExchangesEnum;
 use App\Models\Exchange;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class EditExchange extends Component
@@ -37,13 +38,23 @@ class EditExchange extends Component
     {
         $this->validate();
         $this->exchange->name = \Str::slug(\Str::squish($this->exchange->name));
+        $this->validate([
+            'exchange.name' => [
+                Rule::unique('exchanges', 'name')
+                    ->ignore($this->exchange->id)
+                    ->ignore(auth()->user()->id)
+            ],
+        ]);
         $this->exchange->save();
 
         $res = $this->exchange->updateExchangesFile();
         if (auth()->user()->isAdmin()) {
             session()->flash('message', 'File saved into: ' . $res);
+        } else {
+            session()->flash('message', 'Exchange successfully updated.');
         }
-
         session()->flash('status', 'exchange-updated');
+
+        return redirect()->route('exchanges.index');
     }
 }

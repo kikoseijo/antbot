@@ -3,16 +3,25 @@
 namespace App\Http\Livewire\Bots;
 
 use App\Models\Bot;
+use App\Rules\BotLimits;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class CreateBot extends Component
 {
     use WithValidation;
-    
+
     public $title = 'Bots';
+    public $bot_limits;
 
     public function render()
     {
+        $exchange_count = auth()->user()->exchanges()->count();
+        if ($exchange_count == 0) {
+            session()->flash('message', 'You must create an exchange before a Bot.');
+
+            redirect(route('exchanges.add'));
+        }
         $rederData = $this->renderData();
 
         return view('livewire.bots.create-bot', $rederData)->layoutData([
@@ -24,6 +33,11 @@ class CreateBot extends Component
     {
         $this->bot = new Bot;
         $this->clearForm();
+        $this->rules['bot_limits'] = 'bot_limits';
+        $this->rules['bot.symbol'] = [
+            'required|string|max:12',
+            Rule::unique('bots')->ignore(auth()->user()->id),
+        ];
     }
 
     public function clearForm()
@@ -45,13 +59,18 @@ class CreateBot extends Component
     {
         $this->validate();
 
-        $this->bot->user_id = request()->user()->id;
         $this->bot->symbol = strtoupper($this->bot->symbol);
-        if($this->bot->grid_id == 'null')
+        $this->validate([
+            'bot.symbol' => [Rule::unique('bots', 'symbol')->ignore(auth()->user()->id)],
+            'bot_limits' => [new BotLimits],
+        ]);
+
+        $this->bot->user_id = request()->user()->id;
+        if($this->bot->grid_id == 'null' || $this->bot->grid_id == '')
             $this->bot->grid_id = null;
         $this->bot->save();
 
-        session()->flash('message', 'Antbot successfully created.');
+        session()->flash('message', 'Bot successfully created.');
         // session()->flash('status', 'bot-created');
 
         $this->clearForm();

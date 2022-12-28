@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Configs;
 
 use App\Models\Grid;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class GridEdit extends Component
 {
@@ -90,7 +91,13 @@ class GridEdit extends Component
     public function submit()
     {
         $this->validate();
-
+        $this->validate([
+            'grid.name' => [
+                Rule::unique('grids', 'name')
+                    ->ignore($this->grid->id)
+                    ->ignore(auth()->user()->id)
+            ],
+        ]);
         $this->grid->grid_json = json_encode([
             'config_name' => \Str::snake($this->common['config_name']),
             'logging_level' => $this->common['logging_level'],

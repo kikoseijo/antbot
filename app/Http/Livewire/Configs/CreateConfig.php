@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Configs;
 
 use App\Models\Grid;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class CreateConfig extends Component
 {
@@ -36,7 +37,12 @@ class CreateConfig extends Component
     public function submit()
     {
         $this->validate();
-
+        $this->validate([
+            'grid.name' => [
+                Rule::unique('grids', 'name')
+                    ->ignore(auth()->user()->id)
+            ],
+        ]);
         $this->grid->user_id = request()->user()->id;
         $this->grid->save();
 

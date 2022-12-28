@@ -30,7 +30,7 @@ class AuthenticationLog extends DataTableComponent
 
     public function mount(User $user)
     {
-        if (! auth()->user() || ! auth()->user()->isAdmin()) {
+        if (! auth()->user()) {
             $this->redirectRoute('dashboard');
         }
 

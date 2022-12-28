@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire\Bots;
 
-use Livewire\Component;
 use App\Models\Bot;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class EditBot extends Component
 {
@@ -24,6 +25,13 @@ class EditBot extends Component
     {
         $this->validate();
         $this->bot->symbol = strtoupper($this->bot->symbol);
+        $this->validate([
+            'bot.symbol' => [
+                Rule::unique('bots', 'symbol')
+                    ->ignore(auth()->user()->id)
+                    ->ignore($this->bot->id)
+            ],
+        ]);
         if($this->bot->grid_id == 'null')
             $this->bot->grid_id = null;
         $this->bot->save();

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Configs;
 
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class EditConfig extends Component
 {
@@ -22,6 +23,13 @@ class EditConfig extends Component
     public function submit()
     {
         $this->validate();
+        $this->validate([
+            'grid.name' => [
+                Rule::unique('grids', 'name')
+                    ->ignore($this->grid->id)
+                    ->ignore(auth()->user()->id)
+            ],
+        ]);
         $this->grid->save();
 
         $this->grid->saveConfigToDisk();
