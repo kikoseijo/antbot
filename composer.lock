@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6099b1847f6b0009486844978150bdf4",
+    "content-hash": "a7401de35ee44519323197c1f1f4b3c5",
     "packages": [
         {
             "name": "brick/math",
@@ -2013,6 +2013,59 @@
                 }
             ],
             "time": "2022-04-17T13:12:02+00:00"
+        },
+        {
+            "name": "linwj/bybit",
+            "version": "1.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zhouaini528/bybit-php.git",
+                "reference": "9e17e56fcca673544d4bf15c458095cdd9c492df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zhouaini528/bybit-php/zipball/9e17e56fcca673544d4bf15c458095cdd9c492df",
+                "reference": "9e17e56fcca673544d4bf15c458095cdd9c492df",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "*",
+                "php": ">=7.0",
+                "workerman/globaldata": "*",
+                "workerman/workerman": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lin\\Bybit\\": "./src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "linwenjun",
+                    "email": "465382251@qq.com"
+                }
+            ],
+            "description": "Bybit API Like the official document interface, Support for arbitrary extension.",
+            "keywords": [
+                "BitMEX",
+                "Huobi",
+                "OKEX",
+                "binance",
+                "bybit",
+                "crex24",
+                "kucoin",
+                "kumex"
+            ],
+            "support": {
+                "issues": "https://github.com/zhouaini528/bybit-php/issues",
+                "source": "https://github.com/zhouaini528/bybit-php/tree/1.0.8"
+            },
+            "time": "2022-12-02T00:59:26+00:00"
         },
         {
             "name": "livewire/livewire",
@@ -6426,6 +6479,103 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "workerman/globaldata",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/walkor/GlobalData.git",
+                "reference": "baf3b7af338f329e88136ebe92266dfe40dd00a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/walkor/GlobalData/zipball/baf3b7af338f329e88136ebe92266dfe40dd00a7",
+                "reference": "baf3b7af338f329e88136ebe92266dfe40dd00a7",
+                "shasum": ""
+            },
+            "require": {
+                "workerman/workerman": ">=3.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GlobalData\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "homepage": "http://www.workerman.net",
+            "support": {
+                "issues": "https://github.com/walkor/GlobalData/issues",
+                "source": "https://github.com/walkor/GlobalData/tree/v1.0.3"
+            },
+            "time": "2018-08-16T03:59:34+00:00"
+        },
+        {
+            "name": "workerman/workerman",
+            "version": "v4.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/walkor/workerman.git",
+                "reference": "16bcfc2c7574feea46cdadaaa8ae73f14d464b21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/walkor/workerman/zipball/16bcfc2c7574feea46cdadaaa8ae73f14d464b21",
+                "reference": "16bcfc2c7574feea46cdadaaa8ae73f14d464b21",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "suggest": {
+                "ext-event": "For better performance. "
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Workerman\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "walkor",
+                    "email": "walkor@workerman.net",
+                    "homepage": "http://www.workerman.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
+            "homepage": "http://www.workerman.net",
+            "keywords": [
+                "asynchronous",
+                "event-loop"
+            ],
+            "support": {
+                "email": "walkor@workerman.net",
+                "forum": "http://wenda.workerman.net/",
+                "issues": "https://github.com/walkor/workerman/issues",
+                "source": "https://github.com/walkor/workerman",
+                "wiki": "http://doc.workerman.net/"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/workerman",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://www.patreon.com/walkor",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2022-12-14T11:58:06+00:00"
         }
     ],
     "packages-dev": [

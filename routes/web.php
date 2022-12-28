@@ -19,11 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/dashboard', App\Http\Livewire\Dashboard::class)->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -48,6 +47,10 @@ Route::middleware('auth')->group(function () {
     Route::get('bot/add', App\Http\Livewire\Bots\CreateBot::class)->name('bots.add');
     Route::get('bot/{bot}/edit', App\Http\Livewire\Bots\EditBot::class)->name('bots.edit');
     Route::get('bot/{bot}/logs', App\Http\Livewire\Bots\BotLogsViewer::class)->name('bots.logs');
+
+    Route::get('market', App\Http\Livewire\Market\MarketData::class)->name('market.index');
+    Route::get('positions', App\Http\Livewire\Market\Positions::class)->name('market.positions');
+
 
 });
 
