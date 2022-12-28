@@ -38,11 +38,14 @@ class EditExchange extends Component
     {
         $this->validate();
         $this->exchange->name = \Str::slug(\Str::squish($this->exchange->name));
+        $cur_id = $this->exchange->id;
         $this->validate([
             'exchange.name' => [
-                Rule::unique('exchanges', 'name')
-                    ->ignore(auth()->user()->id, 'user_id')
-                    ->ignore($this->exchange->id, 'id')
+                Rule::unique('exchanges', 'name')->where(function ($query) use ($cur_id ) {
+                    return $query
+                        ->whereNotIn('id', [$cur_id])
+                        ->whereUserId(auth()->user()->id);
+                })
             ],
         ]);
         $this->exchange->save();

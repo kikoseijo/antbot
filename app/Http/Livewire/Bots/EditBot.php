@@ -25,11 +25,14 @@ class EditBot extends Component
     {
         $this->validate();
         $this->bot->symbol = strtoupper($this->bot->symbol);
+        $cur_id = $this->bot->id;
         $this->validate([
             'bot.symbol' => [
-                Rule::unique('bots', 'symbol')
-                    ->ignore(auth()->user()->id, 'user_id')
-                    ->ignore($this->bot->id, 'id')
+                Rule::unique('bots', 'symbol')->where(function ($query) use ($cur_id ) {
+                    return $query
+                        ->whereNotIn('id', [$cur_id])
+                        ->whereUserId(auth()->user()->id);
+                })
             ],
         ]);
         if($this->bot->grid_id == 'null')

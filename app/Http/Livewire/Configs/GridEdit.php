@@ -91,11 +91,14 @@ class GridEdit extends Component
     public function submit()
     {
         $this->validate();
+        $cur_id = $this->grid->id;
         $this->validate([
             'grid.name' => [
-                Rule::unique('grids', 'name')
-                    ->ignore($this->grid->id, 'id')
-                    ->ignore(auth()->user()->id, 'user_id')
+                Rule::unique('grids', 'name')->where(function ($query) use ($cur_id ) {
+                    return $query
+                        ->whereNotIn('id', [$cur_id])
+                        ->whereUserId(auth()->user()->id);
+                })
             ],
         ]);
         $this->grid->grid_json = json_encode([
