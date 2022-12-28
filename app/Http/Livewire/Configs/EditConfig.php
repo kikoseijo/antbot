@@ -27,13 +27,10 @@ class EditConfig extends Component
         $this->validate([
             'grid.name' => [
                 Rule::unique('grids', 'name')->where(function ($query) use ($cur_id ) {
-
                     return $query
                         ->whereNotIn('id', [$cur_id])
                         ->whereUserId(auth()->user()->id);
                 })
-                    // ->ignoreModel($this->grid)
-                    // ->ignore(auth()->user()->id, 'user_id')
             ],
         ]);
         $this->grid->save();
