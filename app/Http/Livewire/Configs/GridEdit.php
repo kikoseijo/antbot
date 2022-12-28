@@ -94,8 +94,8 @@ class GridEdit extends Component
         $this->validate([
             'grid.name' => [
                 Rule::unique('grids', 'name')
-                    ->ignore($this->grid->id)
-                    ->ignore(auth()->user()->id)
+                    ->ignore($this->grid->id, 'id')
+                    ->ignore(auth()->user()->id, 'user_id')
             ],
         ]);
         $this->grid->grid_json = json_encode([

@@ -40,7 +40,7 @@ class CreateConfig extends Component
         $this->validate([
             'grid.name' => [
                 Rule::unique('grids', 'name')
-                    ->ignore(auth()->user()->id)
+                    ->ignore(auth()->user()->id, 'user_id')
             ],
         ]);
         $this->grid->user_id = request()->user()->id;

@@ -28,8 +28,8 @@ class EditBot extends Component
         $this->validate([
             'bot.symbol' => [
                 Rule::unique('bots', 'symbol')
-                    ->ignore(auth()->user()->id)
-                    ->ignore($this->bot->id)
+                    ->ignore(auth()->user()->id, 'user_id')
+                    ->ignore($this->bot->id, 'id')
             ],
         ]);
         if($this->bot->grid_id == 'null')

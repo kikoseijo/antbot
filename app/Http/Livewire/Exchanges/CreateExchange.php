@@ -53,7 +53,7 @@ class CreateExchange extends Component
         $this->validate([
             'exchange.name' => [
                 Rule::unique('exchanges', 'name')
-                    ->ignore(auth()->user()->id)
+                    ->ignore(auth()->user()->id, 'user_id')
             ],
         ]);
         $this->exchange->user_id = request()->user()->id;

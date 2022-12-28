@@ -61,7 +61,7 @@ class CreateBot extends Component
 
         $this->bot->symbol = strtoupper($this->bot->symbol);
         $this->validate([
-            'bot.symbol' => [Rule::unique('bots', 'symbol')->ignore(auth()->user()->id)],
+            'bot.symbol' => [Rule::unique('bots', 'symbol')->ignore(auth()->user()->id), 'user_id'],
             'bot_limits' => [new BotLimits],
         ]);
 

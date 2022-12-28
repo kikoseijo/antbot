@@ -41,8 +41,8 @@ class EditExchange extends Component
         $this->validate([
             'exchange.name' => [
                 Rule::unique('exchanges', 'name')
-                    ->ignore($this->exchange->id)
-                    ->ignore(auth()->user()->id)
+                    ->ignore(auth()->user()->id, 'user_id')
+                    ->ignore($this->exchange->id, 'id')
             ],
         ]);
         $this->exchange->save();
