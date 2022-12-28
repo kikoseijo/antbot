@@ -71,7 +71,7 @@ class AuthenticationLog extends DataTableComponent
         ];
     }
 
-    public function query(): Builder
+    public function builder(): Builder
     {
         return Log::query()
             ->where('authenticatable_type', User::class)
