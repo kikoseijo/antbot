@@ -78,10 +78,10 @@ class PositionsTable extends DataTableComponent
             Column::make("Margin", "position_margin")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
             ),
-            Column::make("Reaized PNL", "realised_pnl")->sortable()->format(
+            Column::make("Rea. PNL", "realised_pnl")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
             ),
-            Column::make("Unrealized PNL", "unrealised_pnl")->sortable()->format(
+            Column::make("Unr. PNL", "unrealised_pnl")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
             ),
             Column::make("Acc. PNL", "cum_realised_pnl")->sortable()->format(

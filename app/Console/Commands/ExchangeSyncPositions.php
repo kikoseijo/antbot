@@ -66,7 +66,7 @@ class ExchangeSyncPositions extends Command
     {
         $symbols = \Arr::pluck($filtered_response, 'data.symbol');
         foreach ($exchange->positions as $exchange_position) {
-            if(!in_array($exchange_position->symbol, $filtered_response)){
+            if(!in_array($exchange_position->symbol, $symbols)){
                 $exchange_position->delete();
             }
         }
@@ -75,7 +75,6 @@ class ExchangeSyncPositions extends Command
     protected function saveExchangePositions(Exchange $exchange, $filtered_response)
     {
         foreach ($filtered_response as $key => $data) {
-            logi($data);
             $new_record = Position::updateOrCreate([
                 'symbol' => $data['data']['symbol'],
                 'exchange_id' => $exchange->id

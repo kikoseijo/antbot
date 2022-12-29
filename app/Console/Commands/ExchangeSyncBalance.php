@@ -63,7 +63,7 @@ class ExchangeSyncBalance extends Command
 
     protected function removeNonExistingAssets(Exchange $exchange, $filtered_response)
     {
-        $symbols = array_keys($filtered_response);
+        $symbols = array_keys($filtered_response->toArray());
         foreach ($exchange->balances as $exchange_balance) {
             if(!in_array($exchange_balance->symbol, $symbols)){
                 $exchange_balance->delete();
