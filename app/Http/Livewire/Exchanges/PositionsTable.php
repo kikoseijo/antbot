@@ -27,12 +27,13 @@ class PositionsTable extends DataTableComponent
             ])->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
                 if (in_array($column->getField(),['size', 'position_value', 'entry_price', 'liq_price', 'bust_price', 'position_margin', 'realised_pnl', 'unrealised_pnl', 'cum_realised_pnl', 'risk_id'])) {
                     return [
-                        'class' => 'px-3 py-3 text-right',
+                        'default' => false,
+                        'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-2 py-2 text-right',
                     ];
                 }
                 return [
-                    'default' => true,
-                    'class' => 'px-3 py-3',
+                    'default' => false,
+                    'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-2 py-2',
                 ];
             })->setThAttributes(function (Column $column) {
                 return [
@@ -61,13 +62,17 @@ class PositionsTable extends DataTableComponent
             )->html(),
 
             Column::make("Size", "size")->sortable()->format(
-                fn($value, $row, Column $column) => number($value)
+                fn($value, $row, Column $column) => number($value, 1)
             ),
             Column::make("Value", "position_value")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
             ),
             Column::make("Entry", "entry_price")->sortable()->format(
-                fn($value, $row, Column $column) => number($value, 4)
+                fn($value, $row, Column $column) => number($value, $row->coin->price_scale)
+            ),
+            Column::make("Last price")
+                ->label(
+                    fn($row, Column $column) => view('exchanges.partials.position-price')->withRow($row)
             ),
             Column::make("Liq.", "liq_price")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
@@ -78,15 +83,13 @@ class PositionsTable extends DataTableComponent
             Column::make("Margin", "position_margin")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
             ),
-            Column::make("Rea. PNL", "realised_pnl")->sortable()->format(
-                fn($value, $row, Column $column) => number($value)
+            Column::make("Ord.")
+                ->label(
+                    fn($row, Column $column) => view('exchanges.partials.position-orders-count')->withRow($row)
             ),
-            Column::make("Unr. PNL", "unrealised_pnl")->sortable()->format(
-                fn($value, $row, Column $column) => number($value)
-            ),
-            Column::make("Acc. PNL", "cum_realised_pnl")->sortable()->format(
-                fn($value, $row, Column $column) => number($value)
-            ),
+            Column::make("R. PNL", "realised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
+            Column::make("U. PNL", "unrealised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
+            Column::make("A. PNL", "cum_realised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
             Column::make("RiskID", "risk_id")->sortable(),
             Column::make("", "leverage")->sortable()->format(
                 function($value, $row, Column $column) {
@@ -106,7 +109,15 @@ class PositionsTable extends DataTableComponent
     {
         return Position::query()
             ->whereExchangeId($this->exchange->id)
-            ->with('exchange')
-            ->select('exchange_id', 'symbol');
+            ->with('exchange', 'coin', 'orders')
+            ->withCount(['orders',
+                // 'orders as buy_orders_count' => function ($query) {
+                //     $query->where('side', 'Buy');
+                // },
+                // 'orders as sell_orders_count' => function ($query) {
+                //     $query->where('side', 'Sell');
+                // },
+            ])
+            ->select('positions.id', 'exchange_id', 'symbol');
     }
 }
