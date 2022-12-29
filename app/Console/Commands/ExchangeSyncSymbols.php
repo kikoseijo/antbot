@@ -70,8 +70,6 @@ class ExchangeSyncSymbols extends Command
     {
         $record['market'] = 'Futures';
 
-        logi($record_tick);
-
         $record['min_leverage'] = \Arr::get($record, 'leverage_filter.min_leverage');
         $record['max_leverage'] = \Arr::get($record, 'leverage_filter.max_leverage');
         $record['leverage_step'] = \Arr::get($record, 'leverage_filter.leverage_step');

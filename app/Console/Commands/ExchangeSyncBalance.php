@@ -79,6 +79,12 @@ class ExchangeSyncBalance extends Command
                 'exchange_id' => $exchange->id
             ],  \Arr::except($data, ['given_cash', 'service_cash']));
         }
+
+        if (in_array($symbol, ['USDT', 'USD', 'BTC', 'ETH'])) {
+            $column_name = \Str::lower($symbol) . '_balance';
+            $exchange->$column_name = $data['wallet_balance'];
+            $exchange->save();
+        }
     }
 
     protected function checkRateLimits($limit, Exchange $exchange)
