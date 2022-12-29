@@ -14,6 +14,10 @@ class EditBot extends Component
 
     public function render()
     {
+        if ($this->bot->user_id != auth()->user()->id) {
+            return abort(403, 'Unauthorized action.');
+        }
+
         $rederData = $this->renderData();
 
         return view('livewire.bots.edit-bot', $rederData)->layoutData([

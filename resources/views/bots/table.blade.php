@@ -71,7 +71,6 @@
                             <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
                         @else
                             <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
-
                         @endif
                     </th>
                     <td class="py-2 px-4 text-center">

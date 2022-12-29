@@ -22,6 +22,16 @@ class Exchange extends Model
         return $this->hasMany(Bot::class);
     }
 
+    public function balances()
+    {
+        return $this->hasMany(Balance::class);
+    }
+
+    public function positions()
+    {
+        return $this->hasMany(Position::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('exchanges', App\Http\Livewire\Exchanges\ShowExchanges::class)->name('exchanges.index');
     Route::get('exchange/add', App\Http\Livewire\Exchanges\CreateExchange::class)->name('exchanges.add');
     Route::get('exchange/{exchange}/edit', App\Http\Livewire\Exchanges\EditExchange::class)->name('exchanges.edit');
+    Route::get('exchange/{exchange}/positions', App\Http\Livewire\Exchanges\ShowPositions::class)->name('exchanges.positions');
 
     Route::get('grids', App\Http\Livewire\Configs\ShowConfigs::class)->name('configs.index');
     Route::get('grid/add', App\Http\Livewire\Configs\CreateConfig::class)->name('configs.add');
@@ -49,7 +50,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('bot/{bot}/logs', App\Http\Livewire\Bots\BotLogsViewer::class)->name('bots.logs');
 
     Route::get('market', App\Http\Livewire\Market\MarketData::class)->name('market.index');
-    Route::get('positions', App\Http\Livewire\Market\Positions::class)->name('market.positions');
+    Route::get('positions2', App\Http\Livewire\Market\Positions::class)->name('market.positions');
 
 
 });

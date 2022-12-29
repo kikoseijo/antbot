@@ -22,6 +22,10 @@ class EditExchange extends Component
 
     public function render()
     {
+        if ($this->exchange->user_id != auth()->user()->id) {
+            return abort(403, 'Unauthorized action.');
+        }
+
         $this->rules['exchange.exchange'] = ['required', new Enum(ExchangesEnum::class)];
         $this->rules['exchange.risk_mode'] = ['required', new Enum(ExchangeModeEnum::class)];
         $data = [

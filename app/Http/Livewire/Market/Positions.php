@@ -12,9 +12,8 @@ class Positions extends Component
 
     public function render()
     {
-        $exchange_data = Exchange::where('name', 'bybit_01')->firstOrFail();
+        $exchange_data = Exchange::where('exchange', 'bybit')->firstOrFail();
         $bybit = new BybitLinear($exchange_data->api_key, $exchange_data->api_secret);
-
         return view('livewire.market.positions', compact('bybit'))->layoutData([
             'title' => $this->title,
         ]);

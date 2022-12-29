@@ -12,6 +12,11 @@ class AuthLogs extends Component
 
     public function render()
     {
+        $cur_user = auth()->user();
+        if (!$cur_user->isAdmin() && $this->user->id != $cur_user->id) {
+            return abort(403, 'Unauthorized action.');
+        }
+
         return view('livewire.users.auth-logs')->layoutData([
             'title' => $this->title,
         ]);

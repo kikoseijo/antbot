@@ -49,6 +49,9 @@
                         <x-btn-link class="py-1 px-2 mr-2" href="{{ route('exchanges.edit', $record) }}" >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         </x-btn-link>
+                        <x-btn-link class="py-1 px-2 mr-2 bg-green-300 dark:bg-green-300" href="{{ route('exchanges.positions', $record) }}" >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                        </x-btn-link>
                         <x-danger-button class="py-1 px-2"
                             wire:click="deleteId({{ $record->id }})"
                             x-data=""
