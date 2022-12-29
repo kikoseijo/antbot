@@ -53,6 +53,11 @@ class ExchangeSyncPositions extends Command
             $this->removeNonExistingPositions($exchange, $filtered_response);
             $this->saveExchangePositions($exchange, $filtered_response);
         } else {
+            // TODO: check more erros with pass or any other.
+            if ($response['ret_msg'] == 'invalid api_key') {
+                $exchange->api_error = 1;
+                $exchange->save();
+            }
             \Log::info("Bybit position sync {$exchange->name} #{$exchange->id} Error:{$response['ret_msg']}");
         }
     }

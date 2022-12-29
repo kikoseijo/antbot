@@ -31,7 +31,7 @@ class ExchangeSyncBalance extends Command
      */
     public function handle()
     {
-        $exchanges = Exchange::with('balances')->get();
+        $exchanges = Exchange::with('balances')->where('api_error', false)->get();
         foreach ($exchanges as $exchange) {
             if ($exchange->exchange == ExchangesEnum::BYBIT) {
                 $this->syncBybit($exchange);
@@ -53,6 +53,10 @@ class ExchangeSyncBalance extends Command
             $this->removeNonExistingAssets($exchange, $filtered_response);
             $this->saveExchangeBalances($exchange, $filtered_response);
         } else {
+            if ($response['ret_msg'] == 'invalid api_key') {
+                $exchange->api_error = 1;
+                $exchange->save();
+            }
             \Log::info("Bybit balance sync {$exchange->name} #{$exchange->id} Error:{$response['ret_msg']}");
         }
     }
