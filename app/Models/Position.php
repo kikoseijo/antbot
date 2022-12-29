@@ -17,6 +17,11 @@ class Position extends Model
         return $this->belongsTo(Exchange::class, 'exchange_id');
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function getExchangeLinkAttribute()
     {
         return match($this->exchange->exchange){

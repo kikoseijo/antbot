@@ -20,7 +20,7 @@
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             <div>
                 <x-input-label for="name" :value="__('Bot name')" />
-                <x-text-input id="name" type="text" class="mt-1 block w-full uppercase" wire:model.lazy="bot.name" required autofocus/>
+                <x-text-input id="name" type="text" class="mt-1 block w-full" wire:model.lazy="bot.name" required autofocus/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.name')" />
             </div>
             <div>
