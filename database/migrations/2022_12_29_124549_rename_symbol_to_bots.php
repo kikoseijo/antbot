@@ -14,10 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::table('bots', function (Blueprint $table) {
-            $table->renameColumn('symbol', 'name');
-        });
-
-        Schema::table('bots', function (Blueprint $table) {
             $table->unsignedInteger('symbol_id')->index()->after('name');
         });
     }
@@ -31,7 +27,6 @@ return new class extends Migration
     {
         Schema::table('bots', function (Blueprint $table) {
             $table->dropColumn('symbol_id');
-            $table->renameColumn('bot_name', 'symbol');
         });
     }
 };

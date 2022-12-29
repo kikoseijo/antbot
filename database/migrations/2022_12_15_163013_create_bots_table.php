@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('user_id')->index();
             // General Bot settings
-            $table->string('symbol');
+            $table->string('name', 30);
             $table->string('market_type', 12)->default('futures');
             $table->string('grid_mode', 12)->default('recursive');
             $table->unsignedInteger('grid_id')->nullable();
