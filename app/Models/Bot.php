@@ -38,6 +38,11 @@ class Bot extends Model
         return $this->belongsTo(Exchange::class);
     }
 
+    public function symbol()
+    {
+        return $this->belongsTo(Symbol::class);
+    }
+
     public function getIsRunningAttribute()
     {
         return $this->started_at && $this->pid > 0;
@@ -47,7 +52,7 @@ class Bot extends Model
     {
         $log_path = config('antbot.paths.logs_path');
 
-        return "{$log_path}/{$this->exchange->id}/{$this->symbol}.log";
+        return "{$log_path}/{$this->exchange->id}/{$this->symbol->name}.log";
     }
 
     public function isRunning($pid = null)
@@ -75,7 +80,7 @@ class Bot extends Model
         $grid_configs = config('antbot.grid_configs');
         $args = [
             $this->exchange->name,
-            $this->symbol,
+            $this->symbol->name,
             $grid_config,
             '-lev', $this->leverage,
             '-lm', $this->lm->value,

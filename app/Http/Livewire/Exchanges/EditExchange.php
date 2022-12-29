@@ -41,7 +41,7 @@ class EditExchange extends Component
     public function submit()
     {
         $this->validate();
-        $this->exchange->name = \Str::slug(\Str::squish($this->exchange->name));
+        $this->exchange->slug = \Str::slug(\Str::squish($this->exchange->name));
         $cur_id = $this->exchange->id;
         $this->validate([
             'exchange.name' => [

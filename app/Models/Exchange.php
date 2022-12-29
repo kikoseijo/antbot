@@ -69,7 +69,7 @@ class Exchange extends Model
 
         $configs = new \stdClass();
         foreach ($this->user->exchanges as $exchange) {
-            $configs->{$exchange->name} = [
+            $configs->{$exchange->slug} = [
                     "exchange" => $exchange->exchange->value,
                     "key" => $exchange->api_key,
                     "secret" => $exchange->api_secret

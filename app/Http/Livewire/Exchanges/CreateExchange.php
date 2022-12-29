@@ -49,7 +49,7 @@ class CreateExchange extends Component
     public function submit()
     {
         $this->validate();
-        $this->exchange->name = \Str::slug(\Str::squish($this->exchange->name));
+        $this->exchange->slug = \Str::slug(\Str::squish($this->exchange->name));
         $this->validate([
             'exchange.name' => [
                 Rule::unique('exchanges', 'name')

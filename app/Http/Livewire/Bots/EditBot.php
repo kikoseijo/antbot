@@ -28,13 +28,14 @@ class EditBot extends Component
     public function submit()
     {
         $this->validate();
-        $this->bot->symbol = strtoupper($this->bot->symbol);
         $cur_id = $this->bot->id;
+        $exc_id = $this->bot->exchange_id;
         $this->validate([
-            'bot.symbol' => [
-                Rule::unique('bots', 'symbol')->where(function ($query) use ($cur_id ) {
+            'bot.symbol_id' => [
+                Rule::unique('bots', 'symbol_id')->where(function ($query) use ($cur_id, $exc_id) {
                     return $query
                         ->whereNotIn('id', [$cur_id])
+                        ->whereExchangeId($exc_id)
                         ->whereUserId(auth()->user()->id);
                 })
             ],

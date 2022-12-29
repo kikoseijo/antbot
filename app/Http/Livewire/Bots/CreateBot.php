@@ -34,15 +34,12 @@ class CreateBot extends Component
         $this->bot = new Bot;
         $this->clearForm();
         $this->rules['bot_limits'] = 'bot_limits';
-        $this->rules['bot.symbol'] = [
-            'required|string|max:12',
-            Rule::unique('bots')->ignore(auth()->user()->id),
-        ];
     }
 
     public function clearForm()
     {
-        $this->bot->symbol = '';
+        $this->bot->name = '';
+        $this->bot->symbol_id = '';
         $this->bot->market_type = 'futures';
         $this->bot->grid_mode = 'recursive';
         $this->bot->grid_id = '';
@@ -58,10 +55,15 @@ class CreateBot extends Component
     public function submit()
     {
         $this->validate();
-
-        $this->bot->symbol = strtoupper($this->bot->symbol);
+        $exc_id = $this->bot->exchange_id;
         $this->validate([
-            'bot.symbol' => [Rule::unique('bots', 'symbol')->ignore(auth()->user()->id), 'user_id'],
+            'bot.symbol_id' => [
+                Rule::unique('bots', 'symbol_id')->where(function ($query) use ($exc_id) {
+                    return $query
+                        ->whereExchangeId($exc_id)
+                        ->whereUserId(auth()->user()->id);
+                })
+            ],
             'bot_limits' => [new BotLimits],
         ]);
 

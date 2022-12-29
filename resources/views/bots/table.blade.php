@@ -5,8 +5,9 @@
             <tr>
                 <th scope="col" class="py-3 px-4"></th>
                 <th scope="col" class="py-3 px-4"></th>
-                <th scope="col" class="py-3 px-4 text-center">Exchange</th>
+                <th scope="col" class="py-3 px-4 text-center">Name</th>
                 <th scope="col" class="py-3 px-4 text-center">Symbol</th>
+                <th scope="col" class="py-3 px-4 text-center">Exchange</th>
                 <th scope="col" class="py-3 px-4 text-center">Market type</th>
                 <th scope="col" class="py-3 px-4 text-center">Grid/Config</th>
                 <th scope="col" class="py-3 px-4 text-center">Long WE</th>
@@ -78,15 +79,18 @@
                           x{{ $record->leverage }}
                         </span>
                     </td>
-                    <td class="py-2 px-4 text-center">
-                        <a href="https://www.bybit.com/trade/usdt/{{$record->symbol}}" target="_blank">
-                          {{ $record->exchange->name }}
+                    <td class="py-2 px-4 font-bold text-left underline hover:no-underline">
+                        <a href="{{ route('bots.edit', $record) }}">
+                            {{ $record->name }}
                         </a>
                     </td>
-                    <td class="py-2 px-4 font-bold text-center">
-                        <a href="{{ route('bots.edit', $record) }}">
-                             {{ $record->symbol }}
+                    <td class="py-2 px-4 font-bold text-left underline hover:no-underline">
+                        <a href="https://www.bybit.com/trade/usdt/{{ optional($record->symbol)->name }}" target="_blank">
+                            {{ optional($record->symbol)->name }}
                         </a>
+                    </td>
+                    <td class="py-2 px-4 text-left">
+                          {{ optional($record->exchange)->name }}
                     </td>
                     <td class="py-2 px-4 text-center">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
                     <td class="py-2 px-4 text-center">{{ $record->grid_mode->value == 'custom' ? $record->grid->name : $record->grid_mode }}</td>
@@ -113,14 +117,14 @@
                 </tr>
             @empty
                 <tr class="text-center bg-white dark:bg-gray-900">
-                    <td colspan="10" class="py-2 px-4 italic">No hay información</td>
+                    <td colspan="11" class="py-2 px-4 italic">No hay información</td>
                 </tr>
             @endforelse
         </tbody>
         <tfoot>
             @foreach ($exchanges as $exchange)
                 <tr class="text-xs font-semibold text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
-                    <th scope="row" colspan="6" class="py-3 px-4 text-right"><span class="mr-3">{{ Str::headline($exchange->name)  }}</span></th>
+                    <th scope="row" colspan="7" class="py-3 px-4 text-right"><span class="mr-3">{{ Str::headline($exchange->name)  }}</span></th>
                     <th scope="col" class="py-3 px-4 text-right">{{ $twel_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
                     <th scope="col" class="py-3 px-4 text-right">{{ $twes_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
                     <th scope="col" class="py-3 px-4 text-right font-bold"><span class="text-green-500">{{$total_running[$exchange->id] }}</span> / <span class="text-red-600">{{ $count[$exchange->id]}}</span></th>

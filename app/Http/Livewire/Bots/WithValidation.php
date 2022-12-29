@@ -3,15 +3,17 @@
 namespace App\Http\Livewire\Bots;
 
 use App\Models\Exchange;
-use App\Models\Grid;
 use App\Models\Bot;
+use App\Models\Grid;
+use App\Models\Symbol;
 
 trait WithValidation
 {
     public Bot $bot;
 
     protected $rules = [
-        'bot.symbol' => 'required|string|max:12',
+        'bot.name' => 'required|string|max:12',
+        'bot.symbol_id' => 'required|exists:symbols,id',
         'bot.market_type' => 'required|in:futures,spot',
         'bot.grid_mode' => 'required|string|max:12',
         'bot.exchange_id' => 'required',
@@ -33,11 +35,17 @@ trait WithValidation
         'swe' => 'Short wallet exposure',
     ];
 
+    protected $messages = [
+        'bot.symbol_id' => 'Only one symbol per exchange is allowed.',
+        'email.email' => 'The Email Address format is not valid.',
+    ];
+
     protected function renderData()
     {
         return [
             'my_exchanges' => Exchange::mine()->orderBy('name')->get(),
             'my_configs' => Grid::mine()->orderBy('name')->get(),
+            'symbols' => Symbol::orderBy('name')->get()->pluck('name', 'id'),
             'grid_modes' => config('antbot.grid_modes'),
             'bot_modes' => config('antbot.bot_modes'),
             'market_types' => config('antbot.market_types')

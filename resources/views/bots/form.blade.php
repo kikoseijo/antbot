@@ -19,15 +19,20 @@
 
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             <div>
-                <x-input-label for="symbol" :value="__('Symbol')" />
-                <x-text-input id="symbol" type="text" class="mt-1 block w-full uppercase" wire:model.lazy="bot.symbol" required autofocus/>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.symbol')" />
+                <x-input-label for="name" :value="__('Bot name')" />
+                <x-text-input id="name" type="text" class="mt-1 block w-full uppercase" wire:model.lazy="bot.name" required autofocus/>
+                <x-input-error class="mt-2" :messages="$errors->get('bot.name')" />
             </div>
             <div>
-                <x-input-label for="assigned_balance" :value="__('Assigned balance')" />
-                <x-text-input id="assigned_balance" type="number" step="0.00001" class="mt-1 block w-full" wire:model.lazy="bot.assigned_balance" required/>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.assigned_balance')" />
+                <x-input-label for="symbol_id" :value="__('Symbol')" />
+                <x-select-input id="market_type" type="text" class="mt-1 block w-full" wire:model="bot.symbol_id" required>
+                    @foreach ($symbols as $symb_id => $symb_name)
+                        <option value="{{$symb_id}}">{{$symb_name}}</option>
+                    @endforeach
+                </x-select-input>
+                <x-input-error class="mt-2" :messages="$errors->get('bot.symbol_id')" />
             </div>
+
         </div>
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             <div>
@@ -47,6 +52,11 @@
                     @endforeach
                 </x-select-input>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.market_type')" />
+            </div>
+            <div>
+                <x-input-label for="assigned_balance" :value="__('Assigned balance')" />
+                <x-text-input id="assigned_balance" type="number" step="0.00001" class="mt-1 block w-full" wire:model.lazy="bot.assigned_balance" required/>
+                <x-input-error class="mt-2" :messages="$errors->get('bot.assigned_balance')" />
             </div>
         </div>
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">

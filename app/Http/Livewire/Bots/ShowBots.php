@@ -23,10 +23,10 @@ class ShowBots extends Component
 
     public function render()
     {
-        $records = Bot::where('symbol', 'like', '%'.$this->search.'%')
+        $records = Bot::where('name', 'like', '%'.$this->search.'%')
             ->orderBy('id', 'desc')
             ->mine()
-            ->with('exchange', 'grid')
+            ->with('exchange', 'grid', 'symbol')
             ->paginate(10);
 
         $data = [

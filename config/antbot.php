@@ -57,4 +57,12 @@ return [
         'tbody' => 'bg-white dark:bg-gray-900'
     ],
 
+    'symbols' => [
+        'statuses' => [ // No se usa.
+            '1' => 'Trading',
+            '2' => 'Settling',
+            '3' => 'Closed'
+        ]
+    ]
+
 ];

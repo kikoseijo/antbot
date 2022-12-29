@@ -3,8 +3,8 @@
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="py-3 px-4 text-center">Exchange</th>
                 <th scope="col" class="py-3 px-4 text-center">Name</th>
+                <th scope="col" class="py-3 px-4 text-center">Exchange</th>
                 <th scope="col" class="py-3 px-4 text-center">Wallet Exposure</th>
                 <th scope="col" class="py-3 px-4 text-center">Total</th>
                 <th scope="col" class="py-3 px-4 text-center">Risk mode</th>
@@ -22,13 +22,13 @@
                 @endphp
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
 
-                    <td class="py-3 px-4">
-                        {{ \Arr::get($exchanges, $record->exchange->value) }}
-                    </td>
-                    <td class="py-3 px-4 font-bold">
+                    <td class="py-3 px-4 font-bold underline hover:no-underline">
                         <a href="{{ route('exchanges.edit', $record) }}">
                             {{ $record->name }}
                         </a>
+                    </td>
+                    <td class="py-3 px-4">
+                        {{ \Arr::get($exchanges, $record->exchange->value) }}
                     </td>
                     <td class="py-3 px-4 text-center">
                         Long: {{ number_format($lwe, 2) }}&nbsp;&nbsp;Short: {{ number_format($swe, 2) }}

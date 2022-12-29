@@ -16,8 +16,10 @@
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $user->id }}
                     </th>
-                    <td class="py-4 px-6">
-                        {{ $user->name }}
+                    <td class="py-4 px-6 font-bold underline hover:no-underline">
+                        <a href="{{ route('users.edit', $user) }}">
+                            {{ $user->name }}
+                        </a>
                     </td>
                     <td class="py-4 px-6">
                         {{ $user->email }}
@@ -26,10 +28,10 @@
                         {{ \Carbon\Carbon::parse($user->last_seen)->diffForHumans() }}
                     </td>
                     <td class="py-4 px-6 text-right">
-                        <x-btn-link class="py-1 px-1 mr-2" href="{{ route('users.edit', $user) }}" >
+                        <x-btn-link class="py-1 px-2 mr-2" href="{{ route('users.edit', $user) }}" >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         </x-btn-link>
-                        <x-danger-button class="py-1 px-1"
+                        <x-danger-button class="py-1 px-2"
                             wire:click="deleteId({{ $user->id }})"
                             x-data=""
                             x-on:click.prevent="$dispatch('open-modal', 'confirm-config-deletion')"
