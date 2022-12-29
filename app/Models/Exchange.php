@@ -22,6 +22,13 @@ class Exchange extends Model
         return $this->hasMany(Bot::class);
     }
 
+    public function running_bots()
+    {
+        return $this->hasMany(Bot::class)
+            ->where('pid', '>', 0)
+            ->whereNotNull('started_at');
+    }
+
     public function balances()
     {
         return $this->hasMany(Balance::class);
@@ -58,6 +65,17 @@ class Exchange extends Model
             3 => 5,
             default => 1.8,
         };
+    }
+
+    public function hasRunningBotsForSymbol($symbol_name)
+    {
+        $symbol_id = Symbol::whereName($symbol_name)->pluck('id');
+        if ($symbol_id->count() > 0){
+            $running_bot = collect($this->running_bots)->where('symbol_id', $symbol_id[0]);
+            if ($running_bot->count() > 0)
+                return true;
+        }
+        return false;
     }
 
     public function updateExchangesFile()

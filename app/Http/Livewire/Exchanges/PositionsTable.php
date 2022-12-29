@@ -28,17 +28,30 @@ class PositionsTable extends DataTableComponent
                 if (in_array($column->getField(),['size', 'position_value', 'entry_price', 'liq_price', 'bust_price', 'position_margin', 'realised_pnl', 'unrealised_pnl', 'cum_realised_pnl', 'risk_id'])) {
                     return [
                         'default' => false,
-                        'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-2 py-2 text-right',
+                        'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-2 text-right',
+                    ];
+                }
+                if($column->isField('symbol')){
+                    $ex_css = $row->exchange->hasRunningBotsForSymbol($row->symbol) ? 'text-yellow-300 decoration-yellow-300' : '';
+                    return [
+                        'default' => false,
+                        'class' => 'whitespace-nowrap text-sm font-bold px-1 py-2 '.$ex_css.' underline hover:no-underline',
+                    ];
+                }
+                if($column->isField('side')){
+                    return [
+                        'default' => false,
+                        'class' => 'whitespace-nowrap text-center px-1 py-2',
                     ];
                 }
                 return [
                     'default' => false,
-                    'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-2 py-2',
+                    'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-2',
                 ];
             })->setThAttributes(function (Column $column) {
                 return [
                     'default' => false,
-                    'class' => 'text-xs font-medium whitespace-nowrap text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-gray-400 px-3 py-3 text-center',
+                    'class' => 'text-xs font-medium whitespace-nowrap text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-gray-400 px-1 py-2 text-center',
                 ];
             });
     }
@@ -48,12 +61,11 @@ class PositionsTable extends DataTableComponent
         return [
             Column::make("",'side')->sortable()->format(function($value, $row, Column $column){
                 $color = $value == 'Buy' ? 'green' : 'red';
-                return '<div class="h-2.5 w-2.5 rounded-full bg-'.$color.'-500 mr-2 mt-1"></div>';
+                return '<div class="h-2.5 w-2.5 rounded-full bg-'.$color.'-500 ml-2 mt-0.5"></div>';
             })->html(),
             Column::make("Symbol", "symbol")->sortable()->searchable()->format(
                 function($value, $row, Column $column){
-                    $color = $row->side == 'Buy' ? 'green' : 'red';
-                    $res = '<a class"font-bold underline hover:no-underline" href="' . $row->exchange_link . '" alt="Exchange trade view" target="_blank">';
+                    $res = '<a class"font-bold " href="' . $row->exchange_link . '" alt="Exchange trade view" target="_blank">';
                     $res .=  $value;
                     $res .= '</a>';
 
@@ -62,7 +74,7 @@ class PositionsTable extends DataTableComponent
             )->html(),
 
             Column::make("Size", "size")->sortable()->format(
-                fn($value, $row, Column $column) => number($value, 1)
+                fn($value, $row, Column $column) => number($value, 0)
             ),
             Column::make("Value", "position_value")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
@@ -81,9 +93,9 @@ class PositionsTable extends DataTableComponent
             Column::make("Liq.", "liq_price")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
             ),
-            Column::make("Bust.", "bust_price")->sortable()->format(
-                fn($value, $row, Column $column) => number($value)
-            ),
+            // Column::make("Bust.", "bust_price")->sortable()->format(
+            //     fn($value, $row, Column $column) => number($value)
+            // ),
             Column::make("Margin", "position_margin")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
             ),
@@ -94,7 +106,7 @@ class PositionsTable extends DataTableComponent
             Column::make("U. PNL", "unrealised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
             Column::make("R. PNL", "realised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
             Column::make("A. PNL", "cum_realised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
-            Column::make("RiskID", "risk_id")->sortable(),
+            // Column::make("RiskID", "risk_id")->sortable(),
             Column::make("WE", "exchange.usdt_balance")->sortable()->view('exchanges.partials.position-wallet-exposure'),
             // Column::make("WE")
             // ->label(
@@ -119,14 +131,6 @@ class PositionsTable extends DataTableComponent
         return Position::query()
             ->whereExchangeId($this->exchange->id)
             ->with('exchange', 'coin', 'orders')
-            ->withCount(['orders',
-                // 'orders as buy_orders_count' => function ($query) {
-                //     $query->where('side', 'Buy');
-                // },
-                // 'orders as sell_orders_count' => function ($query) {
-                //     $query->where('side', 'Sell');
-                // },
-            ])
             ->select('positions.id', 'exchange_id', 'symbol');
     }
 }

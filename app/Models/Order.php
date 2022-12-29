@@ -19,7 +19,7 @@ class Order extends Model
 
     public function position()
     {
-        return $this->belongsTo(Position::class, 'exchange_id');
+        return $this->belongsTo(Position::class);
     }
 
 }

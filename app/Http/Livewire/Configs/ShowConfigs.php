@@ -23,8 +23,9 @@ class ShowConfigs extends Component
     {
         return view('livewire.configs.show-configs', [
             'records' => Grid::where('name', 'like', '%'.$this->search.'%')
-                ->orderBy('name')
                 ->mine()
+                ->withCount('running_bots')
+                ->orderBy('name')
                 ->paginate(20)
         ])->layoutData([
             'title' => $this->title,

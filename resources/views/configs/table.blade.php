@@ -17,9 +17,9 @@
                     <th scope="row" class="py-2 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $record->id }}
                     </th>
-                    <td class="py-2 px-4 font-bold underline hover:no-underline">
+                    <td class="py-2 px-4 font-bold {{ $record->running_bots_count > 0 ? 'text-yellow-300 decoration-yellow-300' : ''}} underline hover:no-underline">
                         <a href="{{ route('configs.edit', $record) }}">
-                            <span class="uppercase">{{ $record->name }}</span>
+                            <span class="uppercase ">{{ $record->name }}</span>
                         </a>
                     </td>
                     <td class="py-2 px-4">

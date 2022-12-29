@@ -27,6 +27,13 @@ class Grid extends Model
         return $this->hasMany(Bot::class);
     }
 
+    public function running_bots()
+    {
+        return $this->hasMany(Bot::class)
+            ->where('pid', '>', 0)
+            ->whereNotNull('started_at');
+    }
+
     public function saveConfigToDisk()
     {
         if (!\App::environment('local')) {
