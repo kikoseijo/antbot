@@ -30,29 +30,48 @@ class ExchangeSyncSymbols extends Command
      */
     public function handle()
     {
-        $this->syncBybitSymbols();
+        $this->syncBybit();
 
         return Command::SUCCESS;
     }
 
-    protected function syncBybitSymbols()
+    protected function syncBybit()
     {
         $bybit = new BybitLinear();
-        $result=$bybit->publics()->getSymbols();
-        if ($result['ret_msg'] == 'OK'){
-            $records = collect($result['result']);
+        $ticks = $this->getBybitTicks($bybit);
+        $results = $bybit->publics()->getSymbols();
+        if ($results['ret_msg'] == 'OK'){
+            $records = collect($results['result']);
             foreach ($records as $record) {
-                $normalized_record = $this->normalizeRecord($record);
+                $symbol_name = \Arr::get($record, 'name');
+                $normalized_record = $this->normalizeRecord($record, $ticks->where('symbol', $symbol_name)->values()[0]);
                 $new_record = Symbol::updateOrCreate([
                     'name' => $normalized_record['name'],
                     'exchange' => ExchangesEnum::BYBIT
                 ],  $normalized_record);
             }
+        } else {
+            \Log::info("Bybit syncBybitSymbols Error:{$response['ret_msg']}");
         }
     }
 
-    protected function normalizeRecord($record)
+    protected function getBybitTicks($bybit)
     {
+        $results = $bybit->publics()->getTickers();
+        if ($results['ret_msg'] == 'OK'){
+            return collect($results['result']);
+        } else {
+            \Log::info("Bybit syncBybitTicks Error:{$response['ret_msg']}");
+            return [];
+        }
+    }
+
+    protected function normalizeRecord($record, $record_tick)
+    {
+        $record['market'] = 'Futures';
+
+        logi($record_tick);
+
         $record['min_leverage'] = \Arr::get($record, 'leverage_filter.min_leverage');
         $record['max_leverage'] = \Arr::get($record, 'leverage_filter.max_leverage');
         $record['leverage_step'] = \Arr::get($record, 'leverage_filter.leverage_step');
@@ -68,6 +87,12 @@ class ExchangeSyncSymbols extends Command
         $record['qty_step'] = \Arr::get($record, 'lot_size_filter.qty_step');
         $record['post_only_max_trading_qty'] = \Arr::get($record, 'lot_size_filter.post_only_max_trading_qty');
         unset( $record['lot_size_filter'] );
+
+        $record = array_merge((array) $record, \Arr::only((array) $record_tick, [
+            'last_price', 'prev_price_24h', 'price_24h_pcnt',
+            'high_price_24h', 'low_price_24h', 'prev_price_1h',
+            'mark_price', 'index_price', 'turnover_24h', 'volume_24h'
+        ]));
 
         return $record;
     }

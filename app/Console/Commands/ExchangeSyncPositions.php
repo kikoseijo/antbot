@@ -75,17 +75,17 @@ class ExchangeSyncPositions extends Command
     protected function saveExchangePositions(Exchange $exchange, $filtered_response)
     {
         foreach ($filtered_response as $key => $data) {
-            $new_record = Position::updateOrCreate([
+            Position::updateOrCreate([
                 'symbol' => $data['data']['symbol'],
                 'exchange_id' => $exchange->id
             ],  \Arr::except($data['data'], ['tp_trigger_by', 'sl_trigger_by']));
         }
     }
 
+
     protected function checkRateLimits($limit, Exchange $exchange)
     {
         if ($limit < 50){
-
             \Log::info("Reaching exchange limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
         }
     }

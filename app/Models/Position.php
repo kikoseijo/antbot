@@ -12,6 +12,11 @@ class Position extends Model
 
     protected $guarded = ['id'];
 
+    public function coin()
+    {
+        return $this->belongsTo(Symbol::class, 'symbol', 'name');
+    }
+
     public function exchange()
     {
         return $this->belongsTo(Exchange::class, 'exchange_id');
@@ -19,7 +24,19 @@ class Position extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'order_id');
+    }
+
+    public function buy_orders()
+    {
+        return $this->hasMany(Order::class, 'order_id')
+            ->where('orders.side', '=', 'Buy');
+    }
+
+    public function sell_orders()
+    {
+        return $this->hasMany(Order::class, 'order_id')
+            ->where('orders.side', '=', 'Sell');
     }
 
     public function getExchangeLinkAttribute()
