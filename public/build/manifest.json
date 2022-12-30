@@ -19,7 +19,7 @@
     ]
   },
   "resources/js/tradingview.js": {
-    "file": "assets/tradingview.66b10090.js",
+    "file": "assets/tradingview.e22ac0b4.js",
     "src": "resources/js/tradingview.js",
     "isEntry": true,
     "imports": [
@@ -28,7 +28,7 @@
     ]
   },
   "resources/js/code-mirror.js": {
-    "file": "assets/code-mirror.4e7595ba.js",
+    "file": "assets/code-mirror.fd6a78eb.js",
     "src": "resources/js/code-mirror.js",
     "isEntry": true,
     "imports": [
@@ -38,13 +38,13 @@
   "__commonjsHelpers.4e997714.js": {
     "file": "assets/_commonjsHelpers.4e997714.js"
   },
-  "resources/js/app.css": {
-    "file": "assets/app.e1d990bf.css",
-    "src": "resources/js/app.css"
-  },
   "resources/css/app.css": {
     "file": "assets/app.e4ff6fb0.css",
     "src": "resources/css/app.css",
     "isEntry": true
+  },
+  "resources/js/app.css": {
+    "file": "assets/app.e1d990bf.css",
+    "src": "resources/js/app.css"
   }
 }
