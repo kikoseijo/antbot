@@ -51,7 +51,7 @@ class PositionsTable extends DataTableComponent
             })->setThAttributes(function (Column $column) {
                 return [
                     'default' => false,
-                    'class' => 'text-xs font-medium whitespace-nowrap text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-gray-400 px-1 py-2 text-center',
+                    'class' => 'text-xs font-medium whitespace-nowrap text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-gray-400 px-1 py-3 text-center',
                 ];
             });
     }
@@ -59,20 +59,9 @@ class PositionsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("",'side')->sortable()->format(function($value, $row, Column $column){
-                $color = $value == 'Buy' ? 'green' : 'red';
-                return '<div class="h-2.5 w-2.5 rounded-full bg-'.$color.'-500 ml-2 mt-0.5"></div>';
-            })->html(),
-            Column::make("Symbol", "symbol")->sortable()->searchable()->format(
-                function($value, $row, Column $column){
-                    $res = '<a class"font-bold " href="' . $row->exchange_link . '" alt="Exchange trade view" target="_blank">';
-                    $res .=  $value;
-                    $res .= '</a>';
-
-                    return $res;
-                }
-            )->html(),
-
+            Column::make("",'side')->sortable()->view('exchanges.partials.position-side'),
+            Column::make("Symbol", "symbol")->sortable()->searchable()->view('exchanges.partials.position-symbol'),
+            Column::make("", "leverage")->sortable()->view('exchanges.partials.position-leverage'),
             Column::make("Size", "size")->sortable()->format(
                 fn($value, $row, Column $column) => number($value, 0)
             ),
@@ -108,18 +97,6 @@ class PositionsTable extends DataTableComponent
             Column::make("A. PNL", "cum_realised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
             // Column::make("RiskID", "risk_id")->sortable(),
             Column::make("WE", "exchange.usdt_balance")->sortable()->view('exchanges.partials.position-wallet-exposure'),
-            // Column::make("WE")
-            // ->label(
-            //     fn($row, Column $column) => view('exchanges.partials.position-wallet-exposure')->withRow($row)
-            // ),
-            Column::make("", "leverage")->sortable()->format(
-                function($value, $row, Column $column) {
-                    $res = '<span class="bg-yellow-100 text-yellow-800 text-xs font-semibold ml-2 px-0.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">';
-                    $res .= "x{$value}</span>";
-                    return $res;
-                }
-            )
-            ->html(),
 
             // Column::make("Created at", "created_at")->sortable(),
             // Column::make("Updated at", "updated_at")->sortable(),

@@ -1,4 +1,4 @@
-<div class="max-w-sm px-6 pt-6 bg-white border border-gray-200 rounded-lg shadow-xs dark:bg-gray-800 dark:border-gray-700">
+<div class="inline-block w-96 max-w-xs sm:w-max overflow-hidden mr-3 px-6 pt-6 bg-white border border-gray-200 rounded-lg shadow-xs dark:bg-gray-800 dark:border-gray-700">
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $balance->symbol }}</h5>
     <dl class="grid max-w-full grid-cols-2 gap-2 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-3 dark:text-white">
         <div class="flex flex-col">
