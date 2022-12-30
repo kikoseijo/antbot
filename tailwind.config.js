@@ -18,6 +18,7 @@ module.exports = {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
             colors: {
+                'antbot-yellow': '#F9BE1A',
                 'antbot-orange': '#F1843E',
                 'antbot-accent': '#62CBC1',
             }

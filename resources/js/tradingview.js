@@ -8,11 +8,8 @@ const orders = container.getAttribute('orders');
 const entryOrder = container.getAttribute('entry-order');
 const precision = container.getAttribute('precision');
 
-console.log('[-- precision --]', precision);
 const ordersObj =  JSON.parse(orders);
 const entryOrderObj =  JSON.parse(entryOrder);
-
-
 
 const chart = createChart(container, {
     layout: {
@@ -79,7 +76,9 @@ function createLine(price, color, text)
         price: price,
         color: color,
         lineWidth: 1,
-        lineStyle: 1, // LineStyle.Dotted
+        lineStyle: 0, // LineStyle.line
+        // lineStyle: 2, // LineStyle.Dashed
+        // lineStyle: 1, // LineStyle.Dotted
         axisLabelVisible: true,
         title: text,
     };
@@ -91,7 +90,6 @@ function calculateMinMove(){
     for (var i = 0; i < precision; i++) {
         res = res / 10;
     }
-    console.log('[-- res --]', res);
     return res;
 }
 

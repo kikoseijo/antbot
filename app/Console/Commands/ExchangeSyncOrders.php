@@ -60,11 +60,11 @@ class ExchangeSyncOrders extends Command
         $this->checkRateLimits($response['rate_limit_status'], 'Bybit');
         if ($response['ret_msg'] == 'OK'){
             $records = collect($response['result']);
+            $position->orders()->delete(); // We clean old ordes before proceed.
             foreach ($records as $record) {
-                $new_record = Order::updateOrCreate([
-                    'order_id' => $record['order_id'],
-                    'position_id' => $position->id,
-                ],  $record);
+                $new_record = Order::create(
+                    array_merge($record, ['position_id' => $position->id])
+                );
             }
         } else {
             logi('Bybit: SyncOrders Error: ' . $response['ret_msg']);

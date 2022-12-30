@@ -79,7 +79,7 @@ class Bot extends Model
 
         $grid_configs = config('antbot.grid_configs');
         $args = [
-            $this->exchange->name,
+            $this->exchange->slug,
             $this->symbol->name,
             $grid_config,
             '-lev', $this->leverage,
