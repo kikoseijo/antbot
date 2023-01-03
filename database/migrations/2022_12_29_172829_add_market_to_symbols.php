@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('prev_price_1h', 20)->nullable()->after('low_price_24h');
             $table->string('mark_price', 20)->nullable()->after('prev_price_1h');
             $table->string('index_price', 20)->nullable()->after('mark_price');
-            $table->string('turnover_24h', 20)->nullable()->after('index_price');
+            $table->decimal('turnover_24h', 30, 8)->nullable()->after('index_price');
             $table->decimal('volume_24h', 30, 8)->nullable()->after('turnover_24h');
         });
     }

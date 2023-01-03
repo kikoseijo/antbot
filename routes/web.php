@@ -49,6 +49,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('bot/{bot}/edit', App\Http\Livewire\Bots\EditBot::class)->name('bots.edit');
     Route::get('bot/{bot}/logs', App\Http\Livewire\Bots\BotLogsViewer::class)->name('bots.logs');
 
+    Route::get('symbols', App\Http\Livewire\Symbols\ShowSymbols::class)->name('symbols.index');
+    Route::get('symbols/add', App\Http\Livewire\Symbols\CreateSymbol::class)->name('symbols.add');
+
     Route::get('market', App\Http\Livewire\Market\MarketData::class)->name('market.index');
     Route::get('positions2', App\Http\Livewire\Market\Positions::class)->name('market.positions');
     Route::get('trading-view/{position}/{interval}', App\Http\Livewire\Market\TradingView::class)->name('market.trading-view');

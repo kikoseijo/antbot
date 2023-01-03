@@ -90,10 +90,20 @@
                         </a>
                     </td>
                     <td class="py-2 px-4 text-left">
-                          {{ optional($record->exchange)->name }}
+                          <a href="{{ route('exchanges.positions', $record->exchange) }}" class="underline hover:no-underline">
+                              {{ optional($record->exchange)->name }}
+                          </a>
                     </td>
                     <td class="py-2 px-4 text-center">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
-                    <td class="py-2 px-4 text-center">{{ $record->grid_mode->value == 'custom' ? $record->grid->name : $record->grid_mode }}</td>
+                    <td class="py-2 px-4">
+                        @if ($record->grid_mode->value == 'custom' && $record->grid->id > 0)
+                            <a href="{{ route('configs.edit', $record->grid) }}" class="underline hover:no-underline">
+                                {{ $record->grid->name }}
+                            </a>
+                        @else
+                            {{ $record->grid_mode }}
+                        @endif
+                    </td>
                     <td class="py-2 px-4 text-center" data-tooltip-target="tooltip-idl-{{$record->id}}" data-tooltip-placement="left">
                         <span class="uppercase">{{ $record->lm->value }}:</span>
                         <span class="{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ number_format($record->lwe, 2) }}</span>
@@ -110,7 +120,9 @@
                         {{ \Arr::get($bot_modes, $record->sm->value)}}
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
-                    <td class="py-2 px-4 text-right">{{ $record->started_at ? $record->started_at->diffForHumans() ?? 'Stopped' : '-' }}</td>
+                    <td class="py-2 px-4">
+                        {{ $record->started_at ? $record->started_at->diffForHumans() ?? 'Stopped' : '-' }}
+                    </td>
                     <td class="py-2 px-4 text-right">
                         @include('partials.bot-table-menu', ['bot' => $record])
                     </td>
