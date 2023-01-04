@@ -11,11 +11,12 @@ class ShowPositions extends Component
 {
     use WithPagination;
     public Exchange $exchange;
-    public $title = 'Exchanges';
+    public $title;
     public $total_wallet_exposure;
 
     public function mount()
     {
+        $this->title = "Exchange - " . $this->exchange->name;
         $res = [];
         // dd($this->exchange->balances->toArray()[1]['wallet_balance']);
         foreach ($this->exchange->balances as $balance) {

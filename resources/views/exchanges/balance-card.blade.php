@@ -2,15 +2,15 @@
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $balance->symbol }}</h5>
     <dl class="grid max-w-full grid-cols-2 gap-2 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-3 dark:text-white">
         <div class="flex flex-col">
-            <dt class="mb-2 text-md font-extrabold truncate">$ {{ number($balance->wallet_balance)}}</dt>
+            <dt class="mb-2 text-sm font-extrabold truncate">$ {{ number($balance->wallet_balance)}}</dt>
             <dd class="font-light text-sm text-gray-500 dark:text-gray-400">Balanace</dd>
         </div>
         <div class="flex flex-col">
-            <dt class="mb-2 text-md font-extrabold truncate {{ $balance->unrealised_pnl < 0 ? 'text-red-500 dark:text-red-400' : 'text-green-500 dark:text-green-400'}}">$ {{ number($balance->unrealised_pnl)}}</dt>
+            <dt class="mb-2 text-sm font-extrabold truncate {{ $balance->unrealised_pnl < 0 ? 'text-red-500 dark:text-red-400' : 'text-green-500 dark:text-green-400'}}">$ {{ number($balance->unrealised_pnl)}}</dt>
             <dd class="font-light text-sm text-gray-500 dark:text-gray-400">Unrealised PNL</dd>
         </div>
         <div class="flex flex-col">
-            <dt class="mb-2 text-md font-extrabold truncate {{ $balance->realised_pnl < 0 ? 'text-red-500 dark:text-red-400' : 'text-green-500 dark:text-green-400'}}">$ {{ number($balance->realised_pnl)}}</dt>
+            <dt class="mb-2 text-sm font-extrabold truncate {{ $balance->realised_pnl < 0 ? 'text-red-500 dark:text-red-400' : 'text-green-500 dark:text-green-400'}}">$ {{ number($balance->realised_pnl)}}</dt>
             <dd class="font-light text-sm text-gray-500 dark:text-gray-400">Realised PNL</dd>
         </div>
     </dl>
@@ -24,14 +24,6 @@
         <div id="accordion-collapse-body-{{$balance->id}}" class="hidden" aria-labelledby="accordion-collapse-heading-{{$balance->id}}">
             <div class="p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                 <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
-
-                    @php
-                        $twe = $total_wallet_exposure[$balance->symbol];
-                        $gauge_percentage = ($twe * 100) / 400;
-                    @endphp
-                    <label for="disk_d">Total Wallet Exposure:</label>
-                    <meter id="disk_d" value="{{$gauge_percentage}}">{{$gauge_percentage}}%</meter>
-                    @include('exchanges.partials.list-info',['title' => 'TWE', 'amount' => $twe * 100])
 
                     @include('exchanges.partials.list-info',['title' => 'equity', 'amount' => $balance->equity])
                     @include('exchanges.partials.list-info',['title' => 'available_balance', 'amount' => $balance->available_balance])
