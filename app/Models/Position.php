@@ -43,7 +43,7 @@ class Position extends Model
     {
         return match($this->exchange->exchange){
             ExchangesEnum::BYBIT => "https://www.bybit.com/trade/usdt/{$this->symbol}",
-            ExchangesEnum::BINANCE => "#{$this->symbol}",
+            ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$this->symbol}",
             default => "#{$this->symbol}",
         };
     }

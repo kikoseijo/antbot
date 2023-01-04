@@ -85,7 +85,7 @@
                         </a>
                     </td>
                     <td class="py-2 px-4 font-bold text-left underline hover:no-underline">
-                        <a href="https://www.bybit.com/trade/usdt/{{ optional($record->symbol)->name }}" target="_blank">
+                        <a href="{{ $record->exchange_link }}" target="_blank">
                             {{ optional($record->symbol)->name }}
                         </a>
                     </td>

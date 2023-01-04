@@ -11,13 +11,14 @@ class LaravelPython
     public function run(string $filename, array $parameters = [], string $log_file)
     {
         $bot_path = config('antbot.paths.bot_path');
+        // logi($parameters);
         $params = implode(" ", $parameters);
         $args = [
             'nohup', '/usr/local/bin/python3.8', '-u', $filename, $params,
             '>', $log_file, '2>&1', '& echo $!; '
         ];
         $command = implode(" ", $args);
-        logi($command);
+        // logi($command);
         chdir($bot_path);
         $pid = exec($command, $out);
 

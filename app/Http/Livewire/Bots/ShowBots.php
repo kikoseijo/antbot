@@ -27,7 +27,7 @@ class ShowBots extends Component
             ->orderBy('id', 'desc')
             ->mine()
             ->with('exchange', 'grid', 'symbol')
-            ->paginate(10);
+            ->paginate(25);
 
         $data = [
             'records' => $records,

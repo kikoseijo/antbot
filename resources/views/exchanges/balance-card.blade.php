@@ -24,6 +24,15 @@
         <div id="accordion-collapse-body-{{$balance->id}}" class="hidden" aria-labelledby="accordion-collapse-heading-{{$balance->id}}">
             <div class="p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                 <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
+
+                    @php
+                        $twe = $total_wallet_exposure[$balance->symbol];
+                        $gauge_percentage = ($twe * 100) / 400;
+                    @endphp
+                    <label for="disk_d">Total Wallet Exposure:</label>
+                    <meter id="disk_d" value="{{$gauge_percentage}}">{{$gauge_percentage}}%</meter>
+                    @include('exchanges.partials.list-info',['title' => 'TWE', 'amount' => $twe * 100])
+
                     @include('exchanges.partials.list-info',['title' => 'equity', 'amount' => $balance->equity])
                     @include('exchanges.partials.list-info',['title' => 'available_balance', 'amount' => $balance->available_balance])
                     @include('exchanges.partials.list-info',['title' => 'used_margin', 'amount' => $balance->used_margin])

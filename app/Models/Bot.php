@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BotModeEnum;
+use App\Enums\ExchangesEnum;
 use App\Enums\MarketTypeEnum;
 use App\Enums\GridModeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -89,12 +90,14 @@ class Bot extends Model
             '-sw', $this->swe,
             '-ak', $this->exchange->getFilePath(),
         ];
-        if ($this->assigned_balance > 0) {
-            array_push($args, ['-ab', $this->assigned_balance]);
+        if ($this->assigned_balance != 0) {
+            $args = array_merge($args, ['-ab', $this->assigned_balance]);
         }
         if ($this->market_type != MarketTypeEnum::FUTURES) {
-            array_push($args, ['-m', $this->market_type->value]);
+            $args = array_merge($args, ['-m', $this->market_type->value]);
         }
+        // logi('$args');
+        // logi($args);
         $pid = \Python::run('passivbot.py', $args, $this->log_path);
         if ($pid > 0) {
             $this->started_at = now();
@@ -111,6 +114,26 @@ class Bot extends Model
             $this->pid = 0;
             $this->save();
         }
+    }
+
+    public function getExchangeLinkAttribute()
+    {
+        $symbol = optional($this->symbol)->name;
+        if ($this->market_type === MarketTypeEnum::FUTURES ) {
+            return match($this->exchange->exchange){
+                ExchangesEnum::BYBIT => "https://www.bybit.com/trade/usdt/{$symbol}",
+                ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=cross",
+                default => "#{$symbol}",
+            };
+        } else {
+            return match($this->exchange->exchange){
+                ExchangesEnum::BYBIT => "https://www.bybit.com/en-US/trade/spot/{$this->symbol->base_currency}/{$this->symbol->quote_currency}",
+                ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=spot",
+                default => "#{$symbol}",
+            };
+        }
+        // https://www.binance.com/en/trade/ETHBTC
+
     }
 
     public function restart()

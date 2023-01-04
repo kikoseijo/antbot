@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('symbols', function (Blueprint $table) {
             $table->string('market', 10)->nullable()->after('name');
             $table->string('last_price', 20)->nullable()->after('market');
-            $table->string('prev_price_24h', 20)->nullable()->after('last_price');
+            $table->decimal('prev_price_24h', 30, 8)->nullable()->after('last_price');
             $table->string('price_24h_pcnt', 20)->nullable()->after('prev_price_24h');
             $table->string('high_price_24h', 20)->nullable()->after('price_24h_pcnt');
             $table->string('low_price_24h', 20)->nullable()->after('high_price_24h');
