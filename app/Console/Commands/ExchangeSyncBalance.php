@@ -53,7 +53,7 @@ class ExchangeSyncBalance extends Command
             $this->removeNonExistingAssets($exchange, $filtered_response);
             $this->saveExchangeBalances($exchange, $filtered_response);
         } else {
-            if ($response['ret_msg'] == 'invalid api_key') {
+            if (in_array($response['ret_msg'], ['invalid api_key', 'API key is invalid.'])) {
                 $exchange->api_error = 1;
                 $exchange->save();
             }

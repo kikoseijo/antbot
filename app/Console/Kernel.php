@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('antbot:sync-orders')->everyThreeMinutes();
         $schedule->command('antbot:keep-alive')->everyFiveMinutes();
         $schedule->command('antbot:sync-balance')->everyTenMinutes();
+        $schedule->command('antbot:sync-trades')->everyTenMinutes();
         $schedule->command('antbot:sync-positions')->everyTwoMinutes();
     }
 

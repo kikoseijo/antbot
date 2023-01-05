@@ -31,7 +31,7 @@ class ExchangeSyncPositions extends Command
      */
     public function handle()
     {
-        $exchanges = Exchange::with('balances')->get();
+        $exchanges = Exchange::with('balances')->where('api_error', false)->get();
         foreach ($exchanges as $exchange) {
             if ($exchange->exchange == ExchangesEnum::BYBIT) {
                 $this->syncBybit($exchange);
@@ -50,11 +50,12 @@ class ExchangeSyncPositions extends Command
             $filtered_response = collect($response['result'])->filter(function ($value, $key) {
                 return $value['data']['size'] > 0;
             });
+            // logi(\Arr::get($response, 'result'));
             $this->removeNonExistingPositions($exchange, $filtered_response);
             $this->saveExchangePositions($exchange, $filtered_response);
         } else {
             // TODO: check more erros with pass or any other.
-            if ($response['ret_msg'] == 'invalid api_key') {
+            if (in_array($response['ret_msg'], ['invalid api_key', 'API key is invalid.'])) {
                 $exchange->api_error = 1;
                 $exchange->save();
             }
