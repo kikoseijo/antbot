@@ -39,6 +39,11 @@ class Exchange extends Model
         return $this->hasMany(Position::class);
     }
 
+    public function trades()
+    {
+        return $this->hasMany(Trade::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
