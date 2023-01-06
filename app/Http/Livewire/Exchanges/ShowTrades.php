@@ -27,7 +27,7 @@ class ShowTrades extends Component
                 ->groupBy('year', 'month', 'symbol', 'month_name')
                 ->orderBy('year', 'desc')
                 ->orderBy('month', 'desc')
-                ->orderBy('symbol', 'desc')
+                ->orderBy('symbol', 'asc')
                 ->paginate(25);
 
         $data = [
