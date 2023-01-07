@@ -111,7 +111,7 @@ class Bot extends Model
         $success = \Python::kill($this->pid);
         if ($success || !$this->isRunning()) {
             $this->started_at = NULL;
-            $this->pid = 0;
+            $this->pid = NULL;
             $this->save();
         }
     }
