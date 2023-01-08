@@ -21,7 +21,8 @@ class ShowTrades extends Component
             return abort(403, 'Unauthorized action.');
         }
 
-        $trades = $this->exchange->trades()->selectRaw(
+        $trades = $this->exchange->trades()->where('created_at', '>', '2022-9-30 23:59:59')
+                ->selectRaw(
                     'year(created_at) year, month(created_at) month, count(*) total_trades, sum(closed_pnl) pnl, symbol, monthname(created_at) month_name'
                 )
                 ->groupBy('year', 'month', 'symbol', 'month_name')

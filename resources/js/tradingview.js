@@ -95,33 +95,33 @@ function calculateMinMove(){
 
 function configureChartPriceBar(data)
 {
-    var indexOfMinPrice = 0;
-    var indexOfMaxPrice = 0;
-    for (var i = 1; i < data.length; i++) {
-    	if (data[i].low < data[indexOfMinPrice].low) {
-    		indexOfMinPrice = i;
-    	}
-    	if (data[i].high > data[indexOfMaxPrice].high) {
-    		indexOfMaxPrice = i;
-    	}
-    }
-    candlestickSeries.priceScale().applyOptions({
-        autoScale: true, // disables auto scaling based on visible content
-        mode: 0,
-        scaleMargins: {
-            top: data[indexOfMaxPrice].high * 1.2,
-            bottom: data[indexOfMinPrice].low * 1.2,
-        },
-    });
-
-    const minMove = calculateMinMove();
-    candlestickSeries.applyOptions({
-        priceFormat: {
-            type: 'price',
-            precision: precision,
-            minMove: minMove,
-        },
-    });
+    // var indexOfMinPrice = 0;
+    // var indexOfMaxPrice = 0;
+    // for (var i = 1; i < data.length; i++) {
+    // 	if (data[i].low < data[indexOfMinPrice].low) {
+    // 		indexOfMinPrice = i;
+    // 	}
+    // 	if (data[i].high > data[indexOfMaxPrice].high) {
+    // 		indexOfMaxPrice = i;
+    // 	}
+    // }
+    // candlestickSeries.priceScale().applyOptions({
+    //     autoScale: true, // disables auto scaling based on visible content
+    //     mode: 0,
+    //     scaleMargins: {
+    //         top: data[indexOfMaxPrice].high * 1.2,
+    //         bottom: data[indexOfMinPrice].low * 1.2,
+    //     },
+    // });
+    //
+    // const minMove = calculateMinMove();
+    // candlestickSeries.applyOptions({
+    //     priceFormat: {
+    //         type: 'price',
+    //         precision: precision,
+    //         minMove: minMove,
+    //     },
+    // });
     chart.timeScale().fitContent();
 }
 
