@@ -63,12 +63,10 @@
             <tr class="text-xs font-semibold text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <th scope="row" class="py-3 px-4 text-right"></th>
                 @foreach ($dates as $date)
-                    <th scope="col" class="py-3 px-4 text-right">{{ $total_trades[$date] }}</th>
-                    <th scope="col" class="py-3 px-4 text-right">{{ number($total_pnl[$date], 2) }}</th>
+                    <th scope="col" class="py-3 px-4 text-center">{{ $total_trades[$date] }}</th>
+                    <th scope="col" class="py-3 px-4 text-right">${{ number($total_pnl[$date], 2) }}</th>
                 @endforeach
-
             </tr>
-
         </tfoot>
     </table>
 </div>
