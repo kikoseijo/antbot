@@ -28,10 +28,27 @@ class ShowTrades extends Component
                 ->orderBy('year', 'desc')
                 ->orderBy('month', 'desc')
                 ->orderBy('symbol', 'asc')
-                ->paginate(25);
+                ->get();
+
+        $res = [];
+        $dates = [];
+        foreach ($trades as $trade) {
+            $fecha = substr($trade->month_name, 0, 3) . ' - ' . $trade->year;
+            if (!in_array($fecha, $dates)) {
+                array_push($dates, $fecha);
+            }
+            $res[$trade->symbol][$fecha] = [
+                'date' => $fecha,
+                'trades_count' => $trade->total_trades,
+                'pnl' => $trade->pnl,
+            ];
+        }
+
+        // dd($res, $dates);
 
         $data = [
-            'records' => $trades,
+            'records' => $res,
+            'dates' => $dates,
             // 'positions' => $this->exchange->positions()->with('exchange', 'orders')->withCount('buy_orders', 'sell_orders')->paginate(20),
         ];
 

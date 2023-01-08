@@ -11,9 +11,9 @@
                     <div class="mt-6 space-y-6">
                         @include('exchanges.trades-table')
                     </div>
-                    <div class="mt-2">
+                    {{-- <div class="mt-2">
                         {{ $records->links() }}
-                    </div>
+                    </div> --}}
                 </section>
             </div>
         </div>
