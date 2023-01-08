@@ -99,6 +99,23 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if (auth() && auth()->user()->admin)
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                    {{ __('Users') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('symbols.index')" :active="request()->routeIs('symbols.*')">
+                    {{ __('Symbols') }}
+                </x-responsive-nav-link>
+            @endif
+            <x-responsive-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
+                {{ __('Bots') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
+                {{ __('Exchanges') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('configs.index')" :active="request()->routeIs('configs.*')">
+                {{ __('Configs') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
