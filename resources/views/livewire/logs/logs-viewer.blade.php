@@ -30,8 +30,9 @@
                                 @endif
                                 @break($i>=$log->count())
 
-                                <li wire:key="{{ $page }}-line-{{ $i }}" class="font-mono text-xs leading-5 text-gray-600 dark:text-gray-400">{{ $log[$i] }}
-                            </li>
+                                <li wire:key="{{ $page }}-line-{{ $i }}" class="font-mono text-xs leading-5 text-gray-600 dark:text-gray-400">
+                                    {{ $log[$i] }}
+                                </li>
                         @endfor
                     </ul>
                 @endif

@@ -53,6 +53,17 @@ class PositionsTable extends DataTableComponent
                     'default' => false,
                     'class' => 'text-xs font-medium whitespace-nowrap text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-gray-400 px-1 py-3 text-center',
                 ];
+            })->setFooterTdAttributes(function(Column $column, $rows) {
+                if (in_array($column->getField(),['size', 'position_value', 'entry_price', 'liq_price', 'bust_price', 'position_margin', 'realised_pnl', 'unrealised_pnl', 'cum_realised_pnl', 'risk_id'])) {
+                    return [
+                        'default' => false,
+                        'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-2 text-right',
+                    ];
+                }
+                return [
+                    'default' => false,
+                    'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-2',
+                ];
             });
     }
 
@@ -67,7 +78,7 @@ class PositionsTable extends DataTableComponent
             ),
             Column::make("Value", "position_value")->sortable()->format(
                 fn($value, $row, Column $column) => number($value)
-            ),
+            )->footer(fn($rows) => view('exchanges.partials.position-totalprice')->withValue($rows->sum('position_value'))),
             Column::make("Entry", "entry_price")->sortable()->format(
                 fn($value, $row, Column $column) => number($value, $row->coin->price_scale)
             ),
@@ -85,16 +96,25 @@ class PositionsTable extends DataTableComponent
             // Column::make("Bust.", "bust_price")->sortable()->format(
             //     fn($value, $row, Column $column) => number($value)
             // ),
-            Column::make("Margin", "position_margin")->sortable()->format(
-                fn($value, $row, Column $column) => number($value)
-            ),
+            // Column::make("Margin", "position_margin")->sortable()->format(
+            //     fn($value, $row, Column $column) => number($value)
+            // ),
             Column::make("Ord.")
                 ->label(
                     fn($row, Column $column) => view('exchanges.partials.position-orders-count')->withRow($row)
-            ),
-            Column::make("U. PNL", "unrealised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
-            Column::make("R. PNL", "realised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
-            Column::make("A. PNL", "cum_realised_pnl")->sortable()->view('exchanges.partials.position-pnl'),
+            )->footer(fn($rows) => view('exchanges.partials.position-totalorders-count')->withRows($rows)),
+            Column::make("U. PNL", "unrealised_pnl")
+                ->sortable()
+                ->view('exchanges.partials.position-pnl')
+                ->footer(fn($rows) => view('exchanges.partials.position-totalprice')->withValue($rows->sum('unrealised_pnl'))),
+            Column::make("R. PNL", "realised_pnl")
+                ->sortable()
+                ->view('exchanges.partials.position-pnl')
+                ->footer(fn($rows) => view('exchanges.partials.position-totalprice')->withValue($rows->sum('realised_pnl'))),
+            Column::make("A. PNL", "cum_realised_pnl")
+                ->sortable()
+                ->view('exchanges.partials.position-pnl')
+                ->footer(fn($rows) => view('exchanges.partials.position-totalprice')->withValue($rows->sum('cum_realised_pnl'))),
             // Column::make("RiskID", "risk_id")->sortable(),
             Column::make("WE", "exchange.usdt_balance")->sortable()->view('exchanges.partials.position-wallet-exposure'),
 
@@ -108,6 +128,7 @@ class PositionsTable extends DataTableComponent
         return Position::query()
             ->whereExchangeId($this->exchange->id)
             ->with('exchange', 'coin', 'orders')
+            ->withCount('orders')
             ->select('positions.id', 'exchange_id', 'symbol');
     }
 }

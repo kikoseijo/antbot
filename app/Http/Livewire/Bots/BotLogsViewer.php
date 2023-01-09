@@ -15,7 +15,7 @@ class BotLogsViewer extends Component
     public $file=0;
     public $page=1;
     public $total;
-    public $perPage = 100;
+    public $perPage = 200;
     public $paginator;
     public $title = 'Logs viewer';
 
@@ -60,6 +60,6 @@ class BotLogsViewer extends Component
 
     public function updatingFile()
     {
-        $this->page = $this->total;
+        $this->page = 1;
     }
 }

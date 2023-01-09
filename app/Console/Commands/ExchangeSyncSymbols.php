@@ -30,8 +30,9 @@ class ExchangeSyncSymbols extends Command
      */
     public function handle()
     {
+        // logi('Starting SyncSymbols');
         $this->syncBybit();
-
+        // logi('Ending SyncSymbols');
         return Command::SUCCESS;
     }
 

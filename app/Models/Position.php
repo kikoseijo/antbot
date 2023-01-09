@@ -12,6 +12,17 @@ class Position extends Model
 
     protected $guarded = ['id'];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($record) {
+            foreach($record->orders as $order) {
+                $order->delete();
+            }
+        });
+    }
+
     public function coin()
     {
         return $this->belongsTo(Symbol::class, 'symbol', 'name');

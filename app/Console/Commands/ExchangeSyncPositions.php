@@ -31,6 +31,7 @@ class ExchangeSyncPositions extends Command
      */
     public function handle()
     {
+        // logi('Starting SyncPositions');
         $exchanges = Exchange::with('balances')->where('api_error', false)->get();
         foreach ($exchanges as $exchange) {
             if ($exchange->exchange == ExchangesEnum::BYBIT) {
@@ -38,6 +39,7 @@ class ExchangeSyncPositions extends Command
             }
         }
 
+        // logi('Ending SyncPositions');
         return Command::SUCCESS;
     }
 
@@ -45,7 +47,6 @@ class ExchangeSyncPositions extends Command
     {
         $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret);
         $response = $bybit->privates()->getPositionList();
-        $this->checkRateLimits($response['rate_limit_status'], $exchange);
         if ($response['ret_msg'] == 'OK'){
             $filtered_response = collect($response['result'])->filter(function ($value, $key) {
                 return $value['data']['size'] > 0;
@@ -59,8 +60,9 @@ class ExchangeSyncPositions extends Command
                 $exchange->api_error = 1;
                 $exchange->save();
             }
-            \Log::info("Bybit position sync {$exchange->name} #{$exchange->id} Error:{$response['ret_msg']}");
+            \Log::info("Bybit SyncPositions {$exchange->name} #{$exchange->id} Error:{$response['ret_msg']}");
         }
+        $this->checkRateLimits($response['rate_limit_status'], $exchange);
     }
 
     protected function removeNonExistingPositions(Exchange $exchange, $filtered_response)
@@ -88,9 +90,9 @@ class ExchangeSyncPositions extends Command
     {
         if ($limit < 30){
             sleep(3);
-        }
-        if ($limit < 10){
-            \Log::info("Reaching SyncPositions exchange limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
+            if ($limit < 10){
+                \Log::info("Reaching SyncPositions exchange limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
+            }
         }
     }
 }

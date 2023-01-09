@@ -30,8 +30,9 @@ class ExchangeSyncOrders extends Command
      */
     public function handle()
     {
+        // logi('Starting SyncOrders');
         $this->syncBybitOrders();
-
+        // logi('Ending SyncOrders');
         return Command::SUCCESS;
     }
 
@@ -45,8 +46,8 @@ class ExchangeSyncOrders extends Command
                 $position->exchange->api_secret
             );
             $this->syncPositionOrders($bybit, $position);
-            if ($rate_limit % 10 == 0) {
-                sleep(3);
+            if ($rate_limit % 3 == 0) {
+                sleep(1);
             }
             $rate_limit++;
         }

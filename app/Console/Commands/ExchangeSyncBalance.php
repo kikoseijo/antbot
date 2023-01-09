@@ -31,13 +31,14 @@ class ExchangeSyncBalance extends Command
      */
     public function handle()
     {
+        // logi('Starting SyncBalance');
         $exchanges = Exchange::with('balances')->where('api_error', false)->get();
         foreach ($exchanges as $exchange) {
             if ($exchange->exchange == ExchangesEnum::BYBIT) {
                 $this->syncBybit($exchange);
             }
         }
-
+        // logi('Ending SyncBalance');
         return Command::SUCCESS;
     }
 
