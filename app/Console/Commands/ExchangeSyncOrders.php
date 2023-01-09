@@ -75,6 +75,7 @@ class ExchangeSyncOrders extends Command
     {
         if ($limit < 50 && $limit > 0){
             \Log::info("Reaching exchange getOrderSearch limits {$exchange_name}LIMIT:{$limit}");
+            sleep(3);
         }
     }
 }

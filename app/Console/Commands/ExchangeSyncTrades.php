@@ -106,7 +106,7 @@ class ExchangeSyncTrades extends Command
     protected function checkRateLimits($limit, Exchange $exchange)
     {
         if ($limit < 50){
-            \Log::info("Reaching exchange limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
+            \Log::info("Reaching exchange SyncTrades limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
             sleep(5);
         }
     }
