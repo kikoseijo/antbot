@@ -91,9 +91,11 @@ class ExchangeSyncBalance extends Command
 
     protected function checkRateLimits($limit, Exchange $exchange)
     {
-        if ($limit < 50){
-            \Log::info("Reaching exchange SyncBalance limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
+        if ($limit < 30){
             sleep(3);
+        }
+        if ($limit < 10){
+            \Log::info("Reaching exchange SyncBalance limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
         }
     }
 }

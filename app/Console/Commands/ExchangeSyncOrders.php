@@ -46,7 +46,7 @@ class ExchangeSyncOrders extends Command
             );
             $this->syncPositionOrders($bybit, $position);
             if ($rate_limit % 10 == 0) {
-                sleep(1);
+                sleep(3);
             }
             $rate_limit++;
         }
@@ -73,9 +73,11 @@ class ExchangeSyncOrders extends Command
 
     protected function checkRateLimits($limit, $exchange_name)
     {
-        if ($limit < 50 && $limit > 0){
-            \Log::info("Reaching exchange getOrderSearch limits {$exchange_name}LIMIT:{$limit}");
+        if ($limit < 30 && $limit > 0){
             sleep(3);
+        }
+        if ($limit < 10 && $limit > 0){
+            \Log::info("Reaching exchange getOrderSearch limits {$exchange_name}LIMIT:{$limit}");
         }
     }
 }

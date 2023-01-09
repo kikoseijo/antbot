@@ -86,9 +86,11 @@ class ExchangeSyncPositions extends Command
 
     protected function checkRateLimits($limit, Exchange $exchange)
     {
-        if ($limit < 50){
-            \Log::info("Reaching SyncPositions exchange limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
+        if ($limit < 30){
             sleep(3);
+        }
+        if ($limit < 10){
+            \Log::info("Reaching SyncPositions exchange limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
         }
     }
 }

@@ -71,7 +71,7 @@ class PositionsTable extends DataTableComponent
             Column::make("Entry", "entry_price")->sortable()->format(
                 fn($value, $row, Column $column) => number($value, $row->coin->price_scale)
             ),
-            Column::make("L. price")
+            Column::make("Mark")
                 ->label(
                     fn($row, Column $column) => view('exchanges.partials.position-price')->withRow($row)
             ),
