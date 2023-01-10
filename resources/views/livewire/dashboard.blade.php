@@ -49,8 +49,10 @@
                         <p class="text-xs">
                             @php
                                 $user_auths = auth()->user()->authentications->first();
+                                $country = \Arr::get($user_auths->location, 'country');
+                                $city = \Arr::get($user_auths->location, 'city');
                             @endphp
-                            Last login at: {{ $user_auths->login_at }} from {{ $user_auths->location['city'] }}, {{ $user_auths->location['country'] }} ({{ $user_auths->ip_address }}).
+                            Last login at: {{ $user_auths->login_at }} from {{ $city }}, {{ $country }} ({{ $user_auths->ip_address }}).
                         </p>
                     </div>
                 </div>
