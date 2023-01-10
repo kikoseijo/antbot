@@ -18,3 +18,5 @@ yarn-error.log
 /.vscode
 /.gtm/
 .ftpconfig
+Envoy.blade.php
+Envoy.bladecopy.php
