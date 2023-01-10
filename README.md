@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/svg/ant-logo.svg" width="400" alt="Antbot Logo">
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/svg/ant-logo-white.svg" width="200" alt="Antbot Logo">
 </p>
 
 ## Laravel Crypto Bot UI
