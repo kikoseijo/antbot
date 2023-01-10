@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
-                <a href="https://antbot.sunnyface.com/" class="flex items-center">
+                <a href="/" class="flex items-center">
                     <x-application-logo class="block h-12 w-auto mx-4 fill-current text-yellow-500 dark:text-yellow-300" />
                     <span class="self-center text-2xl mt-3 font-semibold whitespace-nowrap text-yellow-500 dark:text-yellow-300">Antbot</span>
                 </a>
@@ -13,7 +13,7 @@
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
                     <ul class="text-gray-600 dark:text-gray-400">
                         <li class="mb-4">
-                            <a href="https://flowbite.com/" class="hover:underline">Flowbite</a>
+                            <a href="https://passivbot.com/" class="hover:underline">Passivbot</a>
                         </li>
                         <li>
                             <a href="https://tailwindcss.com/" class="hover:underline">Tailwind CSS</a>
@@ -24,10 +24,10 @@
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
                     <ul class="text-gray-600 dark:text-gray-400">
                         <li class="mb-4">
-                            <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
+                            <a href="https://github.com/kikoseijo/antbot" class="hover:underline ">Github</a>
                         </li>
                         <li>
-                            <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
+                            <a href="https://discord.com/channels/804826506551230475/804826743230824458" class="hover:underline">Discord</a>
                         </li>
                     </ul>
                 </div>
@@ -47,7 +47,7 @@
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between">
         <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-            © 2022 <a href="https://sunnyface.com/" class="hover:underline">Sunnyface.com</a>. All Rights Reserved.
+            © {{ date('Y') }} <a href="https://sunnyface.com/" class="hover:underline">Sunnyface.com</a>. All Rights Reserved.
             {{config('version.string')}}
         </span>
         <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
