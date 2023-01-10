@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Enums\ExchangesEnum;
 use App\Models\Symbol;
 use Illuminate\Console\Command;
-use Lin\Bybit\BybitLinear;
+use Ksoft\Bybit\BybitLinear;
 
 class ExchangeSyncSymbols extends Command
 {

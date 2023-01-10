@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Market;
 
 use App\Models\Exchange;
 use Livewire\Component;
-use Lin\Bybit\BybitLinear;
+use Ksoft\Bybit\BybitLinear;
 
 class Positions extends Component
 {

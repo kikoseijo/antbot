@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Market;
 
 use App\Models\Position;
 use Livewire\Component;
-use Lin\Bybit\BybitLinear;
+use Ksoft\Bybit\BybitLinear;
 
 class TradingView extends Component
 {

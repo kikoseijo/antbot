@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Order;
 use App\Models\Position;
 use Illuminate\Console\Command;
-use Lin\Bybit\BybitLinear;
+use Ksoft\Bybit\BybitLinear;
 
 class ExchangeSyncOrders extends Command
 {

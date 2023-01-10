@@ -6,7 +6,7 @@ use App\Enums\ExchangesEnum;
 use App\Models\Balance;
 use App\Models\Exchange;
 use Illuminate\Console\Command;
-use Lin\Bybit\BybitLinear;
+use Ksoft\Bybit\BybitLinear;
 
 class ExchangeSyncBalance extends Command
 {
