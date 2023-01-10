@@ -1,10 +1,15 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/svg/ant-logo-white.svg" width="200" alt="Antbot Logo">
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/svg/ant-logo-yellow.svg" width="100" alt="Antbot Logo">
 </p>
 
-## Laravel Crypto Bot UI
+# Antbot
 
-Under heavy development right now its not been tested and there is no documentation right now.
+An UI manager for running crypto bots like [Passivbot](https://www.passivbot.com/) with an exchange scrapper, currently ***(only Bybit its implemented)***.
+
+- Beta version.
+- Under heavy development.
+- Its not been tested.
+- There is no documentation.
 
 ## Installation
 
