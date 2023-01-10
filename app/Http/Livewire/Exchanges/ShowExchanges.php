@@ -23,7 +23,7 @@ class ShowExchanges extends Component
     {
         $data = [
             'records' => Exchange::where('name', 'like', '%'.$this->search.'%')
-                ->withCount('bots')->mine()->paginate(5),
+                ->withCount('bots')->with('bots')->mine()->paginate(5),
             'risk_modes' => config('antbot.exchange_mode'),
             'exchanges' => config('antbot.exchanges')
         ];

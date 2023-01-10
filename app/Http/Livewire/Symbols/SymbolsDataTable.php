@@ -49,16 +49,25 @@ class SymbolsDataTable extends DataTableComponent
         return [
             Column::make("Id", "id")->sortable(),
             Column::make("Exchange", "exchange")->sortable(),
-            Column::make("Name")->sortable()->searchable(),
+            Column::make("Name")->sortable()->searchable()->format(function ($value, $row, Column $column)
+            {
+                $res = '';
+                if ($row->bots->count() > 0) {
+                    $res .= '<span class="text-yellow-300">' . $value .'</span>';
+                } else {
+                    $res = $value;
+                }
+                return  $res;
+            })->html(),
             Column::make("Market")->sortable(),
             Column::make("Last Price")->sortable(),
             Column::make("Mark Price")->sortable(),
             Column::make("Index Price")->sortable(),
             Column::make("24h Turnover", 'turnover_24h')->sortable()->format(
-                fn($value, $row, Column $column) => '$' . number($value, 0)
+                fn($value, $row, Column $column) => '$' . bignumber($value)
             ),
             Column::make("24h Volume", 'volume_24h')->sortable()->format(
-                fn($value, $row, Column $column) => '$' . number($value, 0)
+                fn($value, $row, Column $column) => '$' . bignumber($value)
             ),
             Column::make("Status")->sortable(),
             Column::make("Min.L", 'min_leverage')->sortable(),
@@ -71,6 +80,7 @@ class SymbolsDataTable extends DataTableComponent
     public function builder(): Builder
     {
         return Symbol::query()
+            ->with('bots')
             ->select('id', 'name');
     }
 }

@@ -47,7 +47,10 @@
                             </div>
                         @endif
                         <p class="text-xs">
-                            Last login at: {{auth()->user()->previousLoginAt() }} from {{ auth()->user()->previousLoginIp() }}
+                            @php
+                                $user_auths = auth()->user()->authentications->first();
+                            @endphp
+                            Last login at: {{ $user_auths->login_at }} from {{ $user_auths->location['city'] }}, {{ $user_auths->location['country'] }} ({{ $user_auths->ip_address }}).
                         </p>
                     </div>
                 </div>

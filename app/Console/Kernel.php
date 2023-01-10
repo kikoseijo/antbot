@@ -18,8 +18,8 @@ class Kernel extends ConsoleKernel
         // cd /home/antbot/antbot && /opt/remi/php81/root/usr/bin/php artisan sche
         // https://laravel.com/docs/9.x/scheduling#schedule-frequency-options
         $schedule->command('antbot:sync-symbols')->everyTwoMinutes(); // 1
-        $schedule->command('antbot:sync-positions')->everyTwoMinutes(); // 2
-        $schedule->command('antbot:sync-orders')->everyTwoMinutes(); // 3
+        $schedule->command('antbot:sync-positions')->everyFiveMinutes(); // 2
+        $schedule->command('antbot:sync-orders')->everyFiveMinutes(); // 3
         $schedule->command('antbot:sync-balance')->everyTenMinutes();
         $schedule->command('antbot:sync-trades')->everyTenMinutes();
         $schedule->command('antbot:keep-alive')->everyFiveMinutes();

@@ -1,5 +1,17 @@
 <?php
 
+if (!function_exists('bignumber')) {
+    function bignumber($number): string
+    {
+        $human_readable = new \NumberFormatter(
+            'en_US',
+            \NumberFormatter::PADDING_POSITION
+        );
+
+        return  $human_readable->format($number);
+    }
+}
+
 if (!function_exists('number')) {
     function number($number, $decimals = 2): string
     {

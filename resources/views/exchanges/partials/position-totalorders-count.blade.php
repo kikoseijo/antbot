@@ -2,8 +2,8 @@
     $total_sale = 0;
     $total_buy = 0;
     foreach ($rows as $row) {
-        $total_buy += $row->buy_orders()->count();
-        $total_sale += $row->sell_orders()->count();
+        $total_buy += $row->buy_orders->count();
+        $total_sale += $row->sell_orders->count();
     }
 @endphp
 <div class="font-bold text-right">

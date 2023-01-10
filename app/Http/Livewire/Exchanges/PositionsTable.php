@@ -127,7 +127,7 @@ class PositionsTable extends DataTableComponent
     {
         return Position::query()
             ->whereExchangeId($this->exchange->id)
-            ->with('exchange', 'coin', 'orders')
+            ->with('exchange', 'coin', 'orders', 'buy_orders', 'sell_orders')
             ->withCount('orders')
             ->select('positions.id', 'exchange_id', 'symbol');
     }
