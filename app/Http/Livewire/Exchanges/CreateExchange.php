@@ -61,6 +61,7 @@ class CreateExchange extends Component
         $this->exchange->save();
 
 
+        $this->exchange->createLogsFolder();
         $res = $this->exchange->updateExchangesFile();
         if (auth()->user()->isAdmin()) {
             session()->flash('message', 'File saved into: ' . $res);

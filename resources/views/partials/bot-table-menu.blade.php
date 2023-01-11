@@ -8,31 +8,32 @@
     $change_status_text = $bot->is_running ? 'Stop bot' : 'Start bot';
 @endphp
 
-<div id="botDropdown-{{ $bot->id }}" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="botTableDropdown-{{ $bot->id }}">
-      <li>
-        <a href="#change-status-bot" wire:click="changeBotStatus({{ $bot->id }})" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-            {{ $change_status_text }}
-        </a>
-      </li>
-      @if ($bot->is_running)
-          <li>
-              <a href="#restart-bot" wire:click="restartBot({{ $bot->id }})" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                  Restart bot
-              </a>
-          </li>
-      @endif
-      <li>
-        <a href="{{ route('bots.edit', $bot) }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-            Edit bot
-        </a>
-      </li>
-      <li>
-          <a href="{{ route('bots.logs', $bot)}}"
-          class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-          Show logs
-      </a>
-      </li>
+@push('scripts')
+    <div id="botDropdown-{{ $bot->id }}" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="botTableDropdown-{{ $bot->id }}">
+            <li>
+                <a href="#change-status-bot" wire:click="changeBotStatus({{ $bot->id }})" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    {{ $change_status_text }}
+                </a>
+            </li>
+            @if ($bot->is_running)
+                <li>
+                    <a href="#restart-bot" wire:click="restartBot({{ $bot->id }})" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        Restart bot
+                    </a>
+                </li>
+            @endif
+            <li>
+                <a href="{{ route('bots.edit', $bot) }}" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    Edit bot
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('bots.logs', $bot)}}"
+                class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                Show logs
+            </a>
+        </li>
     </ul>
     <div class="py-1">
         <a wire:click="deleteId({{ $bot->id }})"
@@ -43,3 +44,4 @@
         </a>
     </div>
 </div>
+@endpush

@@ -83,6 +83,15 @@ class Exchange extends Model
         return false;
     }
 
+    public function createLogsFolder()
+    {
+        $log_path = config('antbot.paths.logs_path');
+        $path = "{$log_path}/{$this->id}";
+        if(!\File::isDirectory($path)){
+            \File::makeDirectory($path, 0777, true, true);
+        }
+    }
+
     public function updateExchangesFile()
     {
         if (\App::environment('local')){
