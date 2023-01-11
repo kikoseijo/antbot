@@ -18,6 +18,7 @@ class EditExchange extends Component
         'exchange.name' => 'required|string',
         'exchange.exchange' => 'required',
         'exchange.risk_mode' => 'required',
+        'exchange.is_testnet' => 'sometimes',
     ];
 
     public function render()

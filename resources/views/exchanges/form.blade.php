@@ -35,7 +35,10 @@
                 </x-select-input>
                 <x-input-error class="mt-2" :messages="$errors->get('exchange.risk_mode')" />
             </div>
+
         </div>
+
+
 
         @if (!isset($on_edit))
             <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
@@ -56,8 +59,24 @@
                 <br />
                 <span class="font-bold">API password:</span> <span class="mr-3">{{ Str::mask($exchange->api_secret, '*', 3, strlen($exchange->api_secret) - 6); }}</span>
             </span>
-
         @endif
+
+        <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
+            <div>
+                <x-input-label for="is_testnet" :value="__('Testnet enabled')" />
+                <div class="flex mt-2">
+                    <div class="flex items-center mr-4">
+                        <input id="is_testnet_1" type="radio" value="1"  wire:model="exchange.is_testnet" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="is_testnet_1" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                    </div>
+                    <div class="flex items-center mr-4 ml-4">
+                        <input id="is_testnet_2" type="radio" value="0"  wire:model="exchange.is_testnet" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="is_testnet_2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                    </div>
+                </div>
+                <x-input-error class="mt-2" :messages="$errors->get('exchange.risk_mode')" />
+            </div>
+        </div>
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ isset($on_edit) ? __('Update exchange') : __('Create exchange') }}</x-primary-button>

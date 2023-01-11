@@ -46,7 +46,8 @@ class ExchangeSyncTrades extends Command
     protected function syncBybit(Exchange $exchange)
     {
         $page = 1;
-        $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret);
+        $host = $exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
+        $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret, $host);
         $symbols = Symbol::where('exchange', $exchange->exchange)->get();
 
         foreach ($symbols as $symbol) {

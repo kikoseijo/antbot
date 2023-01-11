@@ -5,17 +5,19 @@
             <tr>
                 <th scope="col" class="py-3 px-4 text-center">Name</th>
                 <th scope="col" class="py-3 px-4 text-center">Exchange</th>
+                <th scope="col" class="py-3 px-4 text-center">Testnet</th>
                 <th scope="col" class="py-3 px-4 text-center">Wallet Exposure</th>
                 <th scope="col" class="py-3 px-4 text-center">Total</th>
                 <th scope="col" class="py-3 px-4 text-center">Risk mode</th>
                 <th scope="col" class="py-3 px-4 text-center">Bots</th>
-                <th scope="col" class="py-3 px-4 text-center">Date Created</th>
+                <th scope="col" class="py-3 px-4 text-center">Created</th>
                 <th scope="col" class="py-3 px-4 text-center"></th>
             </tr>
         </thead>
         <tbody>
             @forelse($records as $record)
                 @php
+                    $testnet_color = $record->is_testnet ? 'green' : 'red';
                     $lwe = $record->long_wallet_exposure;
                     $swe = $record->short_wallet_exposure;
                     $total_we = $swe + $lwe;
@@ -29,6 +31,9 @@
                     </td>
                     <td class="py-3 px-4">
                         {{ \Arr::get($exchanges, $record->exchange->value) }}
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        <div class="h-2.5 w-2.5 rounded-full bg-{{$testnet_color}}-500 ml-4 mt-0.5"></div>
                     </td>
                     <td class="py-3 px-4 text-center">
                         Long: {{ number_format($lwe, 2) }}&nbsp;&nbsp;Short: {{ number_format($swe, 2) }}

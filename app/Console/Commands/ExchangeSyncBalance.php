@@ -44,7 +44,8 @@ class ExchangeSyncBalance extends Command
 
     protected function syncBybit(Exchange $exchange)
     {
-        $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret);
+        $host = $exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
+        $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret, $host);
         $response = $bybit->privates()->getWalletBalance();
         $this->checkRateLimits($response['rate_limit_status'], $exchange);
         if ($response['ret_msg'] == 'OK'){

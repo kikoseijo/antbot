@@ -20,6 +20,7 @@ class CreateExchange extends Component
         'exchange.risk_mode' => 'required',
         'exchange.api_key' => 'required|string|max:100',
         'exchange.api_secret' => 'required|string|max:100',
+        'exchange.is_testnet' => 'sometimes',
     ];
 
     public function mount()

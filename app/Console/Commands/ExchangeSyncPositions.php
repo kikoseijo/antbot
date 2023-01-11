@@ -45,7 +45,8 @@ class ExchangeSyncPositions extends Command
 
     protected function syncBybit(Exchange $exchange)
     {
-        $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret);
+        $host = $exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
+        $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret, $host);
         $response = $bybit->privates()->getPositionList();
         if ($response['ret_msg'] == 'OK'){
             $filtered_response = collect($response['result'])->filter(function ($value, $key) {
