@@ -1,18 +1,21 @@
-<p align="center">
+<p align="center" style="margin-top:40px;">
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/svg/ant-logo-yellow.svg" width="100" alt="Antbot Logo">
 </p>
 
 # Antbot
 
-This open source project comes from the need to run several [Passivbot](https://www.passivbot.com/) (A fully automated trading bot) on same server, with multiple exchanges with infinite trading accounts & APIs.
+This open source project comes from the need to run several [Passivbot](https://www.passivbot.com/) ***"A fully automated trading bot"*** on same server, with multiple exchanges with infinite trading accounts & APIs.
+
 A Multi-tenancy architecture allows you to have your friends and family running their own crypto trading bots without any knowledge of Shell or Programming Skills because everything its database driven & managed trough a website.
+
 At same time, this application its able to monitor and interact with the Python crypto bots and comes with exchange scrapper thats able to pull your trades historic data and give you full control over your assets, incomes & bot performance.
+
 The application its developed using the [TALL stack](https://tallstack.dev/), uses Tailwind, Alpine.js, Laravel, and Livewire to achieve a Reactive full-stack solution.
 
 ***Important notes:***
 
 - It's a Beta version.
-- It's under heavy development.
+- It's under -[heavy] development.
 - You need a knowledge installing Laravel + Installing Python applications and environments.
 
 ## Roadmap
@@ -20,13 +23,13 @@ The application its developed using the [TALL stack](https://tallstack.dev/), us
 New features can be easily achieve with little effort, being based on a full stack for fast development.
 Many features can be implemented but the main ones right now are the following:
 
-[X] Bybit exchange scrapper.
-[ ] Binance exchange scrapper.
-[ ] Bitget exchange scrapper.
-[ ] OKX exchange scrapper.
-[ ] Grid editor with live visualisation in a chart.
-[ ] Export trading records for financial storage purpose.
-[ ] ...much more to come.
+- [X] Bybit exchange scrapper.
+- [ ] Binance exchange scrapper.
+- [ ] Bitget exchange scrapper.
+- [ ] OKX exchange scrapper.
+- [ ] Grid editor with live visualisation in a chart.
+- [ ] Export trading records for financial storage purpose.
+- [ ] ...much more to come.
 
 ## Installation
 
