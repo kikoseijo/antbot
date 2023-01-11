@@ -80,6 +80,15 @@ Here its an example of the command:
 * * * * * cd /path/to/antbot && /opt/remi/php81/root/usr/bin/php artisan schedule:run >> /dev/null 2>&1
 ```
 
+Screenshots
+-----------
+
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/exchange-dashboard.png" width="800" alt="Exchanges dashboard">
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/bots.png" width="800" alt="Crypto trading bots">
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/grids.png" width="800" alt="Trading grid modes">
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/records.png" width="800" alt="Exchange trading records">
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/symbols.png" width="800" alt="Exchange available trading Symbols">
+
 Installation support
 --------------------
 
@@ -100,19 +109,10 @@ If you discover a security vulnerability, please send an e-mail to Kiko Seijo vi
 License
 -------
 
-The Antbot is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Antbot is an open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-
-Screenshots
------------
-
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/exchange-dashboard.png" width="800" alt="Exchanges dashboard">
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/bots.png" width="800" alt="Crypto trading bots">
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/grids.png" width="800" alt="Trading grid modes">
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/records.png" width="800" alt="Exchange trading records">
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/symbols.png" width="800" alt="Exchange available trading Symbols">
-
-## Credits
+Credits
+-------
 
 * Kiko Seijo [Sunnyface.com](https://sunnyface.com 'Laravel, React, freelancer in Málaga')
 
