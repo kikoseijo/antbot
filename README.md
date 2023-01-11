@@ -2,7 +2,8 @@
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/svg/ant-logo-yellow.svg" width="100" alt="Antbot Logo">
 </p>
 
-# Antbot
+Antbot
+======
 
 This open source project comes from the need to run several [Passivbot](https://www.passivbot.com/) ***"A fully automated trading bot"*** on same server, with multiple exchanges with infinite trading accounts & APIs.
 
@@ -79,33 +80,39 @@ Here its an example of the command:
 * * * * * cd /path/to/antbot && /opt/remi/php81/root/usr/bin/php artisan schedule:run >> /dev/null 2>&1
 ```
 
-## Installation support
+Installation support
+--------------------
 
 If you need help installing the application I'm able to provide you with my professional services, just give me a shout.
 I'll be pleased to do the job for you, choose the right VPS/Cloud Server or hosting provider around the world.
 
-## Contributing
+Contributing
+------------
 
 Thank you for considering contributing to the Antbot system!
 The contribution guide its not jet released, but you can always push a new commit with what you can think of new functionality or fixing bugs.
 
-## Security Vulnerabilities
+Security Vulnerabilities
+------------------------
 
 If you discover a security vulnerability, please send an e-mail to Kiko Seijo via [kikopc@gmail.com](mailto:kikopc@gmail.com). All security vulnerabilities will be promptly addressed.
 
-## License
+License
+-------
 
 The Antbot is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## Author
 
-- Kiko Seijo [Sunnyface.com](https://sunnyface.com)
-
-
-## Screenshots
+Screenshots
+-----------
 
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/bots.png" width="800" alt="Crypto trading bots">
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/exchange-dashboard.png" width="800" alt="Exchange dashboard">
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/grids.png" width="800" alt="Trading grid modes">
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/records.png" width="800" alt="Exchange trading records">
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/symbols.png" width="800" alt="Exchange available trading Symbols">
+
+Author
+------
+
+- Kiko Seijo [Sunnyface.com](https://sunnyface.com)
