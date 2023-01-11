@@ -52,10 +52,18 @@ class Position extends Model
 
     public function getExchangeLinkAttribute()
     {
-        return match($this->exchange->exchange){
-            ExchangesEnum::BYBIT => "https://www.bybit.com/trade/usdt/{$this->symbol}",
-            ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$this->symbol}",
-            default => "#{$this->symbol}",
-        };
+        if ($this->exchange->is_testnet) {
+            return match($this->exchange->exchange){
+                ExchangesEnum::BYBIT => "https://testnet.bybit.com/trade/usdt/{$this->symbol}",
+                ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$this->symbol}",
+                default => "#{$this->symbol}",
+            };
+        } else {
+            return match($this->exchange->exchange){
+                ExchangesEnum::BYBIT => "https://www.bybit.com/trade/usdt/{$this->symbol}",
+                ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$this->symbol}",
+                default => "#{$this->symbol}",
+            };
+        }
     }
 }

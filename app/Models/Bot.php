@@ -111,6 +111,7 @@ class Bot extends Model
     public function stop()
     {
         $success = \Python::kill($this->pid);
+
         if ($success || !$this->isRunning()) {
             $this->started_at = NULL;
             $this->pid = NULL;
@@ -122,30 +123,47 @@ class Bot extends Model
     {
         $symbol = optional($this->symbol)->name;
         if ($this->market_type === MarketTypeEnum::FUTURES ) {
-            return match($this->exchange->exchange){
-                ExchangesEnum::BYBIT => "https://www.bybit.com/trade/usdt/{$symbol}",
-                ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=cross",
-                default => "#{$symbol}",
-            };
-        } else {
-            return match($this->exchange->exchange){
-                ExchangesEnum::BYBIT => "https://www.bybit.com/en-US/trade/spot/{$this->symbol->base_currency}/{$this->symbol->quote_currency}",
-                ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=spot",
-                default => "#{$symbol}",
-            };
-        }
-        // https://www.binance.com/en/trade/ETHBTC
+            if ($this->exchange->is_testnet) {
+                return match($this->exchange->exchange){
+                    ExchangesEnum::BYBIT => "https://testnet.bybit.com/trade/usdt/{$symbol}",
+                    ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=cross",
+                    default => "#{$symbol}",
+                };
+            } else {
+                return match($this->exchange->exchange){
+                    ExchangesEnum::BYBIT => "https://www.bybit.com/trade/usdt/{$symbol}",
+                    ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=cross",
+                    default => "#{$symbol}",
+                };
+            }
 
+        } else {
+            if ($this->exchange->is_testnet) {
+                return match($this->exchange->exchange){
+                    ExchangesEnum::BYBIT => "https://testnet.bybit.com/en-US/trade/spot/{$this->symbol->base_currency}/{$this->symbol->quote_currency}",
+                    ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=spot",
+                    default => "#{$symbol}",
+                };
+            } else {
+                return match($this->exchange->exchange){
+                    ExchangesEnum::BYBIT => "https://www.bybit.com/en-US/trade/spot/{$this->symbol->base_currency}/{$this->symbol->quote_currency}",
+                    ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=spot",
+                    default => "#{$symbol}",
+                };
+            }
+        }
     }
 
     public function restart()
     {
-        // TODO: Revisar que no se forme un bucle infinito.
         $pid = $this->pid;
+
         $this->stop();
+
         while($this->isRunning($pid)){
             sleep(1);
         }
+
         $this->start();
     }
 }
