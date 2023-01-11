@@ -106,13 +106,23 @@ The Antbot is open-sourced software licensed under the [MIT license](https://ope
 Screenshots
 -----------
 
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/exchange-dashboard.png" width="800" alt="Exchanges dashboard">
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/bots.png" width="800" alt="Crypto trading bots">
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/exchange-dashboard.png" width="800" alt="Exchange dashboard">
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/grids.png" width="800" alt="Trading grid modes">
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/records.png" width="800" alt="Exchange trading records">
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/symbols.png" width="800" alt="Exchange available trading Symbols">
 
-Author
-------
+## Credits
 
-- Kiko Seijo [Sunnyface.com](https://sunnyface.com)
+* Kiko Seijo [Sunnyface.com](https://sunnyface.com 'Laravel, React, freelancer in Málaga')
+
+Sunnyface.com, is a software development company from Málaga, Spain. We provide quality software based on the cloud for local & international companies, providing technology solutions with the latest [programming languages](https://sunnyface.com/tecnologia/ 'Programador experto react y vue en Málaga').
+
+Special thanks: to supporters and clients that allows us contributing back to the WWW community.
+
+[DevOps](https://sunnyface.com 'Programador ios málaga Marbella') Web development  
+
+
+---
+
+<div dir=rtl markdown=1>Created by <b>Kiko Seijo</b></div>
