@@ -17,6 +17,11 @@ class PasswordController extends Controller
      */
     public function update(Request $request)
     {
+        if ($request->user()->email == 'demo@sunnyface.com') {
+
+            return Redirect::to('/dashboard');
+        }
+
         $validated = $request->validateWithBag('updatePassword', [
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],

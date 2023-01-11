@@ -57,16 +57,20 @@ class CreateExchange extends Component
                     ->ignore(auth()->user()->id, 'user_id')
             ],
         ]);
-        $this->exchange->user_id = request()->user()->id;
-        $this->exchange->save();
 
+        if (request()->user()->email <> 'demo@sunnyface.com') {
+            $this->exchange->user_id = request()->user()->id;
+            $this->exchange->save();
+            $this->exchange->createLogsFolder();
+            $res = $this->exchange->updateExchangesFile();
+            session()->flash('message', 'Exchange successfully created.');
+        } else {
+            session()->flash('message', 'Action can`t be done, DEMO MODE ENABLED.');
+        }
 
-        $this->exchange->createLogsFolder();
-        $res = $this->exchange->updateExchangesFile();
         if (auth()->user()->isAdmin()) {
             session()->flash('message', 'File saved into: ' . $res);
         }
-        session()->flash('message', 'Exchange successfully created.');
         session()->flash('status', 'exchange-created');
 
         $this->clearForm();

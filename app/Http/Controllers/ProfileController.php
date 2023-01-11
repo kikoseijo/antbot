@@ -30,13 +30,15 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        if (auth()->user()->email <> 'demo@sunnyface.com') {
+            $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            if ($request->user()->isDirty('email')) {
+                $request->user()->email_verified_at = null;
+            }
+
+            $request->user()->save();
         }
-
-        $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -57,7 +59,9 @@ class ProfileController extends Controller
 
         Auth::logout();
 
-        $user->delete();
+        if (auth()->user()->email <> 'demo@sunnyface.com') {
+            $user->delete();
+        }
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

@@ -17,7 +17,7 @@ class BotLimits implements InvokableRule
     public function __invoke($attribute, $value, $fail)
     {
         $user = auth()->user();
-        if (!$user->isAdmin()){
+        if (!$user->isAdmin() && $user->email != 'demo@sunnyface.com' ){
             if (1 < auth()->user()->bots()->count())
                 $fail('You reached bot limit creation.');
         }

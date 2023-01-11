@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 
@@ -33,6 +34,11 @@ class NewPasswordController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->user()->email == 'demo@sunnyface.com') {
+
+            return Redirect::to('/dashboard');
+        }
+
         $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],

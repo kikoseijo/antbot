@@ -72,13 +72,13 @@ class Bot extends Model
 
     public function start($force = false)
     {
+        $grid_configs = config('antbot.grid_configs');
         if ($this->grid_mode == GridModeEnum::CUSTOM && $this->grid_id > 0) {
             $grid_config = "configs/live/{$this->user_id}/{$this->grid->file_name}";
         } else {
             $grid_config = \Arr::get($grid_configs, $this->grid_mode->value);
         }
 
-        $grid_configs = config('antbot.grid_configs');
         $args = [
             $this->exchange->slug,
             $this->symbol->name,
@@ -91,7 +91,7 @@ class Bot extends Model
             '-ak', $this->exchange->getFilePath(),
         ];
         if ($this->exchange->is_testnet) {
-            $args = array_merge($args, ['-tm', true]);
+            $args = array_merge($args, ['-tm']);
         }
         if ($this->assigned_balance != 0) {
             $args = array_merge($args, ['-ab', $this->assigned_balance]);
@@ -100,7 +100,6 @@ class Bot extends Model
             $args = array_merge($args, ['-m', $this->market_type->value]);
         }
         // logi('$args');
-        // logi($args);
         $pid = \Python::run('passivbot.py', $args, $this->log_path);
         if ($pid > 0) {
             $this->started_at = now();

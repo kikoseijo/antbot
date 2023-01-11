@@ -96,7 +96,7 @@
                     </td>
                     <td class="py-2 px-4 text-center">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
                     <td class="py-2 px-4">
-                        @if ($record->grid_mode->value == 'custom' && $record->grid->id > 0)
+                        @if ($record->grid_mode->value == 'custom' && optional($record->grid)->id > 0)
                             <a href="{{ route('configs.edit', $record->grid) }}" class="underline hover:no-underline">
                                 {{ $record->grid->name }}
                             </a>

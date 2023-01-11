@@ -41,9 +41,11 @@ class ExchangeSyncOrders extends Command
         $positions = Position::with('exchange')->get();
         $rate_limit = 1;
         foreach ($positions as $position) {
+            $host = $position->exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
             $bybit = new BybitLinear(
                 $position->exchange->api_key,
-                $position->exchange->api_secret
+                $position->exchange->api_secret,
+                $host
             );
             $this->syncPositionOrders($bybit, $position);
             if ($rate_limit % 3 == 0) {
@@ -76,9 +78,9 @@ class ExchangeSyncOrders extends Command
     {
         if ($limit < 30 && $limit > 0){
             sleep(3);
-        }
-        if ($limit < 10 && $limit > 0){
-            \Log::info("Reaching exchange getOrderSearch limits {$exchange_name}LIMIT:{$limit}");
+            if ($limit < 10){
+                \Log::info("Reaching exchange getOrderSearch limits {$exchange_name}LIMIT:{$limit}");
+            }
         }
     }
 }

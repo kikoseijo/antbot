@@ -49,9 +49,26 @@ class PositionsTable extends DataTableComponent
                     'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-2',
                 ];
             })->setThAttributes(function (Column $column) {
+                if (in_array($column->getField(),['size', 'position_value', 'entry_price', 'liq_price', 'bust_price', 'position_margin', 'realised_pnl', 'unrealised_pnl', 'cum_realised_pnl', 'risk_id'])) {
+                    return [
+                        'default' => false,
+                        'class' => 'text-xs font-medium whitespace-nowrap text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-gray-400 px-1 py-3 text-right',
+                    ];
+                }
                 return [
                     'default' => false,
                     'class' => 'text-xs font-medium whitespace-nowrap text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-gray-400 px-1 py-3 text-center',
+                ];
+            })->setThSortButtonAttributes(function (Column $column) {
+                if (in_array($column->getField(),['size', 'position_value', 'entry_price', 'liq_price', 'bust_price', 'position_margin', 'realised_pnl', 'unrealised_pnl', 'cum_realised_pnl', 'risk_id'])) {
+                    return [
+                        'default' => false,
+                        'class' => 'flex justify-center flex-row items-center space-x-1 text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider group focus:outline-none dark:text-gray-400',
+                    ];
+                }
+                return [
+                    'default' => false,
+                    'class' => 'flex justify-center flex-row items-center space-x-1 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider group focus:outline-none dark:text-gray-400',
                 ];
             })->setFooterTdAttributes(function(Column $column, $rows) {
                 if (in_array($column->getField(),['size', 'position_value', 'entry_price', 'liq_price', 'bust_price', 'position_margin', 'realised_pnl', 'unrealised_pnl', 'cum_realised_pnl', 'risk_id'])) {

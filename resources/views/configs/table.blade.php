@@ -69,7 +69,7 @@
                 {{ __('Cancel') }}
             </x-secondary-button>
             <x-danger-button class="ml-3" wire:click.prevent="destroy()" x-on:click="$dispatch('close')">
-                {{ __('Delete Account') }}
+                {{ __('Delete Config') }}
             </x-danger-button>
         </div>
     </div>

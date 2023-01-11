@@ -42,10 +42,17 @@ class ShowExchanges extends Component
     {
         if ($this->deleteId > 0) {
             $record = Exchange::find($this->deleteId);
-            if(auth()->user()->id == $record->user_id){
-                $record->delete();
-                session()->flash('message', 'Exchange successfully deleted.');
-                $this->updateExchangeFile();
+            if ($record->bots->count() == 0) {
+                if(auth()->user()->id == $record->user_id){
+                    $record->delete();
+                    session()->flash('message', 'Exchange successfully deleted.');
+                    $this->updateExchangeFile();
+                }
+            } else {
+                $this->dispatchBrowserEvent('alert',[
+                    'type' => 'error',
+                    'message' => "Exchange has associated bots, please remove association."
+                ]);
             }
             $this->deleteId = 0;
         }

@@ -8,7 +8,7 @@
     $change_status_text = $bot->is_running ? 'Stop bot' : 'Start bot';
 @endphp
 
-@push('scripts')
+@push('show-bots-stack')
     <div id="botDropdown-{{ $bot->id }}" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
         <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="botTableDropdown-{{ $bot->id }}">
             <li>

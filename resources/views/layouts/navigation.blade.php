@@ -19,10 +19,10 @@
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                             {{ __('Users') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('symbols.index')" :active="request()->routeIs('symbols.*')">
-                            {{ __('Symbols') }}
-                        </x-nav-link>
                     @endif
+                    <x-nav-link :href="route('symbols.index')" :active="request()->routeIs('symbols.*')">
+                        {{ __('Symbols') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
                         {{ __('Bots') }}
                     </x-nav-link>

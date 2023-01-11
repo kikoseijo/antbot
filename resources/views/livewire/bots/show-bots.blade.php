@@ -29,4 +29,5 @@
             </div>
         </div>
     </div>
+    @stack('show-bots-stack')
 </div>

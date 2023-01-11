@@ -53,14 +53,18 @@ class EditExchange extends Component
                 })
             ],
         ]);
-        $this->exchange->save();
-
-        $res = $this->exchange->updateExchangesFile();
-        if (auth()->user()->isAdmin()) {
-            session()->flash('message', 'File saved into: ' . $res);
+        if (request()->user()->email <> 'demo@sunnyface.com') {
+            $this->exchange->save();
+            $res = $this->exchange->updateExchangesFile();
+            if (auth()->user()->isAdmin()) {
+                session()->flash('message', 'File saved into: ' . $res);
+            } else {
+                session()->flash('message', 'Exchange successfully updated.');
+            }
         } else {
-            session()->flash('message', 'Exchange successfully updated.');
+            session()->flash('message', 'Success, DEMO MODE ENABLED.');
         }
+
         session()->flash('status', 'exchange-updated');
 
         return redirect()->route('exchanges.index');
