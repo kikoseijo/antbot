@@ -16,7 +16,7 @@ The application its developed using the [TALL stack](https://tallstack.dev/), us
 ***Important notes:***
 
 - It's a Beta version.
-- It's under -[heavy] development.
+- It's under ~~heavy~~ development.
 - You need a knowledge installing Laravel + Installing Python applications and environments.
 
 ## Roadmap
