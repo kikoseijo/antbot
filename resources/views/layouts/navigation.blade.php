@@ -29,9 +29,7 @@
                     <x-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
                         {{ __('Exchanges') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('configs.index')" :active="request()->routeIs('configs.*')">
-                        {{ __('Configs') }}
-                    </x-nav-link>
+
                 </div>
             </div>
 
@@ -61,6 +59,11 @@
                         <x-dropdown-link :href="route('users.auth-logs', auth()->user())">
                             {{ __('Login logs') }}
                         </x-dropdown-link>
+                        @impersonating
+                        <x-dropdown-link :href="route('impersonate.leave')">
+                            {{ __('Leave impersonate') }}
+                        </x-dropdown-link>
+                        @endImpersonating
 
                         @if (auth() && auth()->user()->admin)
                             <x-dropdown-link href="/log-viewer" target="_blank">

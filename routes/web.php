@@ -57,7 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('positions2', App\Http\Livewire\Market\Positions::class)->name('market.positions');
     Route::get('trading-view/{position}/{interval}', App\Http\Livewire\Market\TradingView::class)->name('market.trading-view');
 
-
+    Route::impersonate();
 });
 
 

@@ -28,13 +28,17 @@
                         {{ \Carbon\Carbon::parse($user->last_seen)->diffForHumans() }}
                     </td>
                     <td class="py-4 px-6 text-right">
+                        @canImpersonate
+                        @canBeImpersonated($user)
+                        <x-btn-link class="py-1 px-2 mr-2 bg-yellow-500 dark:bg-yellow-300" href="{{ route('impersonate', $user) }}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </x-btn-link>
+                        @endCanBeImpersonated
+                        @endCanImpersonate
                         <x-btn-link class="py-1 px-2 mr-2" href="{{ route('users.edit', $user) }}" >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                        </x-btn-link>
-                        <x-btn-link class="py-1 px-2 mr-2 bg-yellow-500 dark:bg-yellow-300" href="{{ route('users.edit', $user) }}" >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
                         </x-btn-link>
                         <x-danger-button class="py-1 px-2"
                             wire:click="deleteId({{ $user->id }})"
