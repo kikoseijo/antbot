@@ -7,7 +7,7 @@
       "__commonjsHelpers.4e997714.js"
     ],
     "css": [
-      "assets/app.68fd4a19.css"
+      "assets/app.8c81ebdb.css"
     ]
   },
   "resources/js/binance.js": {
@@ -19,7 +19,7 @@
     ]
   },
   "resources/js/tradingview.js": {
-    "file": "assets/tradingview.50c9271b.js",
+    "file": "assets/tradingview.d6d6baf0.js",
     "src": "resources/js/tradingview.js",
     "isEntry": true,
     "imports": [
@@ -28,7 +28,7 @@
     ]
   },
   "resources/js/code-mirror.js": {
-    "file": "assets/code-mirror.f75906bf.js",
+    "file": "assets/code-mirror.3f3e01c8.js",
     "src": "resources/js/code-mirror.js",
     "isEntry": true,
     "imports": [
@@ -39,11 +39,11 @@
     "file": "assets/_commonjsHelpers.4e997714.js"
   },
   "resources/js/app.css": {
-    "file": "assets/app.68fd4a19.css",
+    "file": "assets/app.8c81ebdb.css",
     "src": "resources/js/app.css"
   },
   "resources/css/app.css": {
-    "file": "assets/app.f4c23ea3.css",
+    "file": "assets/app.915ca5b0.css",
     "src": "resources/css/app.css",
     "isEntry": true
   }
