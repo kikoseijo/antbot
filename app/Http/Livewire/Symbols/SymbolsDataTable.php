@@ -28,17 +28,17 @@ class SymbolsDataTable extends DataTableComponent
                     ])) {
                     return [
                         'default' => false,
-                        'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-2 text-right',
+                        'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-1 text-right',
                     ];
                 };
                 return [
                     'default' => false,
-                    'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-2',
+                    'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-1',
                 ];
             })->setThAttributes(function (Column $column) {
                 return [
                     'default' => false,
-                    'class' => 'text-xs font-medium whitespace-nowrap text-gray-500 uppercase tracking-wider dark:bg-gray-800 dark:text-gray-400 px-1 py-3 text-center',
+                    'class' => 'text-xs font-medium whitespace-nowrap text-gray-500 uppercase tracking-wider dark:bg-gray-900 dark:text-gray-400 px-1 py-3 text-center',
                 ];
             });
 
@@ -48,7 +48,7 @@ class SymbolsDataTable extends DataTableComponent
     {
         return [
             Column::make("Id", "id")->sortable(),
-            Column::make("Exchange", "exchange")->sortable(),
+            Column::make("Exch.", "exchange")->sortable(),
             Column::make("Name")->sortable()->searchable()->format(function ($value, $row, Column $column)
             {
                 $res = '';
@@ -60,20 +60,22 @@ class SymbolsDataTable extends DataTableComponent
                 return  $res;
             })->html(),
             Column::make("Market")->sortable(),
-            Column::make("Last Price")->sortable(),
-            Column::make("Mark Price")->sortable(),
-            Column::make("Index Price")->sortable(),
-            Column::make("24h Turnover", 'turnover_24h')->sortable()->format(
+            Column::make("L. Price", 'last_price')->sortable(),
+            Column::make("Mark", 'mark_price')->sortable(),
+            Column::make("Index", 'index_price')->sortable(),
+            Column::make("24h Turn.", 'turnover_24h')->sortable()->format(
                 fn($value, $row, Column $column) => '$' . bignumber($value)
             ),
-            Column::make("24h Volume", 'volume_24h')->sortable()->format(
+            Column::make("24h Vol.", 'volume_24h')->sortable()->format(
                 fn($value, $row, Column $column) => '$' . bignumber($value)
             ),
             Column::make("Status")->sortable(),
             Column::make("Min.L", 'min_leverage')->sortable(),
             Column::make("Max.L", 'max_leverage')->sortable(),
-            Column::make("Min trading qty")->sortable(),
-            Column::make("Updated at", "updated_at")->sortable(),
+            Column::make("Min Qty.", 'min_trading_qty')->sortable(),
+            Column::make("Updated at", "updated_at")->sortable()->format(
+                fn($value, $row, Column $column) => $value->format('d-m-Y H:i')
+            ),
         ];
     }
 

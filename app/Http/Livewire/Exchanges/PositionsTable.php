@@ -74,12 +74,12 @@ class PositionsTable extends DataTableComponent
                 if (in_array($column->getField(),['size', 'position_value', 'entry_price', 'liq_price', 'bust_price', 'position_margin', 'realised_pnl', 'unrealised_pnl', 'cum_realised_pnl', 'risk_id'])) {
                     return [
                         'default' => false,
-                        'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-2 text-right',
+                        'class' => 'whitespace-nowrap text-sm font-medium dark:text-white dark:bg-gray-800 px-1 py-2 text-right',
                     ];
                 }
                 return [
                     'default' => false,
-                    'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-2',
+                    'class' => 'whitespace-nowrap text-sm font-medium dark:text-white dark:bg-gray-800 px-1 py-2',
                 ];
             });
     }

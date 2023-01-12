@@ -7,7 +7,7 @@
                 <th scope="col" class="py-3 px-4 text-center">Exchange</th>
                 <th scope="col" class="py-3 px-4 text-center">Testnet</th>
                 <th scope="col" class="py-3 px-4 text-center">Wallet Exposure</th>
-                <th scope="col" class="py-3 px-4 text-center">Total</th>
+                <th scope="col" class="py-3 px-4 text-center">TWE</th>
                 <th scope="col" class="py-3 px-4 text-center">Risk mode</th>
                 <th scope="col" class="py-3 px-4 text-center">Bots</th>
                 <th scope="col" class="py-3 px-4 text-center">Created</th>
@@ -22,7 +22,7 @@
                     $swe = $record->short_wallet_exposure;
                     $total_we = $swe + $lwe;
                 @endphp
-                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
+                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-gray-300 hover:dark:bg-gray-700">
 
                     <td class="py-3 px-4 font-bold underline hover:no-underline">
                         <a href="{{ route('exchanges.edit', $record) }}">

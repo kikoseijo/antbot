@@ -80,6 +80,10 @@ Here its an example of the command:
 * * * * * cd /path/to/antbot && /opt/remi/php81/root/usr/bin/php artisan schedule:run >> /dev/null 2>&1
 ```
 
+### Create your first user
+
+Navigate to the application entry URL, go to register and create your first user in the system, will be the main system administrator.
+
 Screenshots
 -----------
 

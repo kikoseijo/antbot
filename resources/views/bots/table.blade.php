@@ -3,17 +3,17 @@
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="{{config('antbot.css.thead')}}">
             <tr>
-                <th scope="col" class="py-3 px-4"></th>
-                <th scope="col" class="py-3 px-4"></th>
-                <th scope="col" class="py-3 px-4 text-center">Name</th>
-                <th scope="col" class="py-3 px-4 text-center">Symbol</th>
-                <th scope="col" class="py-3 px-4 text-center">Exchange</th>
-                <th scope="col" class="py-3 px-4 text-center">Market type</th>
-                <th scope="col" class="py-3 px-4 text-center">Grid/Config</th>
-                <th scope="col" class="py-3 px-4 text-center">Long WE</th>
-                <th scope="col" class="py-3 px-4 text-center">Short WE</th>
-                <th scope="col" class="py-3 px-4 text-center">RunTime</th>
-                <th scope="col" class="py-3 px-4 text-center"></th>
+                <th scope="col" class="py-3 px-2 text-center">Bot</th>
+                <th scope="col" class="py-3 px-2"></th>
+                <th scope="col" class="py-3 px-2 text-center">Symbol</th>
+                <th scope="col" class="py-3 px-2 text-center">Exchange</th>
+                <th scope="col" class="py-3 px-2 text-center">Market</th>
+                <th scope="col" class="py-3 px-2 text-center">Grid/Config</th>
+                <th scope="col" class="py-3 px-2 text-center">Long</th>
+                <th scope="col" class="py-3 px-2 text-center">Short</th>
+                <th scope="col" class="py-3 px-2 text-center">AB</th>
+                <th scope="col" class="py-3 px-2 text-center">RunTime</th>
+                <th scope="col" class="py-3 px-2 text-center"></th>
             </tr>
         </thead>
         <tbody>
@@ -65,37 +65,32 @@
                             $twel_on[$exchange->id] += $record->lwe;
                         }
                     }
+                    $color_running = $record->is_running ? 'green' : 'gray';
                 @endphp
-                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
-                    <th scope="row" class="py-2 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if ($record->is_running)
-                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-                        @else
-                            <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
-                        @endif
-                    </th>
-                    <td class="py-2 px-4 text-center">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold ml-2 px-0.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
-                          x{{ $record->leverage }}
-                        </span>
-                    </td>
-                    <td class="py-2 px-4 font-bold text-left underline hover:no-underline">
-                        <a href="{{ route('bots.edit', $record) }}">
+                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-gray-300 hover:dark:bg-gray-800">
+                    <td class="py-2 px-2 font-bold text-left underline hover:no-underline">
+                        <i class="hidden text-green-500"></i>
+                        <a href="{{ route('bots.edit', $record) }}" class="text-{{ $color_running }}-500">
                             {{ $record->name }}
                         </a>
                     </td>
-                    <td class="py-2 px-4 font-bold text-left underline hover:no-underline">
+                    <td class="py-2 px-2 text-center">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold ml-2 px-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
+                          x{{ $record->leverage }}
+                        </span>
+                    </td>
+                    <td class="py-2 px-2 font-bold text-left underline hover:no-underline text-xs">
                         <a href="{{ $record->exchange_link }}" target="_blank">
                             {{ optional($record->symbol)->name }}
                         </a>
                     </td>
-                    <td class="py-2 px-4 text-left">
+                    <td class="py-2 px-2 text-left text-xs">
                           <a href="{{ route('exchanges.positions', $record->exchange) }}" class="underline hover:no-underline">
                               {{ optional($record->exchange)->name }}
                           </a>
                     </td>
-                    <td class="py-2 px-4 text-center">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
-                    <td class="py-2 px-4">
+                    <td class="py-2 px-2 text-center">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
+                    <td class="py-2 px-2 text-xs">
                         @if ($record->grid_mode->value == 'custom' && optional($record->grid)->id > 0)
                             <a href="{{ route('configs.edit', $record->grid) }}" class="underline hover:no-underline">
                                 {{ $record->grid->name }}
@@ -104,7 +99,7 @@
                             {{ $record->grid_mode }}
                         @endif
                     </td>
-                    <td class="py-2 px-4 text-center" data-tooltip-target="tooltip-idl-{{$record->id}}" data-tooltip-placement="left">
+                    <td class="py-2 px-2 text-center" data-tooltip-target="tooltip-idl-{{$record->id}}" data-tooltip-placement="left">
                         <span class="uppercase">{{ $record->lm->value }}:</span>
                         <span class="{{ $record->lm->value == 'm' ? ' line-through' : ''}}">{{ number_format($record->lwe, 2) }}</span>
                     </td>
@@ -112,7 +107,7 @@
                         {{ \Arr::get($bot_modes, $record->lm->value)}}
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
-                    <td class="py-2 px-4 text-center" data-tooltip-target="tooltip-ids-{{$record->id}}" data-tooltip-placement="left">
+                    <td class="py-2 px-2 text-center" data-tooltip-target="tooltip-ids-{{$record->id}}" data-tooltip-placement="left">
                         <span class="uppercase">{{ $record->sm->value }}:</span>
                         <span class="{{ $record->sm->value == 'm' ? ' line-through' : ''}}">{{ number_format($record->swe, 2) }}</span>
                     </td>
@@ -120,27 +115,31 @@
                         {{ \Arr::get($bot_modes, $record->sm->value)}}
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
-                    <td class="py-2 px-4">
-                        {{ $record->started_at ? $record->started_at->diffForHumans() ?? 'Stopped' : '-' }}
+                    <td class="py-2 px-2 text-right">
+                        {!! $record->assigned_balance > 0 ? '$'.number($record->assigned_balance) : '&#8734;' !!}
                     </td>
-                    <td class="py-2 px-4 text-right">
+                    <td class="py-2 px-2 text-xs text-center">
+                        {{ $record->started_at ? str_replace(['hours', 'minutes'], ['h', 'mins'], $record->started_at->diffForHumans(NULL, true)) ?? 'Stopped' : '-' }}
+                    </td>
+                    <td class="py-2 px-2 text-right">
                         @include('partials.bot-table-menu', ['bot' => $record])
                     </td>
                 </tr>
             @empty
                 <tr class="text-center bg-white dark:bg-gray-900">
-                    <td colspan="11" class="py-2 px-4 italic">No hay información</td>
+                    <td colspan="11" class="py-2 px-2 italic">No hay información</td>
                 </tr>
             @endforelse
         </tbody>
         <tfoot>
             @foreach ($exchanges as $exchange)
                 <tr class="text-xs font-semibold text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
-                    <th scope="row" colspan="7" class="py-3 px-4 text-right"><span class="mr-3">{{ Str::headline($exchange->name)  }}</span></th>
-                    <th scope="col" class="py-3 px-4 text-right">{{ $twel_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
-                    <th scope="col" class="py-3 px-4 text-right">{{ $twes_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
-                    <th scope="col" class="py-3 px-4 text-right font-bold"><span class="text-green-500">{{$total_running[$exchange->id] }}</span> / <span class="text-red-600">{{ $count[$exchange->id]}}</span></th>
-                    <th scope="col" class="py-3 px-4"></th>
+                    <th scope="row" colspan="6" class="py-2 px-2 text-right"><span class="mr-3">{{ Str::headline($exchange->name)  }}</span></th>
+                    <th scope="col" class="py-2 px-2 text-right">{{ $twel_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
+                    <th scope="col" class="py-2 px-2 text-right">{{ $twes_on[$exchange->id] }}/{{ $twel[$exchange->id] }}</th>
+                    <th scope="col" class="py-2 px-2"></th>
+                    <th scope="col" class="py-2 px-2 text-right font-bold"><span class="text-green-500">{{$total_running[$exchange->id] }}</span> / <span class="text-red-600">{{ $count[$exchange->id]}}</span></th>
+                    <th scope="col" class="py-2 px-2"></th>
                 </tr>
             @endforeach
         </tfoot>

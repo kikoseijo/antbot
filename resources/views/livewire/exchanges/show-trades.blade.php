@@ -5,8 +5,7 @@
             <div class="">
                 <section>
                     <x-section-header
-                        :h2text="__('Traded records')"
-                        :ptext="__('Shows information about traded symbols and monthly PNL.')">
+                        :h2text="__('Monthly PNL')">
                     </x-section-header>
                     <div class="mt-6 space-y-6">
                         @include('exchanges.trades-table')

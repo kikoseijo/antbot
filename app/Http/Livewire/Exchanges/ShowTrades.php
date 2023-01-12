@@ -12,7 +12,7 @@ class ShowTrades extends Component
 
     public function mount()
     {
-        $this->title = $this->exchange->name . " - Trades";
+        $this->title = $this->exchange->name . " - PNL";
     }
 
     public function render()
