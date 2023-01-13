@@ -58,13 +58,13 @@ class AuthenticationLog extends DataTableComponent
                 ->format(fn ($value) => $value && $value['default'] === false ? $value['city'] . ', ' . \Arr::get($value, 'state') : '-'),
             Column::make('Login At')
                 ->sortable()
-                ->format(fn($value) => $value ? \Timezone::convertToLocal($value, 'd/m/Y h:i') : '-'),
+                ->format(fn($value) => $value ? \Timezone::convertToLocal($value, 'd/m/Y H:i') : '-'),
             Column::make('Success', 'login_successful')
                 ->sortable()
                 ->format(fn($value) => $value === true ? 'Yes' : 'No'),
             Column::make('Logout At')
                 ->sortable()
-                ->format(fn($value) => $value ? \Timezone::convertToLocal($value, 'd/m/Y h:i') : '-'),
+                ->format(fn($value) => $value ? \Timezone::convertToLocal($value, 'd/m/Y H:i') : '-'),
             Column::make('Cleared By User')
                 ->sortable()
                 ->format(fn($value) => $value === true ? 'Yes' : 'No'),
