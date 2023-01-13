@@ -68,9 +68,9 @@ class ExchangeSyncPositions extends Command
 
     protected function removeNonExistingPositions(Exchange $exchange, $filtered_response)
     {
-        $symbols = \Arr::pluck($filtered_response, 'data.symbol');
+        $id_refs = \Arr::pluck($filtered_response, 'data.id');
         foreach ($exchange->positions as $exchange_position) {
-            if(!in_array($exchange_position->symbol, $symbols)){
+            if(!in_array($exchange_position->position_id, $id_refs)){
                 $exchange_position->delete();
             }
         }
@@ -80,7 +80,7 @@ class ExchangeSyncPositions extends Command
     {
         foreach ($filtered_response as $key => $data) {
             Position::updateOrCreate([
-                'symbol' => $data['data']['symbol'],
+                'position_id' => $data['data']['id'],
                 'exchange_id' => $exchange->id
             ],  \Arr::except($data['data'], ['tp_trigger_by', 'sl_trigger_by']));
         }
