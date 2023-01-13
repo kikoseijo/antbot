@@ -68,6 +68,7 @@ class ExchangeSyncPositions extends Command
 
     protected function removeNonExistingPositions(Exchange $exchange, $filtered_response)
     {
+        // TODO: its deleting one of the sides. must FIX.
         $symbols = \Arr::pluck($filtered_response, 'data.symbol');
         foreach ($exchange->positions as $exchange_position) {
             if(!in_array($exchange_position->symbol, $symbols)){

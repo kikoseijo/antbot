@@ -68,7 +68,7 @@
                         @endImpersonating
 
                         @if (auth() && auth()->user()->admin)
-                            <x-dropdown-link href="/log-viewer" target="_blank">
+                            <x-dropdown-link href="/klogs" target="_blank">
                                 {{ __('Logs') }}
                             </x-dropdown-link>
                         @endif
