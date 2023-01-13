@@ -28,7 +28,9 @@ class ShowUsers extends Component
 
         $data = [
             'user_roles' => config('antbot.roles'),
-            'records' => User::where('name', 'like', '%'.$this->search.'%')->paginate(10)
+            'records' => User::where('name', 'like', '%'.$this->search.'%')
+                    ->withCount('bots', 'grids', 'exchanges')
+                    ->paginate(10)
         ];
 
         return view('livewire.users.show-users', $data)->layoutData([

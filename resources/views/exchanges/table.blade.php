@@ -10,7 +10,9 @@
                 <th scope="col" class="py-3 px-4 text-center">TWE</th>
                 <th scope="col" class="py-3 px-4 text-center">Risk mode</th>
                 <th scope="col" class="py-3 px-4 text-center">Bots</th>
-                <th scope="col" class="py-3 px-4 text-center">Created</th>
+                <th scope="col" class="py-3 px-4 text-center">Pos.</th>
+                <th scope="col" class="py-3 px-4 text-center">Trades</th>
+                {{-- <th scope="col" class="py-3 px-4 text-center">Created</th> --}}
                 <th scope="col" class="py-3 px-4 text-center"></th>
             </tr>
         </thead>
@@ -22,7 +24,7 @@
                     $swe = $record->short_wallet_exposure;
                     $total_we = $swe + $lwe;
                 @endphp
-                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-gray-300 hover:dark:bg-gray-700">
+                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-gray-100 hover:dark:bg-gray-800">
 
                     <td class="py-3 px-4 font-bold underline hover:no-underline">
                         <a href="{{ route('exchanges.edit', $record) }}">
@@ -45,11 +47,17 @@
                         {{ \Arr::get($risk_modes, $record->risk_mode) }}
                     </td>
                     <td class="py-3 px-4 text-center">
-                        {{ $record->bots_count }}
+                        {{ $record->running_bots->count() }}/{{ $record->bots_count }}
                     </td>
                     <td class="py-3 px-4 text-center">
-                        {{ $record->created_at->format('d-m-Y') }}
+                        {{ $record->positions_count }}
                     </td>
+                    <td class="py-3 px-4 text-center">
+                        {{ $record->trades_count }}
+                    </td>
+                    {{-- <td class="py-3 px-4 text-center">
+                        {{ $record->created_at->format('d-m-Y') }}
+                    </td> --}}
                     <td class="py-3 px-4 text-right">
                         <x-btn-link class="py-1 px-2 mr-2" href="{{ route('exchanges.positions', $record) }}" >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
@@ -71,7 +79,7 @@
                 </tr>
             @empty
                 <tr class="text-center bg-white dark:bg-gray-900">
-                    <td colspan="10" class="py-3 px-4 italic">No hay información</td>
+                    <td colspan="11" class="py-3 px-4 italic">No hay información</td>
                 </tr>
             @endforelse
         </tbody>

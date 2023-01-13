@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             @forelse($records as $record)
-                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-700'}}">
+                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-700'}} hover:bg-gray-100 hover:dark:bg-gray-800">
                     <th scope="row" class="py-2 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $record->id }}
                     </th>
@@ -22,7 +22,7 @@
                             <span class="uppercase ">{{ $record->name }}</span>
                         </a>
                     </td>
-                    <td class="py-2 px-4">
+                    <td class="py-2 px-4 truncate">
                         <a href="{{ route('configs.edit', $record) }}">
                             <span class="ml-3 italic text-sm">{{ $record->description }}</span>
                         </a>

@@ -1,41 +1,53 @@
 
-<div class="overflow-x-auto relative rounded-t-xl">
+<div class="overflow-x-auto relative sm:rounded-lg">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="py-3 px-6">#</th>
-                <th scope="col" class="py-3 px-6">Role</th>
-                <th scope="col" class="py-3 px-6">Name</th>
-                <th scope="col" class="py-3 px-6">Email</th>
-                <th scope="col" class="py-3 px-6">Timezone</th>
-                <th scope="col" class="py-3 px-6">Last seen</th>
-                <th scope="col" class="py-3 px-6"></th>
+                <th scope="col" class="py-3 px-2">#</th>
+                <th scope="col" class="py-3 px-2">Role</th>
+                <th scope="col" class="py-3 px-2">Name</th>
+                <th scope="col" class="py-3 px-2">Email</th>
+                <th scope="col" class="py-3 px-2">Timezone</th>
+                <th scope="col" class="py-3 px-2">Exch.</th>
+                <th scope="col" class="py-3 px-2">Bots</th>
+                <th scope="col" class="py-3 px-2">Grids</th>
+                <th scope="col" class="py-3 px-2">Last seen</th>
+                <th scope="col" class="py-3 px-2"></th>
             </tr>
         </thead>
         <tbody>
             @foreach($records as $user)
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
-                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <th scope="row" class="py-2 px-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $user->id }}
                     </th>
-                    <td class="py-4 px-6">
+                    <td class="py-2 px-2">
                         {{ \Arr::get($user_roles, $user->role) }}
                     </td>
-                    <td class="py-4 px-6 font-bold underline hover:no-underline">
+                    <td class="py-2 px-2 font-bold underline hover:no-underline">
                         <a href="{{ route('users.edit', $user) }}">
                             {{ $user->name }}
                         </a>
                     </td>
-                    <td class="py-4 px-6">
+                    <td class="py-2 px-2">
                         {{ $user->email }}
                     </td>
-                    <td class="py-4 px-6">
+                    <td class="py-2 px-2">
                         {{ $user->timezone }}
                     </td>
-                    <td class="py-4 px-6">
+                    <td class="py-2 px-2 text-center">
+                        {{ $user->exchanges_count }}
+                    </td>
+                    <td class="py-2 px-2 text-center">
+                        {{ $user->bots_count }}
+                    </td>
+                    <td class="py-2 px-2 text-center">
+                        {{ $user->grids_count }}
+                    </td>
+                    <td class="py-2 px-2">
                         {{ \Carbon\Carbon::parse($user->last_seen)->diffForHumans() }}
                     </td>
-                    <td class="py-4 px-6 text-right">
+                    <td class="py-2 px-2 text-right">
                         @canImpersonate
                         @canBeImpersonated($user)
                         <x-btn-link class="py-1 px-2 mr-2 bg-yellow-500 dark:bg-yellow-300" href="{{ route('impersonate', $user) }}">

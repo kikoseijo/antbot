@@ -31,6 +31,12 @@ class SymbolsDataTable extends DataTableComponent
                         'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-1 text-right',
                     ];
                 };
+                if ($column->getField() == 'updated_at') {
+                    return [
+                        'default' => false,
+                        'class' => 'whitespace-nowrap text-xs font-medium dark:text-white px-1 py-1 text-right',
+                    ];
+                };
                 return [
                     'default' => false,
                     'class' => 'whitespace-nowrap text-sm font-medium dark:text-white px-1 py-1',
@@ -74,7 +80,7 @@ class SymbolsDataTable extends DataTableComponent
             Column::make("Max.L", 'max_leverage')->sortable(),
             Column::make("Min Qty.", 'min_trading_qty')->sortable(),
             Column::make("Updated at", "updated_at")->sortable()->format(
-                fn($value, $row, Column $column) => $value->format('d-m-Y H:i')
+                fn($value, $row, Column $column) => $value->format('d/m/y H:i')
             ),
         ];
     }
