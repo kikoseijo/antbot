@@ -17,6 +17,33 @@ class Exchange extends Model
         'exchange' => ExchangesEnum::class,
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($record) {
+
+            // We dont need logs anymore.
+            Storage::deleteDirectory($record->logs_path);
+
+            foreach ($record->bots as $bot) {
+                $bot->stop();
+                $bot->delete();
+            }
+            foreach ($record->balances as $balance) {
+                $balance->delete();
+            }
+
+            foreach ($record->trades as $trade) {
+                $trade->delete();
+            }
+
+            foreach ($record->positions as $position) {
+                $position->delete();
+            }
+        });
+    }
+
     public function bots()
     {
         return $this->hasMany(Bot::class);
@@ -83,41 +110,18 @@ class Exchange extends Model
         return false;
     }
 
-    public function createLogsFolder()
+    public function getLogsPathAttribute()
     {
         $log_path = config('antbot.paths.logs_path');
-        $path = "{$log_path}/{$this->id}";
+        return "{$log_path}/{$this->id}";
+    }
+
+    public function createLogsFolder()
+    {
+        $path = $this->logs_path;
         if(!\File::isDirectory($path)){
             \File::makeDirectory($path, 0777, true, true);
         }
-    }
-
-    public function updateExchangesFile()
-    {
-        if (\App::environment('local')){
-            // The environment is local
-            return 'local-mode';
-        }
-
-        $configs = new \stdClass();
-        foreach ($this->user->exchanges as $exchange) {
-            $configs->{$exchange->slug} = [
-                    "exchange" => $exchange->exchange->value,
-                    "key" => $exchange->api_key,
-                    "secret" => $exchange->api_secret
-            ];
-        }
-
-        $bot_path = config('antbot.paths.bot_path');
-        $path = "$bot_path/configs/live/{$this->user->id}";
-        $file_name = 'XASPUSDT.json';
-        $disk = Storage::build([
-            'driver' => 'local',
-            'root' => $path,
-        ]);
-        $disk->put($file_name, json_encode($configs, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT));
-
-        return "$path/$file_name";
     }
 
     public function getFilePath()

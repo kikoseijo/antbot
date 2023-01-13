@@ -7,34 +7,52 @@ use Livewire\Component;
 
 class CreateUser extends Component
 {
-    public User $users ;
+    public User $user;
     public $title = 'Users';
 
     protected $rules = [
-        'users.name' => 'required|string|min:6',
-        'users.email' => 'required|string|max:500|unique:users',
+        'user.name' => 'required|string|min:4',
+        'user.email' => 'required|string|max:500|unique:users,email',
+        'user.role' => 'required',
+        'user.admin' => 'sometimes',
+        'user.timezone' => 'required',
     ];
 
     public function mount()
     {
-        $this->users = new User();
+        $this->user = new User();
+        $this->user->timezone = 'Europe/Madrid';
+        $this->user->admin = 0;
+        $this->user->role = 2;
     }
 
-    public function save()
-    {
-        $this->validate();
 
-        $this->users->password = time();
-
-        $this->users->save();
-
-        return redirect()->to('/user');
-    }
 
     public function render()
     {
-        return view('livewire.users.create-user')->layoutData([
+        if (!auth()->user()->isAdmin()) {
+
+            return abort(403, 'Unauthorized action.');
+        }
+
+        $data = [
+            'user_roles' => config('antbot.roles'),
+            'timezones' => \DateTimeZone::listIdentifiers()
+        ];
+
+        return view('livewire.users.create-user', $data)->layoutData([
             'title' => $this->title,
         ]);
+    }
+
+    public function submit()
+    {
+        $this->validate();
+
+        $this->user->password = time();
+
+        $this->user->save();
+
+        return redirect()->route('users.index');
     }
 }

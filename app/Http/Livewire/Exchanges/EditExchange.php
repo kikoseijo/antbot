@@ -55,7 +55,7 @@ class EditExchange extends Component
         ]);
         if (request()->user()->email <> 'demo@sunnyface.com') {
             $this->exchange->save();
-            $res = $this->exchange->updateExchangesFile();
+            $res = $this->exchange->user->updateExchangesFile();
             if (auth()->user()->isAdmin()) {
                 session()->flash('message', 'File saved into: ' . $res);
             } else {

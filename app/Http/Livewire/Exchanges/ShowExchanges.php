@@ -45,31 +45,31 @@ class ShowExchanges extends Component
             if ($record->bots->count() == 0) {
                 if(auth()->user()->id == $record->user_id){
                     $record->delete();
+                    auth()->user()->updateExchangeFile();
                     session()->flash('message', 'Exchange successfully deleted.');
-                    $this->updateExchangeFile();
                 }
             } else {
                 $this->dispatchBrowserEvent('alert',[
                     'type' => 'error',
-                    'message' => "Exchange has associated bots, please remove association."
+                    'message' => "Exchange has Bots.<br />Please remove or dissasociate."
                 ]);
             }
             $this->deleteId = 0;
         }
     }
 
-    protected function updateExchangeFile()
-    {
-        $user = auth()->user();
-        $exchange = $user->exchanges->first();
-        if ($exchange) {
-            $res = $exchange->updateExchangesFile();
-            if (auth()->user()->isAdmin()) {
-                session()->flash('message', 'File saved into: ' . $res);
-            }
-        } else {
-            $bot_path = config('antbot.paths.bot_path');
-            unlink("$bot_path/configs/live/{$user->id}/XASPUSDT.json");
-        }
-    }
+    // protected function updateExchanges()
+    // {
+    //     $user = auth()->user();
+    //     $exchange = $user->exchanges->first();
+    //     if ($exchange) {
+    //         $res = $user->updateExchangesFile();
+    //         if (auth()->user()->isAdmin()) {
+    //             session()->flash('message', 'File saved into: ' . $res);
+    //         }
+    //     } else {
+    //         $bot_path = config('antbot.paths.bot_path');
+    //         unlink("$bot_path/configs/live/{$user->id}/XASPUSDT.json");
+    //     }
+    // }
 }

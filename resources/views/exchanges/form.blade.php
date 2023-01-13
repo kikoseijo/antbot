@@ -74,7 +74,7 @@
                         <label for="is_testnet_2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
                     </div>
                 </div>
-                <x-input-error class="mt-2" :messages="$errors->get('exchange.risk_mode')" />
+                <x-input-error class="mt-2" :messages="$errors->get('exchange.is_testnet')" />
             </div>
         </div>
 

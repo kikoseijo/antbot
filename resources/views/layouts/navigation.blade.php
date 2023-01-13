@@ -29,7 +29,9 @@
                     <x-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
                         {{ __('Exchanges') }}
                     </x-nav-link>
-
+                    <x-nav-link :href="route('configs.index')" :active="request()->routeIs('configs.*')">
+                        {{ __('Configs') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -61,7 +63,7 @@
                         </x-dropdown-link>
                         @impersonating
                         <x-dropdown-link :href="route('impersonate.leave')">
-                            {{ __('Leave impersonate') }}
+                            {{ __('Stop impersonating') }}
                         </x-dropdown-link>
                         @endImpersonating
 
@@ -137,11 +139,18 @@
                     {{ __('Login logs') }}
                 </x-responsive-nav-link>
 
+                @impersonating
+                    <x-responsive-nav-link :href="route('impersonate.leave')">
+                        {{ __('Stop impersonating') }}
+                    </x-responsive-nav-link>
+                @endImpersonating
+
                 @if (auth() && auth()->user()->admin)
                     <x-responsive-nav-link href="/log-viewer" target="_blank">
                         {{ __('Logs') }}
                     </x-responsive-nav-link>
                 @endif
+
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

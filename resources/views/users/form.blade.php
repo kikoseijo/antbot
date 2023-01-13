@@ -1,6 +1,75 @@
+<section>
+    <header>
+        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            {{ isset($on_edit) ? __('Edit user') : __('Create new user') }}
+        </h2>
+    </header>
 
+    <form wire:submit.prevent="submit" class="mt-6 space-y-6">
 
-<div class="relative">
-    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-    <label for="floating_outlined" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Floating outlined</label>
-</div>
+        <div class="grid grid-cols-3 grid-flow-col gap-4">
+            <div>
+                <x-input-label for="name" :value="__('Name')" />
+                <x-text-input id="name" type="text" class="mt-1 block w-full uppercase" wire:model.defer="user.name" required autofocus/>
+                <x-input-error class="mt-2" :messages="$errors->get('user.name')" />
+            </div>
+            <div class="">
+                <x-input-label for="email" :value="__('Email')" />
+                <x-text-input id="email" type="text" class="mt-1 block w-full" wire:model.defer="user.email"/>
+                <x-input-error class="mt-2" :messages="$errors->get('user.email')" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 grid-flow-col gap-4">
+            <div>
+                <x-input-label for="role" :value="__('User role')" />
+                <x-select-input id="role" type="text" class="mt-1 block w-full" wire:model="user.role" required>
+                    @foreach ($user_roles as $role_id => $role_name)
+                        <option value="{{$role_id}}">{{$role_name}}</option>
+                    @endforeach
+                </x-select-input>
+                <x-input-error class="mt-2" :messages="$errors->get('user.role')" />
+            </div>
+            <div>
+                <x-input-label for="timezone" :value="__('User timezone')" />
+                <x-select-input id="timezone" type="text" class="mt-1 block w-full" wire:model="user.timezone" required>
+                    @foreach ($timezones as $timezone_id => $timezone_name)
+                        <option value="{{$timezone_name}}">{{$timezone_name}}</option>
+                    @endforeach
+                </x-select-input>
+                <x-input-error class="mt-2" :messages="$errors->get('user.role')" />
+            </div>
+
+        </div>
+        <div class="grid grid-cols-3 grid-flow-col gap-4">
+            <div>
+                <x-input-label for="admin" :value="__('Super Admin')" />
+                <div class="flex mt-2">
+                    <div class="flex items-center mr-4">
+                        <input id="admin_1" type="radio" value="1"  wire:model="user.admin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="admin_1" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                    </div>
+                    <div class="flex items-center mr-4 ml-4">
+                        <input id="admin_2" type="radio" value="0"  wire:model="user.admin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="admin_2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                    </div>
+                </div>
+                <x-input-error class="mt-2" :messages="$errors->get('user.admin')" />
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <x-primary-button wire:click="submit">{{ isset($on_edit) ? __('Update user') : __('Create new user') }}</x-primary-button>
+
+            @if (session('status') === 'user-created' || session('status') === 'user-updated')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 4000)"
+                    class="text-sm text-green-600 dark:text-green-400"
+                >{{ __('Data saved.') }}</p>
+            @endif
+        </div>
+    </form>
+</section>

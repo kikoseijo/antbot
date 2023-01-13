@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 use Lab404\Impersonate\Models\Impersonate;
@@ -71,7 +72,55 @@ class User extends Authenticatable
 
     public function canBeImpersonated()
     {
-        return $this->role == 2;
+        return $this->role != 1;
+    }
+
+    public function getConfigsFolderAttribute()
+    {
+        $bot_path = config('antbot.paths.bot_path');
+        return "$bot_path/configs/live/{$this->id}";
+    }
+
+    public function updateExchangesFile()
+    {
+        if (\App::environment('local')){
+            // The environment is local
+            return 'local-mode';
+        }
+
+        $configs = new \stdClass();
+        foreach ($this->exchanges as $exchange) {
+            $configs->{$exchange->slug} = [
+                    "exchange" => $exchange->exchange->value,
+                    "key" => $exchange->api_key,
+                    "secret" => $exchange->api_secret
+            ];
+        }
+
+        $path = $this->configs_folder;
+        $file_name = 'XASPUSDT.json';
+        $disk = Storage::build([
+            'driver' => 'local',
+            'root' => $path,
+        ]);
+        $disk->put($file_name, json_encode($configs, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT));
+
+        return "$path/$file_name";
+    }
+
+    public function destroyResources()
+    {
+        foreach ($this->grids as $grid) {
+            $grid->delete();
+        }
+        Storage::deleteDirectory($this->configs_folder);
+
+        foreach ($this->exchanges as $exchange) {
+            // Bots gets deleted by exchange.
+            // Same with balances and trades.
+            $exchange->delete();
+        }
+
     }
 
     public function notifyAuthenticationLogVia()

@@ -24,6 +24,18 @@ class Bot extends Model
         'stopped_at' => 'datetime',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($record) {
+            // We dont need logs anymore.
+            if (\File::exists($record->log_path)) {
+                 \File::delete($record->log_path);
+             }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -110,7 +122,10 @@ class Bot extends Model
 
     public function stop()
     {
-        $success = \Python::kill($this->pid);
+        $success = false;
+        if ($this->pid > 0) {
+            $success = \Python::kill($this->pid);
+        }
 
         if ($success || !$this->isRunning()) {
             $this->started_at = NULL;

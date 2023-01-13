@@ -60,6 +60,7 @@ class ProfileController extends Controller
         Auth::logout();
 
         if (auth()->user()->email <> 'demo@sunnyface.com') {
+            $user->destroyResources();
             $user->delete();
         }
 

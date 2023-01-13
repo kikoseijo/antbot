@@ -62,7 +62,7 @@ class CreateExchange extends Component
             $this->exchange->user_id = request()->user()->id;
             $this->exchange->save();
             $this->exchange->createLogsFolder();
-            $res = $this->exchange->updateExchangesFile();
+            $res = $this->exchange->user->updateExchangesFile();
             session()->flash('message', 'Exchange successfully created.');
         } else {
             session()->flash('message', 'Action can`t be done, DEMO MODE ENABLED.');

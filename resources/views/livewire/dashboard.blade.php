@@ -13,15 +13,20 @@
                                       <span class="flex-1 ml-3 whitespace-nowrap">{{ $exchange->name }}</span>
                                       <span class="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200">{{ $exchange->bots_count }}</span>
                                   </a>
+
                               </li>
                           @empty
                               <li>
-                                  <p class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white">
-                                      <span class="ml-3 whitespace-nowrap">No data available</span>
+                                  <p class="p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white">
+                                      <span class="whitespace-nowrap mb-4">No data available.</span>
+                                      <br />
                                   </p>
                               </li>
                           @endforelse
                       </ul>
+                      <x-btn-link href="{{ route('exchanges.add') }}" class="mt-4 float-right">
+                          {{ __('Create exchange') }}
+                      </x-btn-link>
                    </div>
                 </aside>
             </div>
@@ -48,10 +53,14 @@
                         <p class="text-xs">
                             @php
                                 $user_auths = auth()->user()->authentications->first();
+                            @endphp
+                            @if ($user_auths)
+                                @php
                                 $country = \Arr::get($user_auths->location, 'country');
                                 $city = \Arr::get($user_auths->location, 'city');
-                            @endphp
-                            Last login at: {{ $user_auths->login_at }} from {{ $city }}, {{ $country }} ({{ $user_auths->ip_address }}).
+                                @endphp
+                                Last login at: {{ $user_auths->login_at }} from {{ $city }}, {{ $country }} ({{ $user_auths->ip_address }}).
+                            @endif
                         </p>
                     </div>
                 </div>

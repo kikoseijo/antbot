@@ -17,6 +17,18 @@ class Grid extends Model
     //     'grid_json' => 'json',
     // ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($record) {
+            // We dont need configuration file anymore.
+            if (\File::exists($record->file_path)) {
+                 \File::delete($record->file_path);
+             }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
