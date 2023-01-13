@@ -26,6 +26,7 @@ class EditConfig extends Component
 
     public function submit()
     {
+        // TODO: delete file if name changed.
         $this->validate();
         $cur_id = $this->grid->id;
         $this->validate([

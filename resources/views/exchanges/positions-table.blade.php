@@ -22,8 +22,11 @@
                 <tr class="bg-white dark:bg-gray-800{{ $loop->last ? '' : ' border-b dark:border-gray-400'}}">
                     <td class="py-3 px-4 flex align-middle font-bold">
                         <div class="inline h-2.5 w-2.5 rounded-full bg-{{ $record->side == 'Buy' ? 'green' : 'red'}}-500 mr-2 mt-1"></div>
-                        <a href="{{ $record->exchange_link }}" target="_blank">
+                        <a href="{{ $record->exchange_link }}" target="_blank" class="flex content-center">
                             {{ $record->symbol }}
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
+                            </svg>
                         </a>
                     </td>
                     <td class="py-3 px-4">
