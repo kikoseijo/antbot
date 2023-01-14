@@ -130,10 +130,24 @@ php artisan up
 Screenshots
 -----------
 
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/exchange-dashboard.png" width="800" alt="Exchanges dashboard">
+### Bots
+
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/bots.png" width="800" alt="Crypto trading bots">
+
+### Exchange dashboard
+
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/exchange-dashboard.png" width="800" alt="Exchanges dashboard">
+
+### Passivbot grid configuration
+
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/grids.png" width="800" alt="Trading grid modes">
+
+### Traded records
+
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/records.png" width="800" alt="Exchange trading records">
+
+### Exchange symbols & volumes
+
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/symbols.png" width="800" alt="Exchange available trading Symbols">
 
 Installation support
