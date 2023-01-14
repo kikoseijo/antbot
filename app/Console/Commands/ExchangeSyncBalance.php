@@ -10,25 +10,11 @@ use Ksoft\Bybit\BybitLinear;
 
 class ExchangeSyncBalance extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'antbot:sync-balance';
+    use Traits\RateLimitsTrait;
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    protected $signature = 'antbot:sync-balance';
     protected $description = 'Sync exchanges account balance.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         // logi('Starting SyncBalance');
@@ -47,19 +33,15 @@ class ExchangeSyncBalance extends Command
         $host = $exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
         $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret, $host);
         $response = $bybit->privates()->getWalletBalance();
-        $this->checkRateLimits($response['rate_limit_status'], $exchange);
         if ($response['ret_msg'] == 'OK'){
             $filtered_response = collect($response['result'])->filter(function ($value, $key) {
                 return $value['wallet_balance'] > 0;
             });
             $this->removeNonExistingAssets($exchange, $filtered_response);
             $this->saveExchangeBalances($exchange, $filtered_response);
+            $this->checkRateLimits($response['rate_limit_status'], $exchange, 'SyncBalance');
         } else {
-            if (in_array($response['ret_msg'], ['invalid api_key', 'API key is invalid.'])) {
-                $exchange->api_error = 1;
-                $exchange->save();
-            }
-            \Log::info("Bybit balance sync {$exchange->name} #{$exchange->id} Error:{$response['ret_msg']}");
+            $this->processApiError($response['ret_msg'], $exchange, 'SyncBalance');
         }
     }
 
@@ -91,13 +73,4 @@ class ExchangeSyncBalance extends Command
 
     }
 
-    protected function checkRateLimits($limit, Exchange $exchange)
-    {
-        if ($limit < 30){
-            sleep(3);
-        }
-        if ($limit < 10){
-            \Log::info("Reaching exchange SyncBalance limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
-        }
-    }
 }

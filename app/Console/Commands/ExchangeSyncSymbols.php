@@ -9,25 +9,11 @@ use Ksoft\Bybit\BybitLinear;
 
 class ExchangeSyncSymbols extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'antbot:sync-symbols';
+    use Traits\RateLimitsTrait;
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    protected $signature = 'antbot:sync-symbols';
     protected $description = 'Syncronize exchange symbols with local database';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         // logi('Starting SyncSymbols');
@@ -45,14 +31,14 @@ class ExchangeSyncSymbols extends Command
             $records = collect($results['result']);
             foreach ($records as $record) {
                 $symbol_name = \Arr::get($record, 'name');
-                $normalized_record = $this->normalizeRecord($record, $ticks->where('symbol', $symbol_name)->values()[0]);
+                $normalized_record = $this->normalizeBybitRecord($record, $ticks->where('symbol', $symbol_name)->values()[0]);
                 $new_record = Symbol::updateOrCreate([
                     'name' => $normalized_record['name'],
                     'exchange' => ExchangesEnum::BYBIT
                 ],  $normalized_record);
             }
         } else {
-            \Log::info("Bybit syncBybitSymbols Error:{$response['ret_msg']}");
+            logi("Bybit syncSymbols Error:{$response['ret_msg']}");
         }
     }
 
@@ -62,12 +48,12 @@ class ExchangeSyncSymbols extends Command
         if ($results['ret_msg'] == 'OK'){
             return collect($results['result']);
         } else {
-            \Log::info("Bybit syncBybitTicks Error:{$response['ret_msg']}");
+            logi("Bybit syncBybitTicks Error:{$response['ret_msg']}");
             return [];
         }
     }
 
-    protected function normalizeRecord($record, $record_tick)
+    protected function normalizeBybitRecord($record, $record_tick)
     {
         $record['market'] = 'Futures';
 
@@ -96,10 +82,4 @@ class ExchangeSyncSymbols extends Command
         return $record;
     }
 
-    // protected function checkRateLimits($limit, $exchange_name)
-    // {
-    //     if ($limit < 50){
-    //         \Log::info("Reaching exchange getSymbols limits {$exchange_name}LIMIT:{$limit}");
-    //     }
-    // }
 }

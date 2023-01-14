@@ -9,78 +9,63 @@ use Ksoft\Bybit\BybitLinear;
 
 class ExchangeSyncOrders extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'antbot:sync-orders';
+    use Traits\RateLimitsTrait;
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    protected $signature = 'antbot:sync-orders';
     protected $description = 'Syncronize postions active orders.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         // logi('Starting SyncOrders');
-        $this->syncBybitOrders();
+        $this->syncOrders();
         // logi('Ending SyncOrders');
         return Command::SUCCESS;
     }
 
-    protected function syncBybitOrders()
+    protected function syncOrders()
     {
         $positions = Position::with('exchange')->get();
-        $rate_limit = 1;
+        $babyt_rate_limit = 1;
         foreach ($positions as $position) {
-            $host = $position->exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
-            $bybit = new BybitLinear(
-                $position->exchange->api_key,
-                $position->exchange->api_secret,
-                $host
-            );
-            $this->syncPositionOrders($bybit, $position);
-            if ($rate_limit % 3 == 0) {
-                sleep(1);
+            if ($position->exchange->exchange == ExchangesEnum::BYBIT) {
+                $this->syncBybitPostionOrders($position);
+                if ($babyt_rate_limit % 3 == 0) {
+                    sleep(1);
+                }
+                $babyt_rate_limit++;
             }
-            $rate_limit++;
         }
     }
 
-    protected function syncPositionOrders(BybitLinear $bybit, Position $position)
+    protected function syncBybitPostionOrders(Position $position)
     {
+        $host = $position->exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
+        $bybit = new BybitLinear(
+            $position->exchange->api_key,
+            $position->exchange->api_secret,
+            $host
+        );
+
         $response= $bybit->privates()->getOrderSearch([
-            'symbol' => $position->symbol,
+            'symbol' => $position->symbol
         ]);
-        $this->checkRateLimits($response['rate_limit_status'], 'Bybit');
+
         if ($response['ret_msg'] == 'OK'){
             $records = collect($response['result']);
-            $position->orders()->delete(); // We clean old ordes before proceed.
+            // We clean positions ordes before addding new ones.
+            $position->orders()->delete();
             foreach ($records as $record) {
-                $new_record = Order::create(
-                    array_merge($record, ['position_id' => $position->id])
-                );
+                // We only add matching side orders here
+                if ($record['side'] == $position->side) {
+                    $new_record = Order::create(
+                        array_merge($record, ['position_id' => $position->id])
+                    );
+                }
             }
+            $this->checkRateLimits($response['rate_limit_status'], $position->exchange, 'syncOrders');
         } else {
-            logi('Bybit: SyncOrders Error: ' . $response['ret_msg']);
+            $this->processApiError($response['ret_msg'], $position->exchange, 'syncOrders');
         }
     }
 
-    protected function checkRateLimits($limit, $exchange_name)
-    {
-        if ($limit < 30 && $limit > 0){
-            sleep(3);
-            if ($limit < 10){
-                \Log::info("Reaching exchange getOrderSearch limits {$exchange_name}LIMIT:{$limit}");
-            }
-        }
-    }
 }

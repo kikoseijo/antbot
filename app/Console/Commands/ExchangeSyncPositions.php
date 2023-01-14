@@ -10,40 +10,25 @@ use Ksoft\Bybit\BybitLinear;
 
 class ExchangeSyncPositions extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'antbot:sync-positions';
+    use Traits\RateLimitsTrait;
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    protected $signature = 'antbot:sync-positions';
     protected $description = 'Syncronize exchange open positions.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         // logi('Starting SyncPositions');
         $exchanges = Exchange::with('balances')->where('api_error', false)->get();
         foreach ($exchanges as $exchange) {
             if ($exchange->exchange == ExchangesEnum::BYBIT) {
-                $this->syncBybit($exchange);
+                $this->syncBybitPositions($exchange);
             }
         }
-
         // logi('Ending SyncPositions');
         return Command::SUCCESS;
     }
 
-    protected function syncBybit(Exchange $exchange)
+    protected function syncBybitPositions(Exchange $exchange)
     {
         $host = $exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
         $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret, $host);
@@ -55,15 +40,11 @@ class ExchangeSyncPositions extends Command
             // logi(\Arr::get($response, 'result'));
             $this->removeNonExistingPositions($exchange, $filtered_response);
             $this->saveExchangePositions($exchange, $filtered_response);
+            $this->checkRateLimits($response['rate_limit_status'], $exchange, 'SyncPositions');
         } else {
-            // TODO: check more erros with pass or any other.
-            if (in_array($response['ret_msg'], ['invalid api_key', 'API key is invalid.'])) {
-                $exchange->api_error = 1;
-                $exchange->save();
-            }
-            \Log::info("Bybit SyncPositions {$exchange->name} #{$exchange->id} Error:{$response['ret_msg']}");
+            $this->processApiError($response['ret_msg'], $exchange, 'SyncPositions');
         }
-        $this->checkRateLimits($response['rate_limit_status'], $exchange);
+
     }
 
     protected function removeNonExistingPositions(Exchange $exchange, $filtered_response)
@@ -88,14 +69,4 @@ class ExchangeSyncPositions extends Command
         }
     }
 
-
-    protected function checkRateLimits($limit, Exchange $exchange)
-    {
-        if ($limit < 30){
-            sleep(3);
-            if ($limit < 10){
-                \Log::info("Reaching SyncPositions exchange limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
-            }
-        }
-    }
 }

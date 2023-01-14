@@ -11,25 +11,11 @@ use Ksoft\Bybit\BybitLinear;
 
 class ExchangeSyncTrades extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'antbot:sync-trades';
+    use Traits\RateLimitsTrait;
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    protected $signature = 'antbot:sync-trades';
     protected $description = 'Syncronize exchange trade records.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         // logi('Starting SyncTrades');
@@ -60,13 +46,13 @@ class ExchangeSyncTrades extends Command
                 ->first();
             $start_time = $last_record->created_at->timestamp ?? now()->subYears(2)->timestamp;
             while ($page > 0) {
-                $page = $this->syncTradesForPage($page, $bybit, $exchange, $symbol->name, $start_time);
+                $page = $this->syncBybitTradesForPage($page, $bybit, $exchange, $symbol->name, $start_time);
             }
             $page = 1;
         }
     }
 
-    protected function syncTradesForPage($page, $bybit, Exchange $exchange, $symbol, $start_time)
+    protected function syncBybitTradesForPage($page, $bybit, Exchange $exchange, $symbol, $start_time)
     {
 
         $response = $bybit->privates()->getTradeClosedPnlList([
@@ -79,16 +65,11 @@ class ExchangeSyncTrades extends Command
             $filtered_response = collect($response['result']['data']);
             $page = $filtered_response->count() == 50 ? $page + 1 : 0;
             $this->saveExchangeTrades($exchange, $filtered_response);
+            $this->checkRateLimits($response['rate_limit_status'], $exchange, 'syncTrades');
         } else {
             $page = 0;
-            // TODO: check more erros with pass or any other.
-            if (in_array($response['ret_msg'], ['invalid api_key', 'API key is invalid.'])) {
-                $exchange->api_error = 1;
-                $exchange->save();
-            }
-            \Log::info("Bybit trade sync {$exchange->name} #{$exchange->id} Error:{$response['ret_msg']}");
+            $this->processApiError($response['ret_msg'], $exchange, 'syncTrades');
         }
-        $this->checkRateLimits($response['rate_limit_status'], $exchange);
 
         return $page;
     }
@@ -101,17 +82,6 @@ class ExchangeSyncTrades extends Command
                 'exchange_id' => $exchange->id,
                 'order_id' => $data['order_id']
             ],  \Arr::except($data, ['user_id']));
-        }
-    }
-
-
-    protected function checkRateLimits($limit, Exchange $exchange)
-    {
-        if ($limit < 30){
-            sleep(5);
-        }
-        if ($limit < 10){
-            \Log::info("Reaching exchange SyncTrades limits {$exchange->name} #{$exchange->id} LIMIT:{$limit}");
         }
     }
 }
