@@ -10,6 +10,14 @@
                                 <option value="{{ $loop->index }}">{{ $file->getFilename() }}</option>
                             @endforeach
                         </select>
+
+                        <x-btn-link href="#truncate-logs" wire:click="truncateFile()">
+                            Truncate logs file
+                        </x-btn-link>
+
+                        <x-btn-link href="" wire:click="refreshLog({{request()->fullUrl()}})">
+                            Refresh
+                        </x-btn-link>
                     </div>
 
                     @include('partials.logs-paginator')

@@ -28,7 +28,7 @@ class BotLogsViewer extends Component
         }
         $files = $this->getLogFiles();
 
-        $log=collect(file($files[$this->file]->getPathname(), FILE_IGNORE_NEW_LINES));
+        $log = collect(file($files[$this->file]->getPathname(), FILE_IGNORE_NEW_LINES));
 
         $this->total = intval(floor($log->count() / $this->perPage)) + 1;
 
@@ -45,12 +45,34 @@ class BotLogsViewer extends Component
     protected function getLogFiles()
     {
         $logs_path = config('antbot.paths.logs_path');
-        $directory =  "{$logs_path}/{$this->bot->exchange_id}";
+        $directory =  "{$logs_path}/{$this->bot->exchange_id}/";
 
         return collect(File::allFiles($directory))
             ->sortByDesc(function (SplFileInfo $file) {
                 return $file->getMTime();
             })->values();
+    }
+
+    public function truncateFile()
+    {
+        $files = $this->getLogFiles();
+        $file_name = $files[$this->file]->getFilename();
+        $logs_path = config('antbot.paths.logs_path');
+        $file_path =  "{$logs_path}/{$this->bot->exchange_id}/{$file_name}";
+        $cmd = "echo \"\" > {$file_path}";
+
+        exec($cmd, $op);
+
+        $this->dispatchBrowserEvent('alert', [
+            'type' => 'success',
+            'message' => 'File log have been truncated.'
+        ]);;
+
+    }
+
+    public function refreshLog($url)
+    {
+        return redirect($url);
     }
 
     public function goto($page)

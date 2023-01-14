@@ -110,6 +110,19 @@ class Exchange extends Model
         return false;
     }
 
+    public function truncateLogs()
+    {
+        $command = "truncate -s 0 {$this->log_path}/*log";
+
+        exec($command, $op);
+
+        if (!isset($op[1])){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public function getLogsPathAttribute()
     {
         $log_path = config('antbot.paths.logs_path');

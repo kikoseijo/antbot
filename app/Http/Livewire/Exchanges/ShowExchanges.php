@@ -41,6 +41,23 @@ class ShowExchanges extends Component
         $this->deleteId = $id;
     }
 
+    public function truncateLogs(Exchange $exchange)
+    {
+        $msg = [
+            'type' => 'error',
+            'message' => 'Something has failed, check logs.'
+        ];
+
+        if ($exchange->truncateLogs()) {
+            $msg = [
+                'type' => 'success',
+                'message' => 'All exchange logs have been truncated.'
+            ];
+        }
+
+        $this->dispatchBrowserEvent('alert', $msg);
+    }
+
     public function destroy()
     {
         if ($this->deleteId > 0) {
@@ -48,7 +65,7 @@ class ShowExchanges extends Component
             if ($record->bots->count() == 0) {
                 if(auth()->user()->id == $record->user_id){
                     $record->delete();
-                    auth()->user()->updateExchangeFile();
+                    auth()->user()->updateExchangesFile();
                     session()->flash('message', 'Exchange successfully deleted.');
                 }
             } else {

@@ -43,7 +43,7 @@ class ShowBots extends Component
 
     public function changeBotStatus(Bot $bot)
     {
-        // \Log::info($bot->started_at . ' PID: ' . $bot->pid);
+        // logi($bot->started_at . ' PID: ' . $bot->pid);
         if ($bot->is_running) {
             $bot->stop();
         } else {

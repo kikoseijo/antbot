@@ -20,6 +20,7 @@ class CreateExchange extends Component
         'exchange.risk_mode' => 'required',
         'exchange.api_key' => 'required|string|max:100',
         'exchange.api_secret' => 'required|string|max:100',
+        'exchange.api_frase' => 'sometimes|string|max:250',
         'exchange.is_testnet' => 'sometimes',
     ];
 
@@ -28,6 +29,7 @@ class CreateExchange extends Component
         $this->rules['exchange.exchange'] = ['required', new Enum(ExchangesEnum::class)];
         $this->rules['exchange.risk_mode'] = ['required', new Enum(ExchangeModeEnum::class)];
         $this->exchange = new Exchange;
+        $this->exchange->is_testnet = 0;
     }
 
     public function render()

@@ -52,6 +52,11 @@
                     <x-text-input id="api_secret" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.api_secret" required />
                     <x-input-error class="mt-2" :messages="$errors->get('exchange.api_secret')" />
                 </div>
+                <div>
+                    <x-input-label for="api_frase" :value="__('Passphrase')" />
+                    <x-text-input id="api_frase" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.api_frase" />
+                    <x-input-error class="mt-2" :messages="$errors->get('exchange.api_frase')" />
+                </div>
             </div>
         @else
             <span class="text-md text-gray-800 dark:text-gray-400">

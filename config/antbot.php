@@ -12,7 +12,7 @@ return [
         'binance' => 'Binance',
         'binance_us' => 'Binance US',
         'bitget' => 'Bitget',
-        'oxk' => 'OKX',
+        'okx' => 'OKX',
     ],
 
     'exchange_mode' => [
