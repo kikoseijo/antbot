@@ -107,9 +107,24 @@ Here its an example of the command:
 * * * * * cd /path/to/antbot && /opt/remi/php81/root/usr/bin/php artisan schedule:run >> /dev/null 2>&1
 ```
 
-### Create your first user
+## Updates
 
-Navigate to the application entry URL, go to register and create your first user in the system, will be the main system administrator.
+For updating antbot you can follow this steps, its not a zero downtime deployment, but we dont need such advance feature because bots are run separately from the application.
+
+```bash
+cd ~/antbot
+php artisan down --render="errors::503" --refresh=10
+git fetch --all
+git reset --hard origin/master
+git pull origin master
+composer install --no-dev --prefer-dist --optimize-autoloader --ignore-platform-reqs
+php artisan migrate --force
+php artisan config:clear
+php artisan config:cache
+php artisan view:clear
+php artisan view:cache
+php artisan up
+```
 
 Screenshots
 -----------
