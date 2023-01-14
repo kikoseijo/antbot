@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\ExchangesEnum;
 use App\Models\Order;
 use App\Models\Position;
 use Illuminate\Console\Command;

@@ -48,26 +48,60 @@ class BotLogsViewer extends Component
         $directory =  "{$logs_path}/{$this->bot->exchange_id}/";
 
         return collect(File::allFiles($directory))
-            ->sortByDesc(function (SplFileInfo $file) {
-                return $file->getMTime();
+            ->sortBy(function (SplFileInfo $file) {
+                return $file->getFilename();
             })->values();
+    }
+
+    public function deleteLogsFile()
+    {
+        $logs_path = config('antbot.paths.logs_path');
+        $files = $this->getLogFiles();
+        $file_name = $files[$this->file]->getFilename();
+        $file_path =  "{$logs_path}/{$this->bot->exchange_id}/";
+
+        $deletedFile = File::delete($file_path . $file_name);
+        if ($deletedFile == null) {
+            $this->dispatchBrowserEvent('alert', [
+                'type' => 'success',
+                'message' => $file_name . ' deleted succesfully.'
+            ]);;
+        }
+    }
+
+    public function truncateAllFiles()
+    {
+        $logs_path = config('antbot.paths.logs_path');
+        $files = $this->getLogFiles();
+        foreach ($files as $file) {
+            $this->exeTruncateFile($logs_path, $file->getFilename());
+        }
+
+        $this->dispatchBrowserEvent('alert', [
+            'type' => 'success',
+            'message' => 'All logs truncated succesfully.'
+        ]);;
     }
 
     public function truncateFile()
     {
+        $logs_path = config('antbot.paths.logs_path');
         $files = $this->getLogFiles();
         $file_name = $files[$this->file]->getFilename();
-        $logs_path = config('antbot.paths.logs_path');
+        $this->exeTruncateFile($logs_path, $file_name);
+
+        $this->dispatchBrowserEvent('alert', [
+            'type' => 'success',
+            'message' => $file_name . ' truncated succesfully.'
+        ]);;
+    }
+
+    protected function exeTruncateFile($logs_path, $file_name)
+    {
         $file_path =  "{$logs_path}/{$this->bot->exchange_id}/{$file_name}";
         $cmd = "echo \"\" > {$file_path}";
 
         exec($cmd, $op);
-
-        $this->dispatchBrowserEvent('alert', [
-            'type' => 'success',
-            'message' => 'File log have been truncated.'
-        ]);;
-
     }
 
     public function refreshLog($url)
