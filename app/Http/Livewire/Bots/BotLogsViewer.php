@@ -17,9 +17,15 @@ class BotLogsViewer extends Component
     public $total;
     public $perPage = 200;
     public $paginator;
+    public $name;
     public $title = 'Logs viewer';
 
     protected $queryString=['page'];
+
+    public function mount($name)
+    {
+        $this->name = $name;
+    }
 
     public function render()
     {

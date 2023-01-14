@@ -67,7 +67,7 @@
                     }
                     $color_running = $record->is_running ? 'green' : 'gray';
                 @endphp
-                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-gray-100 hover:dark:bg-gray-800">
+                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-gray-100 hover:dark:bg-teal-500 hover:dark:text-white">
                     <td class="py-2 px-2 font-bold text-left underline hover:no-underline">
                         <i class="hidden text-green-500"></i>
                         <a href="{{ route('bots.edit', $record) }}" class="text-{{ $color_running }}-500">

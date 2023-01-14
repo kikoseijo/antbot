@@ -29,7 +29,7 @@
 
                         <x-select-input wire:model="file" class="px-4 py-2 ml-5">
                             @foreach($files as $file)
-                                <option value="{{ $loop->index }}">{{ $file->getFilename() }}</option>
+                                <option value="{{ $loop->index }}"{{ $name . '.log' == $file->getFilename() ? ' selected' : ''}}>{{ $file->getFilename() }}</option>
                             @endforeach
                         </x-select-input>
 
