@@ -17,6 +17,8 @@ class Exchange extends Model
         'exchange' => ExchangesEnum::class,
     ];
 
+    protected $hidden = [ 'api_key', 'api_secret', 'api_frase'];
+
     public static function boot()
     {
         parent::boot();
