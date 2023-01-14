@@ -32,9 +32,36 @@ Many features can be implemented but the main ones right now are the following:
 - [ ] Export trading records for financial storage purpose.
 - [ ] ...much more to come.
 
-## Installation
+## Local docker installation
 
 Its Laravel, please follow any of the methods to run the application from this guide: [Laravel Installation with docker](https://laravel.com/docs/9.x/installation#laravel-and-docker)
+
+## Remote server installation
+
+Firstable, download and install composer dependencies:
+
+```bash
+cd ~
+git clone git@github.com:kikoseijo/antbot.git
+cd antbot
+composer install --no-dev
+cp .env.example .env
+php artisan key:generate
+php artisan storage:link
+```
+
+After install you should configure the `.env` file with enviroment, database and email. Email its important, otherwise you will see login in errors when connecting from new device. (You can disable this removing the mail notification from the notifyAuthenticationLogVia methong in the App\Models\User class).
+
+To finish, symlink your server root directory as in the example:
+
+```bash
+cd ~
+rm -rf public_html
+ln -s ~/antbot/public ~/public_html
+echo "App should be now live."
+```
+
+You are now ready to go, navigate to your new application url and register the first user (administrator).
 
 ## Configuration
 
