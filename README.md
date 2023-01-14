@@ -107,7 +107,8 @@ Here its an example of the command:
 * * * * * cd /path/to/antbot && /opt/remi/php81/root/usr/bin/php artisan schedule:run >> /dev/null 2>&1
 ```
 
-## Updates
+Updates
+-------
 
 For updating antbot you can follow this steps, its not a zero downtime deployment, but we dont need such advance feature because bots are run separately from the application.
 
