@@ -28,16 +28,25 @@ class ShowBots extends Component
         }
 
         $user_exchanges = auth()->user()->exchanges()->orderBy('name')->get();
+
         $exchange_count = $user_exchanges->count();
         if ($exchange_count == 0) {
             session()->flash('message', 'Please create your first exchange.');
 
-            return redirect(route('exchanges.add'));
+            return redirect()->route('exchanges.add');
         }
+
         if ($exchange){
             $this->exchange = $exchange;
+            session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
         } else {
-            $this->exchange = $user_exchanges->first();
+            $cur_id = session(CURRENT_EXCHANGE_ID);
+            if($cur_id > 0){
+                $this->exchange = $user_exchanges->where('id', $cur_id)->first();
+            } else {
+                $this->exchange = $user_exchanges->first();
+                session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
+            }
         }
     }
 

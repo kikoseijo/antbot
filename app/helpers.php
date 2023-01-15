@@ -1,5 +1,7 @@
 <?php
 
+define('CURRENT_EXCHANGE_ID', 'cuexid');
+
 if (!function_exists('bignumber')) {
     function bignumber($number): string
     {
