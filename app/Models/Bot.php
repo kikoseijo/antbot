@@ -111,8 +111,11 @@ class Bot extends Model
         if ($this->market_type != MarketTypeEnum::FUTURES) {
             $args = array_merge($args, ['-m', $this->market_type->value]);
         }
+
+        $logs_file = $this->show_logs ? $this->log_path : '/dev/null';
+
         // logi('$args');
-        $pid = \Python::run('passivbot.py', $args, $this->log_path);
+        $pid = \Python::run('passivbot.py', $args, $logs_file);
         if ($pid > 0) {
             $this->started_at = now();
             $this->pid = $pid;

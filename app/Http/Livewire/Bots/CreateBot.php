@@ -32,6 +32,7 @@ class CreateBot extends Component
     public function mount()
     {
         $this->bot = new Bot;
+        $this->bot->show_logs = 0;
         $this->clearForm();
         $this->rules['bot_limits'] = 'bot_limits';
     }
@@ -39,6 +40,7 @@ class CreateBot extends Component
     public function clearForm()
     {
         $this->bot->name = '';
+        $this->bot->show_logs = 0;
         $this->bot->symbol_id = '';
         $this->bot->market_type = 'futures';
         $this->bot->grid_mode = 'recursive';

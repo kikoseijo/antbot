@@ -125,7 +125,7 @@
                         {{ $record->started_at ? str_replace(['hours', 'minutes'], ['h', 'mins'], $record->started_at->diffForHumans(NULL, true)) ?? 'Stopped' : '-' }}
                     </td>
                     <td class="py-2 px-2 text-right">
-                        @include('partials.bot-table-menu', ['bot' => $record])
+                        @include('bots.partials.table-action-menu', ['bot' => $record])
                     </td>
                 </tr>
             @empty

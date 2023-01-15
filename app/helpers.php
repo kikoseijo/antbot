@@ -17,25 +17,26 @@ if (!function_exists('bignumber')) {
 if (!function_exists('number')) {
     function number($number, $decimals = 2): string
     {
-        $abs_num = abs($number);
-        if ($abs_num < 0.01) {
-            $decimals = 3;
-        }
-        if ($abs_num < 0.001) {
-            $decimals = 4;
-        }
-        if ($abs_num < 0.0001) {
-            $decimals = 5;
-        }
-        if ($abs_num < 0.00001) {
-            $decimals = 6;
-        }
-        if ($abs_num < 0.000001) {
-            $decimals = 7;
-        }
-        if ($abs_num < 0.0000001) {
-            $decimals = 8;
-        }
+        // $abs_num = abs($number);
+        // $decimals = strlen(substr(strrchr($number, "."), 1));
+        // if ($abs_num < 0.01) {
+        //     $decimals = 3;
+        // }
+        // if ($abs_num < 0.001) {
+        //     $decimals = 4;
+        // }
+        // if ($abs_num < 0.0001) {
+        //     $decimals = 5;
+        // }
+        // if ($abs_num < 0.00001) {
+        //     $decimals = 6;
+        // }
+        // if ($abs_num < 0.000001) {
+        //     $decimals = 7;
+        // }
+        // if ($abs_num < 0.0000001) {
+        //     $decimals = 8;
+        // }
         if (app()->getLocale() == 'es') {
             return number_format(floatval($number), $decimals, ',', '.');
         } else {

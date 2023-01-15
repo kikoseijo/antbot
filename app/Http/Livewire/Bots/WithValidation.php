@@ -18,6 +18,7 @@ trait WithValidation
         'bot.grid_mode' => 'required|string|max:12',
         'bot.exchange_id' => 'required',
         'bot.grid_id' => 'nullable',
+        'bot.show_logs' => 'sometimes',
         'bot.assigned_balance' => 'required|numeric|between:0,999999',
         'bot.leverage' => 'required|numeric|between:1,50',
         'bot.lm' => 'required|in:n,m,gs,t,p',
