@@ -47,6 +47,16 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="timezone" :value="__('Timezone')" />
+            <x-select-input id="timezone" name="timezone" type="text" class="mt-1 block w-full" :value="old('timezone', $user->timezone)" required>
+                @foreach (\DateTimeZone::listIdentifiers() as $timezone_id => $timezone_name)
+                    <option value="{{$timezone_name}}"{{ $user->timezone == $timezone_name ? ' selected' : ''}}>{{$timezone_name}}</option>
+                @endforeach
+            </x-select-input>
+            <x-input-error class="mt-2" :messages="$errors->get('timezone')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
