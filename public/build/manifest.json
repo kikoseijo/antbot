@@ -7,7 +7,7 @@
       "__commonjsHelpers.4e997714.js"
     ],
     "css": [
-      "assets/app.7cd6e97e.css"
+      "assets/app.1a68656e.css"
     ]
   },
   "resources/js/binance.js": {
@@ -28,7 +28,7 @@
     ]
   },
   "resources/js/code-mirror.js": {
-    "file": "assets/code-mirror.e959d979.js",
+    "file": "assets/code-mirror.f75906bf.js",
     "src": "resources/js/code-mirror.js",
     "isEntry": true,
     "imports": [
@@ -38,13 +38,13 @@
   "__commonjsHelpers.4e997714.js": {
     "file": "assets/_commonjsHelpers.4e997714.js"
   },
+  "resources/js/app.css": {
+    "file": "assets/app.1a68656e.css",
+    "src": "resources/js/app.css"
+  },
   "resources/css/app.css": {
-    "file": "assets/app.151503ba.css",
+    "file": "assets/app.6e6c10e2.css",
     "src": "resources/css/app.css",
     "isEntry": true
-  },
-  "resources/js/app.css": {
-    "file": "assets/app.7cd6e97e.css",
-    "src": "resources/js/app.css"
   }
 }
