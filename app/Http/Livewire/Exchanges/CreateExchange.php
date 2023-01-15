@@ -13,16 +13,21 @@ class CreateExchange extends Component
 {
     public Exchange $exchange;
     public $title = 'Exchanges';
+    public $api_key = '';
+    public $api_secret = '';
+    public $api_frase = '';
 
     protected $rules = [
         'exchange.name' => 'required|string',
         'exchange.exchange' => 'required',
         'exchange.risk_mode' => 'required',
-        'exchange.api_key' => 'required|string|max:100',
-        'exchange.api_secret' => 'required|string|max:100',
-        'exchange.api_frase' => 'sometimes|string|max:250',
+        'api_key' => 'required|string|max:100',
+        'api_secret' => 'required|string|max:100',
+        'api_frase' => 'sometimes|string|max:250',
         'exchange.is_testnet' => 'sometimes',
     ];
+
+    // protected $appends = ['api_key', 'api_secret', 'api_frase'];
 
     public function mount()
     {
@@ -30,6 +35,7 @@ class CreateExchange extends Component
         $this->rules['exchange.risk_mode'] = ['required', new Enum(ExchangeModeEnum::class)];
         $this->exchange = new Exchange;
         $this->exchange->is_testnet = 0;
+
     }
 
     public function render()
@@ -62,6 +68,9 @@ class CreateExchange extends Component
 
         if (request()->user()->email <> 'demo@sunnyface.com') {
             $this->exchange->user_id = request()->user()->id;
+            $this->exchange->api_key = $this->api_key;
+            $this->exchange->api_secret = $this->api_secret;
+            $this->exchange->api_frase = $this->api_frase;
             $this->exchange->save();
             $this->exchange->createLogsFolder();
             $res = $this->exchange->user->updateExchangesFile();

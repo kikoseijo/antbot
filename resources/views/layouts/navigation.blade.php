@@ -23,11 +23,11 @@
                     <x-nav-link :href="route('symbols.index')" :active="request()->routeIs('symbols.*')">
                         {{ __('Symbols') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
-                        {{ __('Bots') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
                         {{ __('Exchanges') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
+                        {{ __('Bots') }}
                     </x-nav-link>
                     <x-nav-link :href="route('configs.index')" :active="request()->routeIs('configs.*')">
                         {{ __('Configs') }}

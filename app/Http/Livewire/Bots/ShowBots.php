@@ -15,6 +15,24 @@ class ShowBots extends Component
     public $search = '';
     public $deleteId = 0;
     public $title = 'Bots';
+    public Exchange $exchange;
+
+    protected $rules = [
+        'exchange.id' => 'required',
+    ];
+
+    public function mount()
+    {
+        $user_exchanges = auth()->user()->exchanges()->orderBy('name')->get();
+        $exchange_count = $user_exchanges->count();
+        if ($exchange_count == 0) {
+            session()->flash('message', 'Please create your first exchange.');
+
+            return redirect(route('exchanges.add'));
+        }
+
+        $this->exchange = $user_exchanges->first();
+    }
 
     public function updatingSearch()
     {
@@ -23,7 +41,8 @@ class ShowBots extends Component
 
     public function render()
     {
-        $records = Bot::where('name', 'like', '%'.$this->search.'%')
+        $records = $this->exchange->bots()->where('name', 'like', '%'.$this->search.'%')
+            ->orderBy(\DB::raw('ISNULL(started_at)'), 'asc')
             ->orderBy('name', 'asc')
             ->mine()
             ->with('exchange', 'grid', 'symbol')
@@ -31,6 +50,7 @@ class ShowBots extends Component
 
         $data = [
             'records' => $records,
+            'exchanges' => auth()->user()->exchanges->pluck('name', 'id'),
             'bot_modes' => config('antbot.bot_modes')
         ];
 

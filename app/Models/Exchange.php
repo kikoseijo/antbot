@@ -17,7 +17,8 @@ class Exchange extends Model
         'exchange' => ExchangesEnum::class,
     ];
 
-    protected $hidden = [ 'api_key', 'api_secret', 'api_frase'];
+    protected $hidden = [ 'api_key', 'api_secret', 'api_frase' ];
+    protected $fillable = [ 'api_key', 'api_secret', 'api_frase' ];
 
     public static function boot()
     {
