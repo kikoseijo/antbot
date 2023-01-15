@@ -6,6 +6,7 @@ use App\Enums\ExchangesEnum;
 use App\Models\Order;
 use App\Models\Position;
 use Illuminate\Console\Command;
+use Ksoft\Bybit\BybitInverse;
 use Ksoft\Bybit\BybitLinear;
 
 class ExchangeSyncOrders extends Command
@@ -42,32 +43,21 @@ class ExchangeSyncOrders extends Command
     protected function syncBybitPostionOrders(Position $position)
     {
         $host = $position->exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
-        $bybit = new BybitInverse(
+        $bybit = new BybitLinear(
             $position->exchange->api_key,
             $position->exchange->api_secret,
             $host
         );
-
-        $response= $bybit->privates()->getOrder([ // getOrderList
-            'symbol' => $position->symbol
-        ]);
+        $query = [ 'symbol' => $position->symbol]; // str_replace('USDT', 'USD', $position->symbol)
+        $response= $bybit->privates()->getOrderSearch($query);
+        // logi($query);
 
         if ($response['ret_msg'] == 'OK'){
             $records = collect($response['result']);
-            // We clean positions ordes before addding new ones.
-            $position->orders()->delete();
+            $position->orders()->delete(); // Delete position orders.
             foreach ($records as $record) {
-                // if ($this->debug_flag_counter < 10 && $position->symbol == 'FTMUSDT' && $position->side == 'Sell') {
-                //     if ($this->debug_flag_counter == 1) {
-                //         logi($position);
-                //         logi("Position");
-                //     }
-                //     logi($record);
-                //     logi("Record");
-                //     $this->debug_flag_counter++;
-                // }
                 // We only add matching side orders here
-                if ($record['position_idx'] == $position->position_idx) {
+                if ($record['order_status'] == 'New') {
                     $new_record = Order::create(
                         array_merge($record, ['position_id' => $position->id])
                     );
