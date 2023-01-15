@@ -14,6 +14,7 @@ class ExchangeSyncPositions extends Command
 
     protected $signature = 'antbot:sync-positions';
     protected $description = 'Syncronize exchange open positions.';
+    protected $debug_flag_counter = 1;
 
     public function handle()
     {
@@ -61,11 +62,17 @@ class ExchangeSyncPositions extends Command
     protected function saveExchangePositions(Exchange $exchange, $filtered_response)
     {
         foreach ($filtered_response as $key => $data) {
+            // if($this->debug_flag_counter == 1){
+            //     logi($data);
+            //     logi('Position sync');
+            //     $this->debug_flag_counter++;
+            // }
+            // $data['data']['ref_id'] = $data['data']['user_id'];
             Position::updateOrCreate([
                 'symbol' => $data['data']['symbol'],
                 'side' => $data['data']['side'],
                 'exchange_id' => $exchange->id
-            ],  \Arr::except($data['data'], ['tp_trigger_by', 'sl_trigger_by']));
+            ],  \Arr::except($data['data'], ['tp_trigger_by', 'sl_trigger_by', 'user_id']));
         }
     }
 

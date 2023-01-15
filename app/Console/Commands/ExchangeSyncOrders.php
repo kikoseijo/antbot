@@ -14,6 +14,7 @@ class ExchangeSyncOrders extends Command
 
     protected $signature = 'antbot:sync-orders';
     protected $description = 'Syncronize postions active orders.';
+    protected $debug_flag_counter = 1;
 
     public function handle()
     {
@@ -41,13 +42,13 @@ class ExchangeSyncOrders extends Command
     protected function syncBybitPostionOrders(Position $position)
     {
         $host = $position->exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
-        $bybit = new BybitLinear(
+        $bybit = new BybitInverse(
             $position->exchange->api_key,
             $position->exchange->api_secret,
             $host
         );
 
-        $response= $bybit->privates()->getOrderSearch([
+        $response= $bybit->privates()->getOrder([ // getOrderList
             'symbol' => $position->symbol
         ]);
 
@@ -56,8 +57,17 @@ class ExchangeSyncOrders extends Command
             // We clean positions ordes before addding new ones.
             $position->orders()->delete();
             foreach ($records as $record) {
+                // if ($this->debug_flag_counter < 10 && $position->symbol == 'FTMUSDT' && $position->side == 'Sell') {
+                //     if ($this->debug_flag_counter == 1) {
+                //         logi($position);
+                //         logi("Position");
+                //     }
+                //     logi($record);
+                //     logi("Record");
+                //     $this->debug_flag_counter++;
+                // }
                 // We only add matching side orders here
-                if ($record['side'] == $position->side) {
+                if ($record['position_idx'] == $position->position_idx) {
                     $new_record = Order::create(
                         array_merge($record, ['position_id' => $position->id])
                     );
