@@ -67,6 +67,9 @@ class ShowExchanges extends Component
                     $record->delete();
                     auth()->user()->updateExchangesFile();
                     session()->flash('message', 'Exchange successfully deleted.');
+                    if (session(CURRENT_EXCHANGE_ID) == $this->deleteId){
+                        session()->forget(CURRENT_EXCHANGE_ID);
+                    }
                 }
             } else {
                 $this->dispatchBrowserEvent('alert',[

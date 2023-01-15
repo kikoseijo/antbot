@@ -42,7 +42,14 @@ class ShowBots extends Component
         } else {
             $cur_id = session(CURRENT_EXCHANGE_ID);
             if($cur_id > 0){
-                $this->exchange = $user_exchanges->where('id', $cur_id)->first();
+                $current_working_exchange = $user_exchanges->where('id', $cur_id)->first();
+                // double check-
+                if ($current_working_exchange){
+                    $this->exchange = $current_working_exchange;
+                } else {
+                    $this->exchange = $user_exchanges->first();
+                    session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
+                }
             } else {
                 $this->exchange = $user_exchanges->first();
                 session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
@@ -79,6 +86,10 @@ class ShowBots extends Component
 
     public function changeBotStatus(Bot $bot)
     {
+        $this->dispatchBrowserEvent('alert',[
+            'type' => 'info',
+            'message' => "Executing task for {$bot->name}, please wait..."
+        ]);
         // logi($bot->started_at . ' PID: ' . $bot->pid);
         if ($bot->is_running) {
             $bot->stop();
@@ -89,6 +100,10 @@ class ShowBots extends Component
 
     public function restartBot(Bot $bot)
     {
+        $this->dispatchBrowserEvent('alert',[
+            'type' => 'info',
+            'message' => "Restarting {$bot->name}, please wait..."
+        ]);
         $bot->restart();
     }
 
