@@ -84,7 +84,7 @@ class GridEdit extends Component
     public function render()
     {
         if ($this->grid->user_id != auth()->user()->id) {
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
 
         return view('livewire.configs.grid-edit')->layoutData([

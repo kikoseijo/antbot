@@ -14,7 +14,7 @@ class AuthLogs extends Component
     {
         $cur_user = auth()->user();
         if (!$cur_user->isAdmin() && $this->user->id != $cur_user->id) {
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
 
         return view('livewire.users.auth-logs')->layoutData([

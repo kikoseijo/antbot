@@ -6,6 +6,7 @@
                 <th scope="col" class="py-3 px-2 text-center">Name</th>
                 <th scope="col" class="py-3 px-2 text-center">Exchange</th>
                 <th scope="col" class="py-3 px-2 text-center">Testnet</th>
+                <th scope="col" class="py-3 px-2 text-center">Balance</th>
                 <th scope="col" class="py-3 px-2 text-center">Wallet Exposure</th>
                 <th scope="col" class="py-3 px-2 text-center">TWE</th>
                 <th scope="col" class="py-3 px-2 text-center">Risk mode</th>
@@ -37,6 +38,13 @@
                     <td class="py-2 px-2 text-center">
                         <div class="h-2.5 w-2.5 rounded-full bg-{{$testnet_color}}-500 ml-4 mt-0.5"></div>
                     </td>
+                    <td class="py-2 px-2 text-right">
+                        <span class="font-bold text-{{ $record->usdt_balance < 0 ? 'red' : 'green' }}-500">
+                            @if ($record->usdt_balance <> 0)
+                                ${{ number($record->usdt_balance) }}
+                            @endif
+                        </span>
+                    </td>
                     <td class="py-2 px-2 text-center">
                         Long: {{ number_format($lwe, 2) }}&nbsp;&nbsp;Short: {{ number_format($swe, 2) }}
                     </td>
@@ -47,7 +55,9 @@
                         {{ \Arr::get($risk_modes, $record->risk_mode) }}
                     </td>
                     <td class="py-2 px-2 text-center">
-                        {{ $record->running_bots->count() }}/{{ $record->bots_count }}
+                        <a href="{{ route('bots.index', $record) }}">
+                            {{ $record->running_bots->count() }}/{{ $record->bots_count }}
+                        </a>
                     </td>
                     <td class="py-2 px-2 text-center">
                         {{ $record->positions_count }}
@@ -77,7 +87,7 @@
                 </tr>
             @empty
                 <tr class="text-center bg-white dark:bg-gray-900">
-                    <td colspan="11" class="py-4 px-2 italic">No hay información</td>
+                    <td colspan="12" class="py-4 px-2 italic">No hay información</td>
                 </tr>
             @endforelse
         </tbody>

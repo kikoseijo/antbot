@@ -18,7 +18,7 @@ class ShowTrades extends Component
     public function render()
     {
         if ($this->exchange->user_id != auth()->user()->id) {
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
 
         $trades = $this->exchange->trades()->where('created_at', '>', '2022-9-30 23:59:59')

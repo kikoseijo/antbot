@@ -3,12 +3,12 @@
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="{{config('antbot.css.thead')}}">
             <tr>
-                <th scope="col" class="py-3 px-2 text-center">Bot</th>
                 <th scope="col" class="py-3 px-2"></th>
-                <th scope="col" class="py-3 px-2 text-center">Symbol</th>
-                <th scope="col" class="py-3 px-2 text-center">Exchange</th>
+                <th scope="col" class="py-3 px-2">Bot</th>
+                <th scope="col" class="py-3 px-2">Symbol</th>
+                <th scope="col" class="py-3 px-2">Exchange</th>
                 <th scope="col" class="py-3 px-2 text-center">Market</th>
-                <th scope="col" class="py-3 px-2 text-center">Grid/Config</th>
+                <th scope="col" class="py-3 px-2">Grid/Config</th>
                 <th scope="col" class="py-3 px-2 text-center">Long</th>
                 <th scope="col" class="py-3 px-2 text-center">Short</th>
                 <th scope="col" class="py-3 px-2 text-center">AB</th>
@@ -65,19 +65,19 @@
                             $twel_on[$exchange->id] += $record->lwe;
                         }
                     }
-                    $color_running = $record->is_running ? 'green' : 'gray';
+                    $color_running = $record->is_running ? 'yellow' : 'gray';
                 @endphp
                 <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-gray-100 hover:dark:bg-teal-500 hover:dark:text-white">
+                    <td class="py-2 pr-2 text-center">
+                        <span class="bg-teal-500 text-white text-xs ml-2 px-0.5 rounded dark:bg-teal-500 dark:text-white">
+                            x{{ $record->leverage }}
+                        </span>
+                    </td>
                     <td class="py-2 px-2 font-bold text-left underline hover:no-underline">
-                        <i class="hidden text-green-500"></i>
-                        <a href="{{ route('bots.edit', $record) }}" class="text-{{ $color_running }}-500">
+                        <i class="hidden text-yellow-200"></i>
+                        <a href="{{ route('bots.edit', $record) }}" class="text-{{ $color_running }}-200">
                             {{ $record->name }}
                         </a>
-                    </td>
-                    <td class="py-2 px-2 text-center">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold ml-2 px-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
-                          x{{ $record->leverage }}
-                        </span>
                     </td>
                     <td class="py-2 px-2 font-bold text-left underline hover:no-underline text-xs">
                         <a href="{{ $record->exchange_link }}" target="_blank" class="flex content-center">

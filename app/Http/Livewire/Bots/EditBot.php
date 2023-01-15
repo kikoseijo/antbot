@@ -15,7 +15,7 @@ class EditBot extends Component
     public function render()
     {
         if ($this->bot->user_id != auth()->user()->id) {
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
 
         $rederData = $this->renderData();
@@ -47,6 +47,6 @@ class EditBot extends Component
         session()->flash('status', 'bot-updated');
         session()->flash('message', 'Bot Updated Successfully');
 
-        return redirect()->route('bots.index');
+        return redirect()->route('bots.index', $this->bot->exchange_id);
     }
 }

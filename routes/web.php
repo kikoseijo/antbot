@@ -19,7 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', App\Http\Livewire\Dashboard::class)->name('dashboard');
@@ -45,7 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('grid/{grid}/edit', App\Http\Livewire\Configs\EditConfig::class)->name('configs.edit');
     Route::get('grid/{grid}/visual-editor', App\Http\Livewire\Configs\GridEdit::class)->name('configs.visual-edit');
 
-    Route::get('bots', App\Http\Livewire\Bots\ShowBots::class)->name('bots.index');
+    Route::get('bots/{exchange?}', App\Http\Livewire\Bots\ShowBots::class)->name('bots.index');
     Route::get('bot/add', App\Http\Livewire\Bots\CreateBot::class)->name('bots.add');
     Route::get('bot/{bot}/edit', App\Http\Livewire\Bots\EditBot::class)->name('bots.edit');
     Route::get('bot/{bot}/logs/{name?}', App\Http\Livewire\Bots\BotLogsViewer::class)->name('bots.logs');

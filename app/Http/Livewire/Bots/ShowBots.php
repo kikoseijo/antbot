@@ -21,8 +21,12 @@ class ShowBots extends Component
         'exchange.id' => 'required',
     ];
 
-    public function mount()
+    public function mount($exchange = NULL)
     {
+        if ($exchange && $exchange->user_id <> auth()->user()->id){
+            return abort(403, 'Unauthorized');
+        }
+
         $user_exchanges = auth()->user()->exchanges()->orderBy('name')->get();
         $exchange_count = $user_exchanges->count();
         if ($exchange_count == 0) {
@@ -30,8 +34,11 @@ class ShowBots extends Component
 
             return redirect(route('exchanges.add'));
         }
-
-        $this->exchange = $user_exchanges->first();
+        if ($exchange){
+            $this->exchange = $exchange;
+        } else {
+            $this->exchange = $user_exchanges->first();
+        }
     }
 
     public function updatingSearch()

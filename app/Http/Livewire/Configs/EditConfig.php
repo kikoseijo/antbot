@@ -14,7 +14,7 @@ class EditConfig extends Component
     public function render()
     {
         if ($this->grid->user_id != auth()->user()->id) {
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
 
         $rederData = $this->renderData();
