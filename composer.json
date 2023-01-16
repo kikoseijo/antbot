@@ -11,6 +11,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "jamesmills/laravel-timezone": "^1.11",
         "jenssegers/agent": "^2.6",
+        "kikoseijo/bitget": "dev-master",
         "kikoseijo/bybit-php": "^1.0",
         "lab404/laravel-impersonate": "^1.7",
         "laravel/framework": "^9.19",
