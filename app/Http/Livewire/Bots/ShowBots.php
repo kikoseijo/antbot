@@ -38,23 +38,15 @@ class ShowBots extends Component
 
         if ($exchange){
             $this->exchange = $exchange;
-            session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
         } else {
-            $cur_id = session(CURRENT_EXCHANGE_ID);
-            if($cur_id > 0){
+            if($cur_id = session(CURRENT_EXCHANGE_ID)){
                 $current_working_exchange = $user_exchanges->where('id', $cur_id)->first();
-                // double check-
-                if ($current_working_exchange){
-                    $this->exchange = $current_working_exchange;
-                } else {
-                    $this->exchange = $user_exchanges->first();
-                    session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
-                }
+                $this->exchange = $current_working_exchange ??  $user_exchanges->first();
             } else {
                 $this->exchange = $user_exchanges->first();
-                session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
             }
         }
+        session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
     }
 
     public function updatingSearch()
@@ -64,6 +56,8 @@ class ShowBots extends Component
 
     public function render()
     {
+        session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
+
         $records = $this->exchange->bots()->where('name', 'like', '%'.$this->search.'%')
             ->orderBy(\DB::raw('ISNULL(started_at)'), 'asc')
             ->orderBy('name', 'asc')
