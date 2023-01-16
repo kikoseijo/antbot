@@ -7,7 +7,7 @@
       "__commonjsHelpers.4e997714.js"
     ],
     "css": [
-      "assets/app.d1acf4a5.css"
+      "assets/app.6d357069.css"
     ]
   },
   "resources/js/binance.js": {
@@ -39,11 +39,11 @@
     "file": "assets/_commonjsHelpers.4e997714.js"
   },
   "resources/js/app.css": {
-    "file": "assets/app.d1acf4a5.css",
+    "file": "assets/app.6d357069.css",
     "src": "resources/js/app.css"
   },
   "resources/css/app.css": {
-    "file": "assets/app.bfc2bb76.css",
+    "file": "assets/app.f02bee7e.css",
     "src": "resources/css/app.css",
     "isEntry": true
   }

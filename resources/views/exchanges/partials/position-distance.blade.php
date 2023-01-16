@@ -10,6 +10,6 @@
         $distance *= -1;
     }
 @endphp
-<div class="text-center">
+<div class=" text-center">
     {{ number($distance, 2) }}%
 </div>
