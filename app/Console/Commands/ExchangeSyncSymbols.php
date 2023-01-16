@@ -37,7 +37,6 @@ class ExchangeSyncSymbols extends Command
         if ($response['msg'] == 'success'){
             $records = collect($response['data']);
             foreach ($records as $record) {
-                logi($record);
                 $symbol_name = \Arr::get($record, 'symbol');
                 $normalized_record = $this->normalizeBitgetRecord(
                     $record,

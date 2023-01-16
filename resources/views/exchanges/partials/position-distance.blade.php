@@ -1,6 +1,6 @@
 @php
     $entry = $row->entry_price;
-    $current = $row->coin->mark_price;
+    $current = $row->coin->mark_price ?? 1;
     $distance = (1 - $entry / $current) * 100;
     // if ($entry > $current) {
     // } else {

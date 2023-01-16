@@ -40,7 +40,7 @@ class ExchangeSyncBalance extends Command
         ]);
         if ($response['msg'] == 'success'){
             $records = collect($response['data']);
-            $symbols = $records->pluck('marginCoin');
+            $symbols = $records->pluck('marginCoin')->toArray();
             $this->removeNonExistingAssets($exchange, $symbols);
             $this->saveBitgetBalances($exchange, $records);
         } else {
