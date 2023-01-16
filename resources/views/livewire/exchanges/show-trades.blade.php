@@ -6,6 +6,12 @@
                 <section>
                     <x-section-header
                         :h2text="__('Monthly PNL')">
+                        <div class="flex content-end">
+                            <x-select-input id="chart_type" type="text" class="mr-4 block w-full" wire:model="chart_type">
+                                <option value="monthly">Trades per month</option>
+                                <option value="daily">Trades per day</option>
+                            </x-select-input>
+                        </div>
                     </x-section-header>
                     <div class="mt-6 space-y-6">
                         @include('exchanges.trades-table')

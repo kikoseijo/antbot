@@ -22,7 +22,7 @@ class BotLogsViewer extends Component
 
     protected $queryString=['page'];
 
-    public function mount($name)
+    public function mount($name = '')
     {
         $this->name = $name;
     }
