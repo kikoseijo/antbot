@@ -5,7 +5,7 @@
             <div class="">
                 <section>
                     <x-section-header
-                        :h2text="__('Your Antbots')"
+                        h2text="{{ $sub_title }}"
                         :ptext="__('Here you can find a list of all your Antbots.')">
                         <div class="flex content-end">
 

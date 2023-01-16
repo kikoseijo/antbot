@@ -25,7 +25,7 @@
                     $swe = $record->short_wallet_exposure;
                     $total_we = $swe + $lwe;
                 @endphp
-                <tr class="bg-white {{ $loop->index % 2 == 0 ? 'bg-gray-100' : ''}} dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-teal-100 hover:dark:bg-teal-500 hover:dark:text-white">
+                <tr class="bg-white {{ $loop->index % 2 == 0 ? 'bg-gray-100' : ''}} dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-teal-100 hover:dark:bg-[#080C19] hover:dark:text-white">
 
                     <td class="py-2 px-2 font-bold underline hover:no-underline">
                         <a href="{{ route('exchanges.edit', $record) }}">

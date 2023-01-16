@@ -15,6 +15,7 @@ class ShowBots extends Component
     public $search = '';
     public $deleteId = 0;
     public $title = 'Bots';
+    public $sub_title = 'Your Antbots';
     public Exchange $exchange;
 
     protected $rules = [
@@ -49,28 +50,13 @@ class ShowBots extends Component
         session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
     }
 
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
 
-
-    public function duplicateBot(Bot $bot)
-    {
-        $newBot = $bot->replicate();
-        $newBot->name = $bot->name . ' copy';
-        $newBot->created_at = now();
-        $newBot->started_at = NULL;
-        $newBot->symbol_id = 0; // To avoid running 2 bots on same pair.
-        $newBot->pid = NULL;
-        $newBot->save();
-
-        session()->flash('message', 'Bot duplication successfull.');
-    }
 
     public function render()
     {
         session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
+
+        $this->sub_title = \Str::upper($this->exchange->name) . ' - Bots';
 
         $records = $this->exchange->bots()->where('name', 'like', '%'.$this->search.'%')
             ->orderBy(\DB::raw('ISNULL(started_at)'), 'asc')
@@ -85,11 +71,27 @@ class ShowBots extends Component
             'bot_modes' => config('antbot.bot_modes')
         ];
 
-        // $stats = $this->getStats($records);
-
         return view('livewire.bots.show-bots', $data)->layoutData([
             'title' => $this->title,
         ]);
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function duplicateBot(Bot $bot)
+    {
+        $newBot = $bot->replicate();
+        $newBot->name = $bot->name . ' copy';
+        $newBot->created_at = now();
+        $newBot->started_at = NULL;
+        $newBot->symbol_id = 0; // To avoid running 2 bots on same pair.
+        $newBot->pid = NULL;
+        $newBot->save();
+
+        session()->flash('message', 'Bot duplication successfull.');
     }
 
     public function changeBotStatus(Bot $bot)
@@ -98,7 +100,6 @@ class ShowBots extends Component
             'type' => 'info',
             'message' => "Executing task for {$bot->name}, please wait..."
         ]);
-        // logi($bot->started_at . ' PID: ' . $bot->pid);
         if ($bot->is_running) {
             $bot->stop();
         } else {
@@ -136,38 +137,6 @@ class ShowBots extends Component
                     'message' => "Can't delete a bot that it's running."
                 ]);
             }
-        }
-    }
-
-    public function changeStatus()
-    {
-
-    }
-
-    protected function getStats($bots)
-    {
-        $res = [];
-        $exchanges = [];
-        $total_wallet_exposure_short = 0;
-        $total_wallet_exposure_long = 0;
-        $total_wallet_exposure_short_on = 0;
-        $total_wallet_exposure_long_on = 0;
-        $count = [];
-        $total_running = [];
-        foreach ($bots as $bot) {
-            $total_wallet_exposure_long += $bot->lwe;
-            $total_wallet_exposure_short += $bot->swe;
-            if ($bot->is_running()) {
-                if ($record->sm->value != 'm') {
-                    $total_wallet_exposure_short_on += $bot->lwe;
-                }
-                if ($record->lm->value != 'm') {
-                    $total_wallet_exposure_long_on += $bot->lwe;
-                }
-            }
-            $stats = [
-
-            ];
         }
     }
 }
