@@ -82,6 +82,8 @@ class ShowTrades extends Component
             ];
         }
 
+        ksort($res);
+
         return [
             'records' => $res,
             'dates' => $dates,

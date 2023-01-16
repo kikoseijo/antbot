@@ -11,7 +11,7 @@
             <tr>
                 <th scope="col" class="py-1 px-2 text-center border-t dark:border-gray-500"></th>
                 @foreach ($dates as $date)
-                    <th scope="col" class="py-1 px-2 text-center border-t border-l dark:border-gray-500">N.Trades</th>
+                    <th scope="col" class="py-1 px-2 text-center border-t border-l dark:border-gray-500">Trades</th>
                     <th scope="col" class="py-1 px-2 text-center border-t border-l dark:border-gray-500">PNL</th>
                 @endforeach
             </tr>

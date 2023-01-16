@@ -144,7 +144,9 @@ Screenshots
 
 ### Traded records
 
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/records.png" width="800" alt="Exchange trading records">
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/monthly_trades.png" width="800" alt="Exchange trading records">
+
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/daily_trades.png" width="800" alt="Exchange trading records">
 
 ### Exchange symbols & volumes
 
