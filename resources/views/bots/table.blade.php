@@ -67,7 +67,7 @@
                     }
                     $color_running = $record->is_running ? 'yellow' : 'gray';
                 @endphp
-                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-gray-100 hover:dark:bg-teal-500 hover:dark:text-white">
+                <tr class="bg-white {{ $loop->index % 2 == 0 ? 'bg-gray-100' : ''}} dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-teal-100 hover:dark:bg-teal-500 hover:dark:text-white">
                     <td class="py-2 pr-2 text-center">
                         <span class="bg-teal-500 text-white text-xs ml-2 px-0.5 rounded dark:bg-teal-500 dark:text-white">
                             x{{ $record->leverage }}
