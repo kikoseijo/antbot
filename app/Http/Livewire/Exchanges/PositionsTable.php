@@ -21,7 +21,18 @@ class PositionsTable extends DataTableComponent
             // ->setRefreshTime(10000)
             ->setTheadAttributes([
                 'class' => config('antbot.css.thead'),
-            ])
+            ])->setConfigurableAreas([
+                // 'toolbar-left-start' => 'path.to.my.view',
+                // 'toolbar-left-end' => 'path.to.my.view',
+                'toolbar-right-start' => ['exchanges.partials.traded-records-btn', [
+                    'exchange' => $this->exchange,
+                ]],
+                // 'toolbar-right-end' => 'path.to.my.view',
+                // 'before-toolbar' => 'path.to.my.view',
+                // 'after-toolbar' => 'path.to.my.view',
+                // 'before-pagination' => 'path.to.my.view',
+                // 'after-pagination' => 'path.to.my.view',
+              ])
             ->setTbodyAttributes([
                 'class' => config('antbot.css.tbody'),
             ])->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {

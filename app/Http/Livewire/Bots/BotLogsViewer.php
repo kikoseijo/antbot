@@ -73,6 +73,7 @@ class BotLogsViewer extends Component
                 'message' => $file_name . ' deleted succesfully.'
             ]);;
         }
+        $this->page = 0;
     }
 
     public function truncateAllFiles()

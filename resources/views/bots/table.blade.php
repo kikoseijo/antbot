@@ -96,7 +96,7 @@
                     <td class="py-2 px-2 text-xs uppercase">
                         @if ($record->grid_mode->value == 'custom' && optional($record->grid)->id > 0)
                             <a href="{{ route('configs.edit', $record->grid) }}" class="underline hover:no-underline">
-                                {{ $record->grid->name }}
+                                {{ optional($record->grid)->name }}
                             </a>
                         @else
                             {{ $record->grid_mode }}

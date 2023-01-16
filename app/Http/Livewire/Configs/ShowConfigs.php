@@ -33,6 +33,16 @@ class ShowConfigs extends Component
         ]);
     }
 
+    public function duplicateGrid(Grid $grid)
+    {
+        $newGrid = $grid->replicate();
+        $newGrid->name = $grid->name . ' copy';
+        $newGrid->created_at = now();
+        $newGrid->save();
+
+        session()->flash('message', 'Grid duplication successfull.');
+    }
+
     public function deleteId($id)
     {
         $this->deleteId = $id;

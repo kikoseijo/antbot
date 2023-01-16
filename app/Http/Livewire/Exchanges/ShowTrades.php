@@ -9,7 +9,7 @@ class ShowTrades extends Component
 {
     public Exchange $exchange;
     public $title;
-    public $chart_type = 'monthly';
+    public $chart_type = 'daily';
 
     protected $rules = [
         'chart_type' => 'required',

@@ -54,6 +54,20 @@ class ShowBots extends Component
         $this->resetPage();
     }
 
+
+    public function duplicateBot(Bot $bot)
+    {
+        $newBot = $bot->replicate();
+        $newBot->name = $bot->name . ' copy';
+        $newBot->created_at = now();
+        $newBot->started_at = NULL;
+        $newBot->symbol_id = 0; // To avoid running 2 bots on same pair.
+        $newBot->pid = NULL;
+        $newBot->save();
+
+        session()->flash('message', 'Bot duplication successfull.');
+    }
+
     public function render()
     {
         session([CURRENT_EXCHANGE_ID => $this->exchange->id]);

@@ -64,8 +64,8 @@ class Bot extends Model
     public function getLogPathAttribute()
     {
         $log_path = config('antbot.paths.logs_path');
-
-        return "{$log_path}/{$this->exchange->id}/{$this->symbol->name}.log";
+        $file_name = $this->symbol->name ?? 'XXX12XX';
+        return "{$log_path}/{$this->exchange->id}/{$file_name}.log";
     }
 
     public function isRunning($pid = null)
