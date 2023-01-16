@@ -7,9 +7,9 @@
     }
 @endphp
 <div class="font-bold text-right">
-    <span class="tex-green-300 dark:text-green-500">
+    <span class="text-green-300 dark:text-green-500">
         {{ $total_buy }}
-    </span>/<span class="tex-red-300 dark:text-red-500">
+    </span>/<span class="text-red-300 dark:text-red-500">
         {{ $total_sale }}
     </span>
 </div>

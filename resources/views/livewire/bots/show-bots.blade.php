@@ -8,6 +8,7 @@
                         :h2text="__('Your Antbots')"
                         :ptext="__('Here you can find a list of all your Antbots.')">
                         <div class="flex content-end">
+
                             <x-select-input id="exchange_selector" type="text" class="mr-4" wire:model="exchange.id">
                                 @foreach ($exchanges as $exchange_id => $exchange_name)
                                     <option value="{{$exchange_id}}"{{ $exchange->id == $exchange_id ? ' selected' : ''}}>
@@ -15,6 +16,12 @@
                                     </option>
                                 @endforeach
                             </x-select-input>
+
+                            <x-btn-link href="{{route('exchanges.positions', $exchange)}}" class=" mr-4">
+                                <svg class="w-5 h-5 mr-1 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                                {{ __('Positions') }}
+                            </x-btn-link>
+
                             <x-btn-link href="{{ route('bots.add') }}" class="py-1 px-4" title="Create new">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

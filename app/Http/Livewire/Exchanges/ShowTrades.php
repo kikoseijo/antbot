@@ -15,6 +15,8 @@ class ShowTrades extends Component
         'chart_type' => 'required',
     ];
 
+    protected $listeners = ['refreshTradesComponent' => '$refresh'];
+
     public function mount()
     {
         $this->title = $this->exchange->name . " - PNL";
