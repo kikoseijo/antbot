@@ -8,11 +8,26 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 class PositionsTable extends DataTableComponent
 {
     protected $model = Position::class;
     public Exchange $exchange;
+
+    protected $rules = [
+        'exchange.id' => 'sometimes',
+    ];
+
+    // public function render()
+    // {
+    //     if ($this->exchange->user_id != auth()->user()->id) {
+    //         return abort(403, 'Unauthorized');
+    //     }
+    //
+    //     $this->setFilter('exchange_id', $this->exchange->id);
+    //     parent::render();
+    // }
 
     public function configure(): void
     {
@@ -24,6 +39,9 @@ class PositionsTable extends DataTableComponent
             ])->setConfigurableAreas([
                 // 'toolbar-left-start' => 'path.to.my.view',
                 // 'toolbar-left-end' => 'path.to.my.view',
+                'toolbar-left-end' => ['exchanges.partials.select-exchange', [
+                    'exchange' => $this->exchange,
+                ]],
                 'toolbar-right-start' => ['exchanges.partials.traded-records-btn', [
                     'exchange' => $this->exchange,
                 ]],
@@ -151,10 +169,23 @@ class PositionsTable extends DataTableComponent
         ];
     }
 
+    // public function filters(): array
+    // {
+    //     $exchanges = auth()->user()->exchanges->pluck('name', 'id');
+    //     return [
+    //         SelectFilter::make('Exchange', 'exchange_id')
+    //             ->options($exchanges->toArray())
+    //             ->filter(function(Builder $builder, string $value) {
+    //                 $builder->where('exchange_id', $value);
+    //             }),
+    //     ];
+    // }
+
     public function builder(): Builder
     {
         return Position::query()
             ->whereExchangeId($this->exchange->id)
+            // ->when(true, fn($query, $active) => $query->where('exchange_id', $this->exchange->id))
             ->with('exchange', 'coin', 'orders', 'buy_orders', 'sell_orders')
             ->withCount('orders')
             ->select('positions.id', 'exchange_id', 'symbol');

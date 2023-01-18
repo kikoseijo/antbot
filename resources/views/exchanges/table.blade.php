@@ -5,6 +5,7 @@
             <tr>
                 <th scope="col" class="py-3 px-2 text-center">Name</th>
                 <th scope="col" class="py-3 px-2 text-center">Exchange</th>
+                <th scope="col" class="py-3 px-2 text-center">Status</th>
                 <th scope="col" class="py-3 px-2 text-center">Testnet</th>
                 <th scope="col" class="py-3 px-2 text-center">Balance</th>
                 <th scope="col" class="py-3 px-2 text-center">Wallet Exposure</th>
@@ -21,6 +22,7 @@
             @forelse($records as $record)
                 @php
                     $testnet_color = $record->is_testnet ? 'green' : 'red';
+                    $api_color = $record->api_error ? 'red' : 'green';
                     $lwe = $record->long_wallet_exposure;
                     $swe = $record->short_wallet_exposure;
                     $total_we = $swe + $lwe;
@@ -34,6 +36,9 @@
                     </td>
                     <td class="py-2 px-2">
                         {{ \Arr::get($exchanges, $record->exchange->value) }}
+                    </td>
+                    <td class="py-2 px-2 text-center">
+                        <div class="h-2.5 w-2.5 rounded-full bg-{{$api_color}}-500 ml-4 mt-0.5"></div>
                     </td>
                     <td class="py-2 px-2 text-center">
                         <div class="h-2.5 w-2.5 rounded-full bg-{{$testnet_color}}-500 ml-4 mt-0.5"></div>
@@ -70,7 +75,7 @@
                     </td> --}}
                     <td class="py-2 px-2 text-right">
                         <div class="inline-flex rounded-md shadow-sm" role="group">
-                          <a href="{{route('exchanges.positions', $record)}}" title="Open positions" type="button" class="inline-flex items-center px-2 py-2 text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                          <a href="{{route('exchanges.positions', $record->id)}}" title="Open positions" type="button" class="inline-flex items-center px-2 py-2 text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                           </a>
                           <a href="{{ route('exchanges.trades', $record) }}" title="Trade records" class="inline-flex items-center px-2 py-2 text-xs font-medium text-gray-900 bg-white border-t border-b border-r border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">

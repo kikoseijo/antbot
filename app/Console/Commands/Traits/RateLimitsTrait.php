@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Traits;
 
 use App\Models\Exchange;
+use App\Notifications\ExchangeApiExpired;
 
 trait RateLimitsTrait
 {
@@ -18,7 +19,10 @@ trait RateLimitsTrait
 
     protected function processApiError($error_msg, Exchange $exchange, $job_name)
     {
-        if (in_array($error_msg, ['invalid api_key', 'API key is invalid.'])) {
+        if (in_array($error_msg, ['invalid api_key', 'API key is invalid.', 'Your api key has expired.'])) {
+            if ($error_msg == 'Your api key has expired.') {
+                $exchange->user->notify(new ExchangeApiExpired($exchange));
+            }
             $exchange->api_error = 1;
             $exchange->save();
         }

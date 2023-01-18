@@ -17,15 +17,23 @@
                                 </svg>
                             </x-btn-link>
 
-                            <x-btn-link href="{{route('exchanges.positions', $exchange)}}" class=" mr-4">
+                            <x-btn-link href="{{route('exchanges.positions', $exchange->id)}}" class=" mr-4">
                                 <svg class="w-5 h-5 mr-1 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                                 {{ __('Positions') }}
                             </x-btn-link>
+
+                            <x-select-input id="exchange-select-id" type="text" class="w-40 mr-4" wire:model="exchange.id">
+                                @foreach ($exchange->user->exchanges->pluck('name', 'id') as $exchange_id => $exchange_name)
+                                    <option value="{{$exchange_id}}">{{$exchange_name}}</option>
+                                @endforeach
+                            </x-select-input>
 
                             <x-select-input id="chart_type" type="text" class="w-40 mr-4" wire:model="chart_type">
                                 <option value="monthly">Trades per month</option>
                                 <option value="daily">Trades per day</option>
                             </x-select-input>
+
+
 
                         </div>
                     </x-section-header>

@@ -14,6 +14,7 @@ class ShowTrades extends Component
 
     protected $rules = [
         'chart_type' => 'required',
+        'exchange.id' => 'required',
     ];
 
     protected $listeners = ['refreshTradesComponent' => '$refresh'];

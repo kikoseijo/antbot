@@ -66,7 +66,21 @@
             </span>
         @endif
 
-        <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
+        <div class="grid grid-cols-3 grid-flow-col gap-4 mb-4 pb-4">
+            <div>
+                <x-input-label for="api_error" :value="__('Disable exchange syncronization')" />
+                <div class="flex mt-2">
+                    <div class="flex items-center mr-4">
+                        <input id="api_error_1" type="radio" value="1"  wire:model="exchange.api_error" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="api_error_1" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                    </div>
+                    <div class="flex items-center mr-4 ml-4">
+                        <input id="api_error_2" type="radio" value="0"  wire:model="exchange.api_error" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="api_error_2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                    </div>
+                </div>
+                <x-input-error class="mt-2" :messages="$errors->get('exchange.api_error')" />
+            </div>
             <div>
                 <x-input-label for="is_testnet" :value="__('Testnet enabled')" />
                 <div class="flex mt-2">
@@ -83,7 +97,7 @@
             </div>
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 mt-4 pt-4">
             <x-primary-button>{{ isset($on_edit) ? __('Update exchange') : __('Create exchange') }}</x-primary-button>
 
             @if (session('status') === 'exchange-created' || session('status') === 'exchange-updated')

@@ -19,6 +19,7 @@ class EditExchange extends Component
         'exchange.exchange' => 'required',
         'exchange.risk_mode' => 'required',
         'exchange.is_testnet' => 'sometimes',
+        'exchange.api_error' => 'sometimes',
         'exchange.api_frase' => 'sometimes|string|max:250',
     ];
 
