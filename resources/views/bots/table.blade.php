@@ -88,7 +88,7 @@
                         </a>
                     </td>
                     <td class="py-2 px-2 text-left text-xs">
-                          <a href="{{ route('exchanges.positions', $record->exchange) }}" class="underline hover:no-underline">
+                          <a href="{{ route('exchanges.edit', $record->exchange) }}" class="underline hover:no-underline">
                               {{ optional($record->exchange)->name }}
                           </a>
                     </td>
