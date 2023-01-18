@@ -27,7 +27,7 @@
                 <x-input-label for="symbol_id" :value="__('Symbol')" />
                 <x-select-input id="market_type" type="text" class="mt-1 block w-full" wire:model="bot.symbol_id" required>
                     @foreach ($symbols as $symb_id => $symb_name)
-                        <option value="{{$symb_id}}">{{$symb_name}}</option>
+                        <option value="{{$symb_id}}">{{ str_replace('_UMCBL', '', $symb_name) }}</option>
                     @endforeach
                 </x-select-input>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.symbol_id')" />
@@ -35,15 +35,6 @@
 
         </div>
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
-            <div>
-                <x-input-label for="exchange_id" :value="__('Exchange')" />
-                <x-select-input id="exchange_id" type="text" class="mt-1 block w-full" wire:model="bot.exchange_id" required>
-                    @foreach ($my_exchanges as $exchange)
-                        <option value="{{$exchange->id}}">{{$exchange->name}}</option>
-                    @endforeach
-                </x-select-input>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.exchange_id')" />
-            </div>
             <div>
                 <x-input-label for="market_type" :value="__('Market type')" />
                 <x-select-input id="market_type" type="text" class="mt-1 block w-full" wire:model="bot.market_type" required>

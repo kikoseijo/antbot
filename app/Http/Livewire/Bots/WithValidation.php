@@ -16,7 +16,6 @@ trait WithValidation
         'bot.symbol_id' => 'required|exists:symbols,id',
         'bot.market_type' => 'required|in:futures,spot',
         'bot.grid_mode' => 'required|string|max:12',
-        'bot.exchange_id' => 'required',
         'bot.grid_id' => 'nullable',
         'bot.show_logs' => 'sometimes',
         'bot.assigned_balance' => 'required|numeric|between:0,999999',
@@ -29,7 +28,6 @@ trait WithValidation
 
     protected $validationAttributes = [
         'grid_id' => 'Custom grid',
-        'exchange_id' => 'Exchange',
         'lm' => 'Long mode',
         'sm' => 'Short mode',
         'lwe' => 'Long wallet exposure',
@@ -37,16 +35,15 @@ trait WithValidation
     ];
 
     protected $messages = [
-        'bot.symbol_id' => 'Only one symbol per exchange is allowed.',
+        'bot.symbol_id' => 'Only one symbol per exchange allowed.',
         'email.email' => 'The Email Address format is not valid.',
     ];
 
     protected function renderData()
     {
         return [
-            'my_exchanges' => Exchange::mine()->orderBy('name')->get(),
+            // 'my_exchanges' => Exchange::mine()->orderBy('name')->get(),
             'my_configs' => Grid::mine()->orderBy('name')->get(),
-            'symbols' => Symbol::orderBy('name')->get()->pluck('name', 'id'),
             'grid_modes' => config('antbot.grid_modes'),
             'bot_modes' => config('antbot.bot_modes'),
             'market_types' => config('antbot.market_types')

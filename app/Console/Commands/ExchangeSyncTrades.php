@@ -37,7 +37,7 @@ class ExchangeSyncTrades extends Command
     protected function syncBitget(Exchange $exchange)
     {
         $client = new BitgetSwap($exchange->api_key, $exchange->api_secret, $exchange->api_frase);
-        $symbols = Symbol::where('exchange', $exchange->exchange)->where('name', 'SANDUSDT_UMCBL')->get();
+        $symbols = Symbol::where('exchange', $exchange->exchange)->get();
         $api_limit = 0;
         foreach ($symbols as $symbol) {
 
@@ -78,19 +78,7 @@ class ExchangeSyncTrades extends Command
             $params = array_merge($params, ['lastEndId' => $next_id]);
         }
 
-        // $params = [
-        //     'productType' => 'umcbl',
-        //     'startTime' => $start_time,
-        //     'endTime' => now()->timestamp,
-        //     'pageSize' => 20,
-        // ];
-
         $response = $client->order()->getHistory($params); // getProductHistory
-
-        if ($symbol == 'SANDUSDT_UMCBL'){
-            logi($response);
-            logi($params);
-        }
 
         $res_msg = \Arr::get($response, 'msg');
         if ($res_msg == 'success'){
@@ -143,7 +131,7 @@ class ExchangeSyncTrades extends Command
                         // 'xxxxx' => \Arr::get($data, 'xxxxxxxx'),
                     ]);
             } else {
-                logi([$state => $side]);
+                // logi([$state => $side]);
             }
         }
     }

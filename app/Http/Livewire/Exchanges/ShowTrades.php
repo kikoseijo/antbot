@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Exchanges;
 
 use App\Models\Exchange;
+use App\Enums\ExchangesEnum;
 use Livewire\Component;
 
 class ShowTrades extends Component
@@ -77,7 +78,7 @@ class ShowTrades extends Component
             if (!in_array($fecha, $dates)) {
                 array_push($dates, $fecha);
             }
-            $res[$trade->symbol][$fecha] = [
+            $res[$trade->nice_name][$fecha] = [
                 'date' => $fecha,
                 'trades_count' => $trade->total_trades,
                 'pnl' => $trade->pnl,
