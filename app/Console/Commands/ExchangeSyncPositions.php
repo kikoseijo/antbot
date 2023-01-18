@@ -32,14 +32,18 @@ class ExchangeSyncPositions extends Command
         return Command::SUCCESS;
     }
 
+    // Bitget
     protected function syncBitgetPositions(Exchange $exchange)
     {
+        // TODO: nextFlag -> endId
         $client = new BitgetSwap($exchange->api_key, $exchange->api_secret, $exchange->api_frase);
         $response = $client->position()->getAllPosition([
             'productType' => 'umcbl'
         ]);
         if ($response['msg'] == 'success'){
-            $records = collect($response['data']);
+            $records = collect($response['data'])->filter(function ($value, $key) {
+                return $value['total'] > 0;
+            });
             $this->removeNonExistingPositions($exchange, $records);
             $this->saveBitgetPositions($exchange, $records);
         } else {
@@ -47,6 +51,44 @@ class ExchangeSyncPositions extends Command
         }
     }
 
+    protected function saveBitgetPositions(Exchange $exchange, $records)
+    {
+        foreach ($records as $data) {
+            $size = \Arr::get($data, 'total');
+            $side = $data['holdSide'] == 'long' ? 'Buy' : 'Sell';
+            $mode = $data['marginMode'] == 'crossed' ? 'BothSide' : 'SingleSide';
+            $value = \Arr::get($data, 'marketPrice') * $size;
+            Position::updateOrCreate([
+                'symbol' => \Arr::get($data, 'symbol'),
+                'side' => $side,
+                'exchange_id' => $exchange->id
+            ],[
+                'is_isolated' => $mode == 'fixed',
+                'mode' => $mode,
+                'size' => \Arr::get($data, 'total'),
+                'leverage' => \Arr::get($data, 'leverage'),
+                'position_value' => $value, // maybe...
+                'entry_price' => \Arr::get($data, 'averageOpenPrice'),
+                'position_margin' => \Arr::get($data, 'margin'),
+                'realised_pnl' => \Arr::get($data, 'achievedProfits'),
+                'unrealised_pnl' => \Arr::get($data, 'unrealizedPL'),
+                'liq_price' => \Arr::get($data, 'liquidationPrice'),
+                // 'deleverage_indicator' => $data['xxxxxxx'],
+                // 'auto_add_margin' => $data['xxxxxxx'],
+                // 'position_idx' => $data['xxxxxxx'],
+                // 'bust_price' => $data['xxxxxxx'],
+                // 'occ_closing_fee' => $data['xxxxxxx'],
+                // 'cum_realised_pnl' => $data['xxxxxxx'],
+                // 'tp_sl_mode' => $data['xxxxxxx'],
+                // 'risk_id' => $data['xxxxxxx'],
+                // 'stop_loss' => $data['xxxxxxx'],
+                // 'take_profit' => $data['xxxxxxx'],
+                // 'trailing_stop' => $data['xxxxxxx'],
+            ]);
+        }
+    }
+
+    // Bybit
     protected function syncBybitPositions(Exchange $exchange)
     {
         $host = $exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
@@ -56,7 +98,6 @@ class ExchangeSyncPositions extends Command
             $filtered_response = collect($response['result'])->filter(function ($value, $key) {
                 return $value['data']['size'] > 0;
             });
-            // logi(\Arr::get($response, 'result'));
             $this->removeNonExistingPositions($exchange, $filtered_response);
             $this->saveBybitPositions($exchange, $filtered_response);
             $this->checkRateLimits($response['rate_limit_status'], $exchange, 'SyncPositions');
@@ -80,12 +121,6 @@ class ExchangeSyncPositions extends Command
     protected function saveBybitPositions(Exchange $exchange, $records)
     {
         foreach ($records as $key => $data) {
-            // if($this->debug_flag_counter == 1){
-            //     logi($data);
-            //     logi('Position sync');
-            //     $this->debug_flag_counter++;
-            // }
-            // $data['data']['ref_id'] = $data['data']['user_id'];
             Position::updateOrCreate([
                 'symbol' => $data['data']['symbol'],
                 'side' => $data['data']['side'],
@@ -95,47 +130,5 @@ class ExchangeSyncPositions extends Command
     }
 
 
-
-
-    // "openDelegateCount":"0",
-    // "available":"0",
-    // "locked":"0",
-    // "total":"0",
-    // "holdMode":"double_hold",
-    // "keepMarginRate":"0",
-    protected function saveBitgetPositions(Exchange $exchange, $records)
-    {
-        foreach ($records as $data) {
-            $side = $data['holdSide'] == 'long' ? 'Buy' : 'Sell';
-            $mode = $data['marginMode'] == 'crossed' ? 'BothSide' : 'SingleSide';
-            Position::updateOrCreate([
-                'symbol' => $data['symbol'],
-                'side' => $side,
-                'exchange_id' => $exchange->id
-            ],[
-                'is_isolated' => $mode == 'fixed',
-                'mode' => $mode,
-                'leverage' => $data['leverage'],
-                'position_value' => $data['marketPrice'], // maybe...
-                'entry_price' => $data['averageOpenPrice'],
-                'position_margin' => $data['margin'],
-                'realised_pnl' => $data['achievedProfits'],
-                'unrealised_pnl' => $data['unrealizedPL'],
-                // 'deleverage_indicator' => $data['xxxxxxx'],
-                // 'auto_add_margin' => $data['xxxxxxx'],
-                // 'position_idx' => $data['xxxxxxx'],
-                // 'size' => $data['xxxxxxx'],
-                // 'liq_price' => $data['xxxxxxx'],
-                // 'bust_price' => $data['xxxxxxx'],
-                // 'occ_closing_fee' => $data['xxxxxxx'],
-                // 'cum_realised_pnl' => $data['xxxxxxx'],
-                // 'tp_sl_mode' => $data['xxxxxxx'],
-                // 'risk_id' => $data['xxxxxxx'],
-                // 'stop_loss' => $data['xxxxxxx'],
-                // 'take_profit' => $data['xxxxxxx'],
-                // 'trailing_stop' => $data['xxxxxxx'],
-            ]);
-        }
-    }
 
 }

@@ -40,7 +40,7 @@ class ExchangeSyncSymbols extends Command
                 $symbol_name = \Arr::get($record, 'symbol');
                 $normalized_record = $this->normalizeBitgetRecord(
                     $record,
-                    $ticks->where('symbol', $symbol_name)->values(),
+                    $ticks->where('symbol', $symbol_name)->first(),
                     $client
                 );
                 $new_record = Symbol::updateOrCreate([
@@ -88,7 +88,8 @@ class ExchangeSyncSymbols extends Command
             $records = collect($response['result']);
             foreach ($records as $record) {
                 $symbol_name = \Arr::get($record, 'name');
-                $normalized_record = $this->normalizeBybitRecord($record, $ticks->where('symbol', $symbol_name)->values()[0]);
+                $symbol_ticks = $ticks->where('symbol', $symbol_name)->values()[0];
+                $normalized_record = $this->normalizeBybitRecord($record, $symbol_ticks);
                 $new_record = Symbol::updateOrCreate([
                     'name' => $normalized_record['name'],
                     'exchange' => ExchangesEnum::BYBIT
@@ -114,7 +115,6 @@ class ExchangeSyncSymbols extends Command
     {
         // $record['market'] = 'Futures';
         $record['name'] = \Arr::get($record, 'symbol');
-
         unset( $record['supportMarginCoins'] );
 
         $record['base_currency'] = \Arr::get($record, 'baseCoin');
@@ -125,16 +125,12 @@ class ExchangeSyncSymbols extends Command
         $record['price_scale'] = \Arr::get($record, 'pricePlace');
         $record['market'] = \Arr::get($record, 'symbolType');
         $record['status'] = \Arr::get($record, 'symbolStatus');
-        // $record['XXXXXXX'] = \Arr::get($record, 'XXXXXX');
-
         $record['last_price'] = \Arr::get($tick, 'last');
         $record['mark_price'] = \Arr::get($tick, 'last');
         $record['high_price_24h'] = \Arr::get($tick, 'high24h');
         $record['low_price_24h'] = \Arr::get($tick, 'low24h');
         $record['price_24h_pcnt'] = \Arr::get($tick, 'priceChangePercent');
         $record['volume_24h'] = \Arr::get($tick, 'baseVolume');
-        // $record['XXXXXXX'] = \Arr::get($tick, 'quoteVolume');
-        // $record['XXXXXXX'] = \Arr::get($tick, 'usdtVolume');
 
         $res = $client->market()->getSymbolLeverage([
             'symbol' => $record['name']
