@@ -79,6 +79,6 @@ class CreateBot extends Component
 
         $this->clearForm();
 
-        return redirect()->route('bots.index', $this->bot->exchange_id);
+        return redirect()->route('bots.index', $exc_id);
     }
 }
