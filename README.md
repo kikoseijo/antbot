@@ -158,6 +158,23 @@ Installation support
 If you need help installing the application I'm able to provide you with my professional services, just give me a shout.
 I'll be pleased to do the job for you, choose the right VPS/Cloud Server or hosting provider around the world.
 
+Installation example on Debian (LOCAL)
+--------------------
+
+Debian user who wants to run locally with no webserver can achieve just following this steps.
+
+1. Install [PHP](https://computingforgeeks.com/how-to-install-php-on-debian-linux-2/)
+2. Install [Composer](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-debian-11)
+3. Install [MySQL](https://computingforgeeks.com/how-to-install-mysql-8-0-on-debian/) and created a db, and user.
+4. Git clone "antbot"
+5. Modify .env with sql infos from step 3
+6. cd to antbot folder
+7. composer install
+8. php artisan key:generate
+9. php artisan migrate:fresh --seed
+10. php artisan storage:link
+11. php artisan serve
+
 Contributing
 ------------
 

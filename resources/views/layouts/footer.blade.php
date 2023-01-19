@@ -13,7 +13,7 @@
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
                     <ul class="text-gray-600 dark:text-gray-400">
                         <li class="mb-4">
-                            <a href="https://passivbot.com/" target="_blank" class="hover:underline">Passivbot</a>
+                            <a href="https://www.passivbot.com/" target="_blank" class="hover:underline">Passivbot</a>
                         </li>
 
                     </ul>
