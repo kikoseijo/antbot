@@ -11,7 +11,7 @@
             <tr>
                 <th scope="col" class="py-1 px-2 text-center border-t dark:border-gray-500"></th>
                 @foreach ($dates as $date)
-                    <th scope="col" class="py-1 px-2 text-center border-t border-l dark:border-gray-500">N.Trades</th>
+                    <th scope="col" class="py-1 px-2 text-center border-t border-l dark:border-gray-500">Trades</th>
                     <th scope="col" class="py-1 px-2 text-center border-t border-l dark:border-gray-500">PNL</th>
                 @endforeach
             </tr>
@@ -46,12 +46,12 @@
                                 $total_pnl[$date] += $pnl_value;
                             }
                         @endphp
-                        <td class="py-1 px-2 text-center border-l dark:border-gray-900">
+                        <td class="py-1 px-2 text-center border-l border-gray-300 dark:border-gray-900">
                             {{ $n_trades }}
                         </td>
-                        <td class="py-1 px-2 text-right {{ $loop->last ? '' : 'border-r'}} dark:border-gray-900">
+                        <td class="py-1 px-2 text-right {{ $loop->last ? '' : 'border-r'}} border-gray-300 dark:border-gray-900">
                             @if (is_numeric($pnl_value))
-                                <span class="text-{{ $pnl_color }}-300 font-semibold dark:text-{{ $pnl_color }}-500">
+                                <span class="text-{{ $pnl_color }}-500 font-semibold  dark:text-{{ $pnl_color }}-500">
                                     ${{  number($pnl_value, 2) }}
                                 </span>
                             @else

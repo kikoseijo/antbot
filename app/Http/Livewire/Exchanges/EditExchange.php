@@ -19,12 +19,14 @@ class EditExchange extends Component
         'exchange.exchange' => 'required',
         'exchange.risk_mode' => 'required',
         'exchange.is_testnet' => 'sometimes',
+        'exchange.api_error' => 'sometimes',
+        'exchange.api_frase' => 'sometimes|string|max:250',
     ];
 
     public function render()
     {
         if ($this->exchange->user_id != auth()->user()->id) {
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
 
         $this->rules['exchange.exchange'] = ['required', new Enum(ExchangesEnum::class)];

@@ -20,4 +20,9 @@ class Trade extends Model
     {
         return $this->belongsTo(Position::class);
     }
+
+    public function getNiceNameAttribute()
+    {
+        return str_replace('_UMCBL', '', $this->symbol);
+    }
 }

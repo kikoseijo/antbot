@@ -64,8 +64,8 @@ class Bot extends Model
     public function getLogPathAttribute()
     {
         $log_path = config('antbot.paths.logs_path');
-
-        return "{$log_path}/{$this->exchange->id}/{$this->symbol->name}.log";
+        $file_name = $this->symbol->nice_name ?? 'XXX12XX';
+        return "{$log_path}/{$this->exchange->id}/{$file_name}.log";
     }
 
     public function isRunning($pid = null)
@@ -93,7 +93,7 @@ class Bot extends Model
 
         $args = [
             $this->exchange->slug,
-            $this->symbol->name,
+            $this->symbol->nice_name,
             $grid_config,
             '-lev', $this->leverage,
             '-lm', $this->lm->value,
@@ -111,8 +111,11 @@ class Bot extends Model
         if ($this->market_type != MarketTypeEnum::FUTURES) {
             $args = array_merge($args, ['-m', $this->market_type->value]);
         }
+
+        $logs_file = $this->show_logs ? $this->log_path : '/dev/null';
+
         // logi('$args');
-        $pid = \Python::run('passivbot.py', $args, $this->log_path);
+        $pid = \Python::run('passivbot.py', $args, $logs_file);
         if ($pid > 0) {
             $this->started_at = now();
             $this->pid = $pid;
@@ -141,12 +144,16 @@ class Bot extends Model
             if ($this->exchange->is_testnet) {
                 return match($this->exchange->exchange){
                     ExchangesEnum::BYBIT => "https://testnet.bybit.com/trade/usdt/{$symbol}",
+                    ExchangesEnum::BITGET => "https://www.bitget.com/en/mix/usdt/{$symbol}",
+                    ExchangesEnum::OKX => "https://www.okx.com/trade-swap/{$symbol}-swap",
                     ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=cross",
                     default => "#{$symbol}",
                 };
             } else {
                 return match($this->exchange->exchange){
                     ExchangesEnum::BYBIT => "https://www.bybit.com/trade/usdt/{$symbol}",
+                    ExchangesEnum::BITGET => "https://www.bitget.com/en/mix/usdt/{$symbol}",
+                    ExchangesEnum::OKX => "https://www.okx.com/trade-swap/{$symbol}-swap",
                     ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=cross",
                     default => "#{$symbol}",
                 };
@@ -156,12 +163,16 @@ class Bot extends Model
             if ($this->exchange->is_testnet) {
                 return match($this->exchange->exchange){
                     ExchangesEnum::BYBIT => "https://testnet.bybit.com/en-US/trade/spot/{$this->symbol->base_currency}/{$this->symbol->quote_currency}",
+                    ExchangesEnum::BITGET => "https://www.bitget.com/en/mix/usdt/{$symbol}",
+                    ExchangesEnum::OKX => "https://www.okx.com/trade-spot/{$symbol}",
                     ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=spot",
                     default => "#{$symbol}",
                 };
             } else {
                 return match($this->exchange->exchange){
                     ExchangesEnum::BYBIT => "https://www.bybit.com/en-US/trade/spot/{$this->symbol->base_currency}/{$this->symbol->quote_currency}",
+                    ExchangesEnum::BITGET => "https://www.bitget.com/en/mix/usdt/{$symbol}",
+                    ExchangesEnum::OKX => "https://www.okx.com/trade-spot/{$symbol}",
                     ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=spot",
                     default => "#{$symbol}",
                 };

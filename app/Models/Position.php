@@ -35,19 +35,17 @@ class Position extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'position_id');
     }
 
     public function buy_orders()
     {
-        return $this->hasMany(Order::class)
-            ->where('orders.side', 'Buy');
+        return $this->orders()->where('orders.side', 'Buy');
     }
 
     public function sell_orders()
     {
-        return $this->hasMany(Order::class)
-            ->where('orders.side', 'Sell');
+        return $this->orders()->where('orders.side', 'Sell');
     }
 
     public function getExchangeLinkAttribute()

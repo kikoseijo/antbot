@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Bots;
 
 use App\Models\Bot;
+use App\Models\Symbol;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -15,10 +16,14 @@ class EditBot extends Component
     public function render()
     {
         if ($this->bot->user_id != auth()->user()->id) {
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
 
         $rederData = $this->renderData();
+        $rederData['symbols'] = Symbol::where('exchange', $this->bot->exchange->exchange->value)
+            ->orderBy('name')
+            ->get()
+            ->pluck('name', 'id');
 
         return view('livewire.bots.edit-bot', $rederData)->layoutData([
             'title' => $this->title,
@@ -47,6 +52,6 @@ class EditBot extends Component
         session()->flash('status', 'bot-updated');
         session()->flash('message', 'Bot Updated Successfully');
 
-        return redirect()->route('bots.index');
+        return redirect()->route('bots.index', $exc_id);
     }
 }

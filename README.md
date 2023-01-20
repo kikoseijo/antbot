@@ -32,9 +32,36 @@ Many features can be implemented but the main ones right now are the following:
 - [ ] Export trading records for financial storage purpose.
 - [ ] ...much more to come.
 
-## Installation
+## Local docker installation
 
 Its Laravel, please follow any of the methods to run the application from this guide: [Laravel Installation with docker](https://laravel.com/docs/9.x/installation#laravel-and-docker)
+
+## Remote server installation
+
+Firstable, download and install composer dependencies:
+
+```bash
+cd ~
+git clone git@github.com:kikoseijo/antbot.git
+cd antbot
+composer install --no-dev
+cp .env.example .env
+php artisan key:generate
+php artisan storage:link
+```
+
+After install you should configure the `.env` file with enviroment, database and email. Email its important, otherwise you will see login in errors when connecting from new device. (You can disable this removing the mail notification from the notifyAuthenticationLogVia methong in the App\Models\User class).
+
+To finish, symlink your server root directory as in the example:
+
+```bash
+cd ~
+rm -rf public_html
+ln -s ~/antbot/public ~/public_html
+echo "App should be now live."
+```
+
+You are now ready to go, navigate to your new application url and register the first user (administrator).
 
 ## Configuration
 
@@ -80,17 +107,49 @@ Here its an example of the command:
 * * * * * cd /path/to/antbot && /opt/remi/php81/root/usr/bin/php artisan schedule:run >> /dev/null 2>&1
 ```
 
-### Create your first user
+Updates
+-------
 
-Navigate to the application entry URL, go to register and create your first user in the system, will be the main system administrator.
+For updating antbot you can follow this steps, its not a zero downtime deployment, but we dont need such advance feature because bots are run separately from the application.
+
+```bash
+cd ~/antbot
+php artisan down --render="errors::503" --refresh=10
+git fetch --all
+git reset --hard origin/master
+git pull origin master
+composer install --no-dev --prefer-dist --optimize-autoloader --ignore-platform-reqs
+php artisan migrate --force
+php artisan config:clear
+php artisan config:cache
+php artisan view:clear
+php artisan view:cache
+php artisan up
+```
 
 Screenshots
 -----------
 
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/exchange-dashboard.png" width="800" alt="Exchanges dashboard">
+### Bots
+
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/bots.png" width="800" alt="Crypto trading bots">
+
+### Exchange dashboard
+
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/exchange-dashboard.png" width="800" alt="Exchanges dashboard">
+
+### Passivbot grid configuration
+
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/grids.png" width="800" alt="Trading grid modes">
-<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/records.png" width="800" alt="Exchange trading records">
+
+### Traded records
+
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/monthly_trades.png" width="800" alt="Exchange trading records">
+
+<img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/daily_trades.png" width="800" alt="Exchange trading records">
+
+### Exchange symbols & volumes
+
 <img src="https://raw.githubusercontent.com/kikoseijo/antbot/master/public/img/screenshots/symbols.png" width="800" alt="Exchange available trading Symbols">
 
 Installation support
@@ -98,6 +157,23 @@ Installation support
 
 If you need help installing the application I'm able to provide you with my professional services, just give me a shout.
 I'll be pleased to do the job for you, choose the right VPS/Cloud Server or hosting provider around the world.
+
+Installation example on Debian (LOCAL)
+--------------------
+
+Debian user who wants to run locally with no webserver can achieve just following this steps.
+
+1. Install [PHP](https://computingforgeeks.com/how-to-install-php-on-debian-linux-2/)
+2. Install [Composer](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-debian-11)
+3. Install [MySQL](https://computingforgeeks.com/how-to-install-mysql-8-0-on-debian/) and created a db, and user.
+4. Git clone "antbot"
+5. Modify .env with sql infos from step 3
+6. cd to antbot folder
+7. composer install
+8. php artisan key:generate
+9. php artisan migrate:fresh --seed
+10. php artisan storage:link
+11. php artisan serve
 
 Contributing
 ------------

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 use Lab404\Impersonate\Models\Impersonate;
+use App\Enums\ExchangesEnum;
 
 class User extends Authenticatable
 {
@@ -23,6 +24,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'timezone',
         'password',
     ];
 
@@ -93,8 +95,14 @@ class User extends Authenticatable
             $configs->{$exchange->slug} = [
                     "exchange" => $exchange->exchange->value,
                     "key" => $exchange->api_key,
-                    "secret" => $exchange->api_secret
+                    "secret" => $exchange->api_secret,
+                    'passphrase' => $exchange->api_frase
             ];
+            // if ($exchange->exchange == ExchangesEnum::OKX) {
+            //     $configs->{$exchange->slug} = array_push($configs->{$exchange->slug}, ['passphrase' => $exchange->api_frase]);
+            //     dd(json_encode($configs->{$exchange->slug}));
+            // }
+
         }
 
         $path = $this->configs_folder;

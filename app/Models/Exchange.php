@@ -17,6 +17,9 @@ class Exchange extends Model
         'exchange' => ExchangesEnum::class,
     ];
 
+    protected $hidden = [ 'api_key', 'api_secret', 'api_frase' ];
+    protected $fillable = [ 'api_key', 'api_secret', 'api_frase' ];
+
     public static function boot()
     {
         parent::boot();
@@ -108,6 +111,19 @@ class Exchange extends Model
                 return true;
         }
         return false;
+    }
+
+    public function truncateLogs()
+    {
+        $command = "truncate -s 0 {$this->log_path}/*log";
+
+        exec($command, $op);
+
+        if (!isset($op[1])){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function getLogsPathAttribute()

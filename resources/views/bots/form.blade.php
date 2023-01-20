@@ -27,7 +27,7 @@
                 <x-input-label for="symbol_id" :value="__('Symbol')" />
                 <x-select-input id="market_type" type="text" class="mt-1 block w-full" wire:model="bot.symbol_id" required>
                     @foreach ($symbols as $symb_id => $symb_name)
-                        <option value="{{$symb_id}}">{{$symb_name}}</option>
+                        <option value="{{$symb_id}}">{{ str_replace('_UMCBL', '', $symb_name) }}</option>
                     @endforeach
                 </x-select-input>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.symbol_id')" />
@@ -35,15 +35,6 @@
 
         </div>
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
-            <div>
-                <x-input-label for="exchange_id" :value="__('Exchange')" />
-                <x-select-input id="exchange_id" type="text" class="mt-1 block w-full" wire:model="bot.exchange_id" required>
-                    @foreach ($my_exchanges as $exchange)
-                        <option value="{{$exchange->id}}">{{$exchange->name}}</option>
-                    @endforeach
-                </x-select-input>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.exchange_id')" />
-            </div>
             <div>
                 <x-input-label for="market_type" :value="__('Market type')" />
                 <x-select-input id="market_type" type="text" class="mt-1 block w-full" wire:model="bot.market_type" required>
@@ -121,6 +112,20 @@
                 <x-input-label for="leverage" :value="__('Exchange leverage')" />
                 <x-text-input id="leverage" type="number" step="1" min="{{$min_lev}}" max="{{$max_lev}}" class="mt-1 block w-full" wire:model.lazy="bot.leverage" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.leverage')" />
+            </div>
+            <div>
+                <x-input-label for="show_logs" :value="__('Write logs')" />
+                <div class="flex mt-2">
+                    <div class="flex items-center mr-4">
+                        <input id="show_logs_1" type="radio" value="1"  wire:model="bot.show_logs" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="show_logs_1" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                    </div>
+                    <div class="flex items-center mr-4 ml-4">
+                        <input id="show_logs_2" type="radio" value="0"  wire:model="bot.show_logs" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="show_logs_2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                    </div>
+                </div>
+                <x-input-error class="mt-2" :messages="$errors->get('bot.show_logs')" />
             </div>
         </div>
 

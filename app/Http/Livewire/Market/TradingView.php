@@ -21,7 +21,7 @@ class TradingView extends Component
     public function render()
     {
         if ($this->position->exchange->user_id != auth()->user()->id) {
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
 
         $orders = $this->position->orders()->select(['side', 'price', 'qty'])->get();

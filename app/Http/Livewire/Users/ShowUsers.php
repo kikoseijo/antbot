@@ -23,7 +23,7 @@ class ShowUsers extends Component
     {
         if (!auth()->user()->isAdmin()) {
 
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
 
         $data = [

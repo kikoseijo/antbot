@@ -27,7 +27,7 @@
         <div class="grid grid-cols-1 grid-flow-col">
             <div wire:ignore>
                 <x-input-label for="code" :value="__('Grid configuration JSON')" />
-                <x-textarea-input id="code" name="code" rows="12" type="text" class="mt-1 block w-full" wire:model.defer="grid.grid_json" required/>
+                <x-textarea-input id="code" name="code" rows="18" type="text" class="mt-1 block w-full" wire:model.defer="grid.grid_json" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('grid.grid_json')" />
             </div>
         </div>

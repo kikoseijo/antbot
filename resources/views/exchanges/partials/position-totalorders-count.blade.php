@@ -6,10 +6,10 @@
         $total_sale += $row->sell_orders->count();
     }
 @endphp
-<div class="font-bold text-right">
-    <span class="tex-green-300 dark:text-green-500">
+<div class=" text-right">
+    <span class="text-green-500 dark:text-green-500">
         {{ $total_buy }}
-    </span>/<span class="tex-red-300 dark:text-red-500">
+    </span>/<span class="text-red-500 dark:text-red-500">
         {{ $total_sale }}
     </span>
 </div>

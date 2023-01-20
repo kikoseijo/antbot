@@ -20,4 +20,9 @@ class Symbol extends Model
     {
         return $this->hasMany(Bot::class);
     }
+
+    public function getNiceNameAttribute()
+    {
+        return str_replace('_UMCBL', '', $this->name);
+    }
 }

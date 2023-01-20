@@ -15,35 +15,91 @@ class ShowBots extends Component
     public $search = '';
     public $deleteId = 0;
     public $title = 'Bots';
+    public $sub_title = 'Your Antbots';
+    public Exchange $exchange;
 
-    public function updatingSearch()
+    protected $rules = [
+        'exchange.id' => 'required',
+    ];
+
+    public function mount($exchange = NULL)
     {
-        $this->resetPage();
+        if ($exchange && $exchange->user_id <> auth()->user()->id){
+            return abort(403, 'Unauthorized');
+        }
+
+        $user_exchanges = auth()->user()->exchanges()->orderBy('name')->get();
+
+        $exchange_count = $user_exchanges->count();
+        if ($exchange_count == 0) {
+            session()->flash('message', 'Please create your first exchange.');
+
+            return redirect()->route('exchanges.add');
+        }
+
+        if ($exchange){
+            $this->exchange = $exchange;
+        } else {
+            if($cur_id = session(CURRENT_EXCHANGE_ID)){
+                $current_working_exchange = $user_exchanges->where('id', $cur_id)->first();
+                $this->exchange = $current_working_exchange ??  $user_exchanges->first();
+            } else {
+                $this->exchange = $user_exchanges->first();
+            }
+        }
+        session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
     }
+
+
 
     public function render()
     {
-        $records = Bot::where('name', 'like', '%'.$this->search.'%')
+        session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
+
+        $this->sub_title = \Str::upper($this->exchange->name) . ' - Bots';
+
+        $records = $this->exchange->bots()->where('name', 'like', '%'.$this->search.'%')
+            ->orderBy(\DB::raw('ISNULL(started_at)'), 'asc')
             ->orderBy('name', 'asc')
             ->mine()
             ->with('exchange', 'grid', 'symbol')
-            ->paginate(25);
+            ->paginate(255);
 
         $data = [
             'records' => $records,
+            'exchanges' => auth()->user()->exchanges->pluck('name', 'id'),
             'bot_modes' => config('antbot.bot_modes')
         ];
-
-        // $stats = $this->getStats($records);
 
         return view('livewire.bots.show-bots', $data)->layoutData([
             'title' => $this->title,
         ]);
     }
 
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function duplicateBot(Bot $bot)
+    {
+        $newBot = $bot->replicate();
+        $newBot->name = $bot->name . ' copy';
+        $newBot->created_at = now();
+        $newBot->started_at = NULL;
+        $newBot->symbol_id = 0; // To avoid running 2 bots on same pair.
+        $newBot->pid = NULL;
+        $newBot->save();
+
+        session()->flash('message', 'Bot duplication successfull.');
+    }
+
     public function changeBotStatus(Bot $bot)
     {
-        // \Log::info($bot->started_at . ' PID: ' . $bot->pid);
+        $this->dispatchBrowserEvent('alert',[
+            'type' => 'info',
+            'message' => "Executing task for {$bot->name}, please wait..."
+        ]);
         if ($bot->is_running) {
             $bot->stop();
         } else {
@@ -53,6 +109,10 @@ class ShowBots extends Component
 
     public function restartBot(Bot $bot)
     {
+        $this->dispatchBrowserEvent('alert',[
+            'type' => 'info',
+            'message' => "Restarting {$bot->name}, please wait..."
+        ]);
         $bot->restart();
     }
 
@@ -77,38 +137,6 @@ class ShowBots extends Component
                     'message' => "Can't delete a bot that it's running."
                 ]);
             }
-        }
-    }
-
-    public function changeStatus()
-    {
-
-    }
-
-    protected function getStats($bots)
-    {
-        $res = [];
-        $exchanges = [];
-        $total_wallet_exposure_short = 0;
-        $total_wallet_exposure_long = 0;
-        $total_wallet_exposure_short_on = 0;
-        $total_wallet_exposure_long_on = 0;
-        $count = [];
-        $total_running = [];
-        foreach ($bots as $bot) {
-            $total_wallet_exposure_long += $bot->lwe;
-            $total_wallet_exposure_short += $bot->swe;
-            if ($bot->is_running()) {
-                if ($record->sm->value != 'm') {
-                    $total_wallet_exposure_short_on += $bot->lwe;
-                }
-                if ($record->lm->value != 'm') {
-                    $total_wallet_exposure_long_on += $bot->lwe;
-                }
-            }
-            $stats = [
-
-            ];
         }
     }
 }

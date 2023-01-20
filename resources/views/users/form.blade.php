@@ -37,7 +37,7 @@
                         <option value="{{$timezone_name}}">{{$timezone_name}}</option>
                     @endforeach
                 </x-select-input>
-                <x-input-error class="mt-2" :messages="$errors->get('user.role')" />
+                <x-input-error class="mt-2" :messages="$errors->get('user.timezone')" />
             </div>
 
         </div>

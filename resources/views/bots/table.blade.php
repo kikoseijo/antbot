@@ -3,12 +3,12 @@
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="{{config('antbot.css.thead')}}">
             <tr>
-                <th scope="col" class="py-3 px-2 text-center">Bot</th>
                 <th scope="col" class="py-3 px-2"></th>
-                <th scope="col" class="py-3 px-2 text-center">Symbol</th>
-                <th scope="col" class="py-3 px-2 text-center">Exchange</th>
+                <th scope="col" class="py-3 px-2">Bot</th>
+                <th scope="col" class="py-3 px-2">Symbol</th>
+                <th scope="col" class="py-3 px-2">Exchange</th>
                 <th scope="col" class="py-3 px-2 text-center">Market</th>
-                <th scope="col" class="py-3 px-2 text-center">Grid/Config</th>
+                <th scope="col" class="py-3 px-2">Grid/Config</th>
                 <th scope="col" class="py-3 px-2 text-center">Long</th>
                 <th scope="col" class="py-3 px-2 text-center">Short</th>
                 <th scope="col" class="py-3 px-2 text-center">AB</th>
@@ -65,35 +65,38 @@
                             $twel_on[$exchange->id] += $record->lwe;
                         }
                     }
-                    $color_running = $record->is_running ? 'green' : 'gray';
+                    $color_running = $record->is_running ? 'yellow' : 'gray';
                 @endphp
-                <tr class="bg-white dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-gray-100 hover:dark:bg-gray-800">
+                <tr class="bg-white {{ $loop->index % 2 == 0 ? 'bg-gray-100' : ''}} dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-teal-100 hover:dark:bg-[#080C19] hover:dark:text-white">
+                    <td class="py-2 pr-2 text-center">
+                        <span class="bg-teal-500 text-white text-xs ml-2 px-0.5 rounded dark:bg-teal-500 dark:text-white">
+                            x{{ $record->leverage }}
+                        </span>
+                    </td>
                     <td class="py-2 px-2 font-bold text-left underline hover:no-underline">
-                        <i class="hidden text-green-500"></i>
-                        <a href="{{ route('bots.edit', $record) }}" class="text-{{ $color_running }}-500">
+                        <i class="hidden text-yellow-200"></i>
+                        <a href="{{ route('bots.edit', $record) }}" class="text-{{ $color_running }}-200">
                             {{ $record->name }}
                         </a>
                     </td>
-                    <td class="py-2 px-2 text-center">
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold ml-2 px-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">
-                          x{{ $record->leverage }}
-                        </span>
-                    </td>
                     <td class="py-2 px-2 font-bold text-left underline hover:no-underline text-xs">
-                        <a href="{{ $record->exchange_link }}" target="_blank">
-                            {{ optional($record->symbol)->name }}
+                        <a href="{{ $record->exchange_link }}" target="_blank" class="flex content-center">
+                            {{ optional($record->symbol)->nice_name }}
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
+                            </svg>
                         </a>
                     </td>
                     <td class="py-2 px-2 text-left text-xs">
-                          <a href="{{ route('exchanges.positions', $record->exchange) }}" class="underline hover:no-underline">
+                          <a href="{{ route('exchanges.edit', $record->exchange) }}" class="underline hover:no-underline">
                               {{ optional($record->exchange)->name }}
                           </a>
                     </td>
                     <td class="py-2 px-2 text-center">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
-                    <td class="py-2 px-2 text-xs">
+                    <td class="py-2 px-2 text-xs uppercase">
                         @if ($record->grid_mode->value == 'custom' && optional($record->grid)->id > 0)
                             <a href="{{ route('configs.edit', $record->grid) }}" class="underline hover:no-underline">
-                                {{ $record->grid->name }}
+                                {{ optional($record->grid)->name }}
                             </a>
                         @else
                             {{ $record->grid_mode }}
@@ -118,16 +121,16 @@
                     <td class="py-2 px-2 text-right">
                         {!! $record->assigned_balance > 0 ? '$'.number($record->assigned_balance) : '&#8734;' !!}
                     </td>
-                    <td class="py-2 px-2 text-xs text-center">
+                    <td class="py-2 px-2 text-center">
                         {{ $record->started_at ? str_replace(['hours', 'minutes'], ['h', 'mins'], $record->started_at->diffForHumans(NULL, true)) ?? 'Stopped' : '-' }}
                     </td>
                     <td class="py-2 px-2 text-right">
-                        @include('partials.bot-table-menu', ['bot' => $record])
+                        @include('bots.partials.table-action-menu', ['bot' => $record])
                     </td>
                 </tr>
             @empty
                 <tr class="text-center bg-white dark:bg-gray-900">
-                    <td colspan="11" class="py-2 px-2 italic">No hay información</td>
+                    <td colspan="11" class="py-2 px-2 italic">No bots found</td>
                 </tr>
             @endforelse
         </tbody>

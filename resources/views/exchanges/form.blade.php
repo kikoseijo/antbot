@@ -14,12 +14,12 @@
         <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
             <div>
                 <x-input-label for="name" :value="__('Name')" />
-                <x-text-input id="name" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.name" required autofocus />
+                <x-text-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="exchange.name" required autofocus />
                 <x-input-error class="mt-2" :messages="$errors->get('exchange.name')" />
             </div>
             <div>
                 <x-input-label for="exchange" :value="__('Exchange')" />
-                <x-select-input id="exchange" type="text" class="mt-1 block w-full" wire:model="exchange.exchange" required>
+                <x-select-input id="exchange" type="text" class="mt-1 block w-full" wire:model.defer="exchange.exchange" required>
                     @foreach ($exchanges as $key => $value)
                         <option value="{{$key}}">{{$value}}</option>
                     @endforeach
@@ -28,7 +28,7 @@
             </div>
             <div>
                 <x-input-label for="risk_mode" :value="__('Risk Mode')" />
-                <x-select-input id="risk_mode" type="text" class="mt-1 block w-full" wire:model="exchange.risk_mode" required>
+                <x-select-input id="risk_mode" type="text" class="mt-1 block w-full" wire:model.defer="exchange.risk_mode" required>
                     @foreach ($risk_modes as $key => $value)
                         <option value="{{$key}}">{{$value}}</option>
                     @endforeach
@@ -44,13 +44,18 @@
             <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
                 <div>
                     <x-input-label for="api_key" :value="__('Api key')" />
-                    <x-text-input id="api_key" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.api_key" required />
-                    <x-input-error class="mt-2" :messages="$errors->get('exchange.api_key')" />
+                    <x-text-input id="api_key" type="text" class="mt-1 block w-full" wire:model.defer="api_key" required />
+                    <x-input-error class="mt-2" :messages="$errors->get('api_key')" />
                 </div>
                 <div>
                     <x-input-label for="api_secret" :value="__('Api secret')" />
-                    <x-text-input id="api_secret" type="text" class="mt-1 block w-full" wire:model.lazy="exchange.api_secret" required />
-                    <x-input-error class="mt-2" :messages="$errors->get('exchange.api_secret')" />
+                    <x-text-input id="api_secret" type="text" class="mt-1 block w-full" wire:model.defer="api_secret" required />
+                    <x-input-error class="mt-2" :messages="$errors->get('api_secret')" />
+                </div>
+                <div>
+                    <x-input-label for="api_frase" :value="__('Passphrase')" />
+                    <x-text-input id="api_frase" type="text" class="mt-1 block w-full" wire:model.defer="api_frase" />
+                    <x-input-error class="mt-2" :messages="$errors->get('api_frase')" />
                 </div>
             </div>
         @else
@@ -61,7 +66,21 @@
             </span>
         @endif
 
-        <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
+        <div class="grid grid-cols-3 grid-flow-col gap-4 mb-4 pb-4">
+            <div>
+                <x-input-label for="api_error" :value="__('Disable exchange syncronization')" />
+                <div class="flex mt-2">
+                    <div class="flex items-center mr-4">
+                        <input id="api_error_1" type="radio" value="1"  wire:model="exchange.api_error" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="api_error_1" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                    </div>
+                    <div class="flex items-center mr-4 ml-4">
+                        <input id="api_error_2" type="radio" value="0"  wire:model="exchange.api_error" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="api_error_2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                    </div>
+                </div>
+                <x-input-error class="mt-2" :messages="$errors->get('exchange.api_error')" />
+            </div>
             <div>
                 <x-input-label for="is_testnet" :value="__('Testnet enabled')" />
                 <div class="flex mt-2">
@@ -78,7 +97,7 @@
             </div>
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 mt-4 pt-4">
             <x-primary-button>{{ isset($on_edit) ? __('Update exchange') : __('Create exchange') }}</x-primary-button>
 
             @if (session('status') === 'exchange-created' || session('status') === 'exchange-updated')

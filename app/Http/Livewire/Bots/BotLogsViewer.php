@@ -17,18 +17,24 @@ class BotLogsViewer extends Component
     public $total;
     public $perPage = 200;
     public $paginator;
+    public $name;
     public $title = 'Logs viewer';
 
     protected $queryString=['page'];
 
+    public function mount($name = '')
+    {
+        $this->name = $name;
+    }
+
     public function render()
     {
         if ($this->bot->user_id != auth()->user()->id) {
-            return abort(403, 'Unauthorized action.');
+            return abort(403, 'Unauthorized');
         }
         $files = $this->getLogFiles();
 
-        $log=collect(file($files[$this->file]->getPathname(), FILE_IGNORE_NEW_LINES));
+        $log = collect(file($files[$this->file]->getPathname(), FILE_IGNORE_NEW_LINES));
 
         $this->total = intval(floor($log->count() / $this->perPage)) + 1;
 
@@ -45,12 +51,69 @@ class BotLogsViewer extends Component
     protected function getLogFiles()
     {
         $logs_path = config('antbot.paths.logs_path');
-        $directory =  "{$logs_path}/{$this->bot->exchange_id}";
+        $directory =  "{$logs_path}/{$this->bot->exchange_id}/";
 
         return collect(File::allFiles($directory))
-            ->sortByDesc(function (SplFileInfo $file) {
-                return $file->getMTime();
+            ->sortBy(function (SplFileInfo $file) {
+                return $file->getFilename();
             })->values();
+    }
+
+    public function deleteLogsFile()
+    {
+        $logs_path = config('antbot.paths.logs_path');
+        $files = $this->getLogFiles();
+        $file_name = $files[$this->file]->getFilename();
+        $file_path =  "{$logs_path}/{$this->bot->exchange_id}/";
+
+        $deletedFile = File::delete($file_path . $file_name);
+        if ($deletedFile == null) {
+            $this->dispatchBrowserEvent('alert', [
+                'type' => 'success',
+                'message' => $file_name . ' deleted succesfully.'
+            ]);;
+        }
+        $this->page = 0;
+    }
+
+    public function truncateAllFiles()
+    {
+        $logs_path = config('antbot.paths.logs_path');
+        $files = $this->getLogFiles();
+        foreach ($files as $file) {
+            $this->exeTruncateFile($logs_path, $file->getFilename());
+        }
+
+        $this->dispatchBrowserEvent('alert', [
+            'type' => 'success',
+            'message' => 'All logs truncated succesfully.'
+        ]);;
+    }
+
+    public function truncateFile()
+    {
+        $logs_path = config('antbot.paths.logs_path');
+        $files = $this->getLogFiles();
+        $file_name = $files[$this->file]->getFilename();
+        $this->exeTruncateFile($logs_path, $file_name);
+
+        $this->dispatchBrowserEvent('alert', [
+            'type' => 'success',
+            'message' => $file_name . ' truncated succesfully.'
+        ]);;
+    }
+
+    protected function exeTruncateFile($logs_path, $file_name)
+    {
+        $file_path =  "{$logs_path}/{$this->bot->exchange_id}/{$file_name}";
+        $cmd = "echo \"\" > {$file_path}";
+
+        exec($cmd, $op);
+    }
+
+    public function refreshLog($url)
+    {
+        return redirect($url);
     }
 
     public function goto($page)
