@@ -23,6 +23,7 @@ class CreateExchange extends Component
         'exchange.risk_mode' => 'required',
         'api_key' => 'required|string|max:100',
         'api_secret' => 'required|string|max:100',
+        'exchange.api_error' => 'sometimes',
         'api_frase' => 'sometimes|string|max:250',
         'exchange.is_testnet' => 'sometimes',
     ];
