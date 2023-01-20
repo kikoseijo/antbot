@@ -15,14 +15,18 @@ RUN apt update && apt install -y --no-install-recommends \
 RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
 RUN php /tmp/composer-setup.php --install-dir=/usr/bin --filename=composer
 
+
 WORKDIR /home/app
 
 COPY . /home/app/
-
+RUN chown -R www-data:www-data /home/app
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --prefer-dist --optimize-autoloader --ignore-platform-reqs
+# RUN php artisan migrate
 
 FROM php:${PHP_VERSION}-fpm
 
+RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-enable pdo_mysql
+
 COPY --from=build-php /home/app /var/www/html
-RUN chown -R www-data:www-data /var/www/html

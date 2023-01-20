@@ -1,8 +1,41 @@
 version: '3'
 services:
+    php:
+      build:
+        context: .
+        dockerfile: ./Dockerfile
+      restart: unless-stopped
+      container_name: antbot-php
+      depends_on:
+        - mysql
+        - redis
+    mysql:
+      image: mysql:latest
+      container_name: antbot-mysql
+      restart: unless-stopped
+      environment:
+        MYSQL_HOST: ${DB_HOST}
+        MYSQL_DATABASE: ${DB_DATABASE}
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+        MYSQL_USER: ${DB_USERNAME}
+      volumes:
+        - ./docker/mysql:/docker-entrypoint-initdb.d
+        - ./docker/mysql-db:/var/lib/mysql
+      ports:
+      - 3306:3306
+    redis:
+      image: bitnami/redis:latest
+      container_name: antbot-redis
+      command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
+      volumes:
+      - ./docker/redis:/data
+      ports:
+        - "${REDIS_PORT}:6379"
     nginx:
       image: nginx:stable-alpine
-      container_name: nginx
+      container_name: antbot-nginx
+      restart: unless-stopped
       ports:
         - "8080:80"
       volumes:
@@ -11,10 +44,4 @@ services:
         - ./storage:/var/www/html/storage
       depends_on:
         - php
-    php:
-        build:
-          context: .
-          dockerfile: ./Dockerfile
-        restart: always
-        container_name: php
 
