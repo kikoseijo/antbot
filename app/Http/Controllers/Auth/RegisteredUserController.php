@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user_count = User::count();
+        $user_count = User::all()->count();
         if ($user_count == 0){
             $user = User::create([
                 'name' => $request->name,
