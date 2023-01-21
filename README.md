@@ -68,6 +68,10 @@ Docker equivalent:
 git clone git@github.com:kikoseijo/antbot.git
 cd antbot
 cp .env.example .env
+# In .env file, set:
+#   DB_HOST=mysql
+#   DB_USERNAME=<choose username>
+#   DB_PASSWORD=<choose password>
 sed -i 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' .env
 ln -s ../storage/app/public public/storage
 docker-compose up -d

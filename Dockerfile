@@ -22,25 +22,27 @@ COPY . /home/app/
 RUN chown -R www-data:www-data /home/app
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --prefer-dist --optimize-autoloader --ignore-platform-reqs
-# RUN php artisan migrate
 
 FROM php:${PHP_VERSION}-fpm
 
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-enable pdo_mysql
+
+# =====================================
+# Health check configuration
 RUN curl -o /usr/local/bin/php-fpm-healthcheck \
     https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
     && chmod +x /usr/local/bin/php-fpm-healthcheck
 
-# Required software
 RUN set -x \
     && apt update \
     && apt install -y libfcgi-bin
 
 # Enable php fpm status page
 RUN set -xe && echo "pm.status_path = /status" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+# =====================================
 
 WORKDIR /var/www/html
 
 COPY --from=build-php /home/app /var/www/html
-CMD php artisan migrate && php-fpm
+CMD php artisan migrate --force && php-fpm
