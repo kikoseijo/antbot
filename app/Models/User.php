@@ -79,7 +79,7 @@ class User extends Authenticatable
 
     public function getConfigsFolderAttribute()
     {
-        $bot_path = config('antbot.paths.bot_path');
+        $bot_path = config('antbot.paths.passivbot_path');
         return "$bot_path/configs/live/{$this->id}";
     }
 

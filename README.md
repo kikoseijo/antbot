@@ -26,21 +26,34 @@ Many features can be implemented but the main ones right now are the following:
 
 - [X] Bybit exchange scrapper.
 - [ ] Binance exchange scrapper.
-- [ ] Bitget exchange scrapper.
+- [x] Bitget exchange scrapper.
 - [ ] OKX exchange scrapper.
+- [ ] Dockerize application.
+- [ ] Chart for the exchange information.
+- [ ] Panic mode (stoping bots and all orders, if necessary).
 - [ ] Grid editor with live visualisation in a chart.
-- [ ] Export trading records for financial storage purpose.
-- [ ] ...much more to come.
+- [ ] Export trading records for financial books.
+- [ ] ...
 
-## Local docker installation
+## Python crypto bots
 
-Its Laravel, please follow any of the methods to run the application from this guide: [Laravel Installation with docker](https://laravel.com/docs/9.x/installation#laravel-and-docker)
+### Passivbot
 
-## Remote server installation
+Follow [Passivbot](https://www.passivbot.com/) installation guide, its better if you try to run a bot as indicated before linking into Antbot.
 
-Firstable, download and install composer dependencies:
+...
+
+## Web server deployment
+
+Antbot its a PHP + MYSQL application, can be run on any webserve, vps, etc.
+Use this guide as an example for remote deployment, adjust accord.
+
+#### Download and install
+
+You can use this piece of script as an example of what steps are needed for installing Antbot.
 
 ```bash
+ssh user@yourserver
 cd ~
 git clone git@github.com:kikoseijo/antbot.git
 cd antbot
@@ -50,9 +63,33 @@ php artisan key:generate
 php artisan storage:link
 ```
 
-After install you should configure the `.env` file with enviroment, database and email. Email its important, otherwise you will see login in errors when connecting from new device. (You can disable this removing the mail notification from the notifyAuthenticationLogVia methong in the App\Models\User class).
+#### Configure your enviroment variables
 
-To finish, symlink your server root directory as in the example:
+The `.env` file created in previous step needs your information for database, email and paths for bots to work.
+Email configuration its important, application should be able to send emails at certain moments.
+
+```bash
+DB_DATABASE=antbot
+DB_USERNAME=root
+DB_PASSWORD=yorupassword
+...
+PYTHON_PATH="python3"
+PASSIVBOT_PATH="/path/to/passivbot"
+PASSIVBOT_LOGS_PATH="/path/to/logs_folder"
+...
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+```
+
+Run the following command: for changes to be effective.
+
+```bash
+php artisan config:clear
+```
+
+#### Publish application
+
+Please note the root of your webserver should be a folder called `public` inside Antbot installation folder.
 
 ```bash
 cd ~
@@ -61,23 +98,17 @@ ln -s ~/antbot/public ~/public_html
 echo "App should be now live."
 ```
 
-You are now ready to go, navigate to your new application url and register the first user (administrator).
+You are now ready to go, navigate to your new application url and register the first user (First user will be created as Admin).
 
-## Configuration
+#### Cronjob
 
-After installing and configure Laravel, its time to install and link Passivbot.
+Exchange scrapper needs a CronJob to run every minute, this will maintaine bots running even after reboots and keep exchanges up to date.
 
-### Install Passivbot
-
-Download [Passivbot](https://www.passivbot.com/) and install python requirements to run Passivbot, then update `config/antbot.php` with the
-full path.
-
-```php
-'paths' => [
-    'bot_path' => '/path/to/passivbot',
-    'logs_path' => '/path/to/logs-folder',
-],
+```bash
+* * * * * cd /path/to/antbot && /opt/remi/php81/root/usr/bin/php artisan schedule:run >> /dev/null 2>&1
 ```
+
+
 
 ### Configure grid system
 
@@ -93,19 +124,7 @@ You will also be able to create and edit your own grids directly from the contro
 ],
 ```
 
-### Configure timezone
 
-This is a Laravel straight forward configuration you can find inside `config/app.php`.
-
-### Cronjob
-
-In order to keep bots running in case server reboot, retrieve exchange balance, postions and trades history, its necessary to create a CronJob to run every minute.
-
-Here its an example of the command:
-
-```bash
-* * * * * cd /path/to/antbot && /opt/remi/php81/root/usr/bin/php artisan schedule:run >> /dev/null 2>&1
-```
 
 Updates
 -------
@@ -180,6 +199,10 @@ Contributing
 
 Thank you for considering contributing to the Antbot system!
 The contribution guide its not jet released, but you can always push a new commit with what you can think of new functionality or fixing bugs.
+
+### Social
+
+[![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/kXzYEcve)
 
 Security Vulnerabilities
 ------------------------

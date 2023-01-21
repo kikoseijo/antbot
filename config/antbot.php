@@ -2,6 +2,13 @@
 
 return [
 
+    // config('antbot.paths.passivbot_path')
+    'paths' => [
+        'python' => env('PYTHON_PATH', 'python'),
+        'passivbot_path' => env('PASSIVBOT_PATH', '/home/antbot/passivbot'),
+        'passivbot_logs' => env('PASSIVBOT_LOGS_PATH', '/home/antbot/logs'),
+    ],
+
     'roles' => [
         '1' => 'Admin',
         '2' => 'User',
@@ -46,11 +53,7 @@ return [
         't' => 'Take profit only',
         'p' => 'Panic',
     ],
-    // config('antbot.paths.bot_path')
-    'paths' => [
-        'bot_path' => '/home/antbot/passivbot',
-        'logs_path' => '/home/antbot/klogs',
-    ],
+
 
     'css' => [
         'thead' => 'text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400',

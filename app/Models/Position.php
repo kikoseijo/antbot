@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ExchangesEnum;
+use App\Enums\MarketTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -54,14 +55,27 @@ class Position extends Model
             return match($this->exchange->exchange){
                 ExchangesEnum::BYBIT => "https://testnet.bybit.com/trade/usdt/{$this->symbol}",
                 ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$this->symbol}",
+                ExchangesEnum::BITGET => "https://www.bitget.com/en/mix/usdt/{$this->symbol}",
+                ExchangesEnum::OKX => "https://www.okx.com/trade-swap/{$this->symbol}-swap",
                 default => "#{$this->symbol}",
             };
         } else {
-            return match($this->exchange->exchange){
-                ExchangesEnum::BYBIT => "https://www.bybit.com/trade/usdt/{$this->symbol}",
-                ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$this->symbol}",
-                default => "#{$this->symbol}",
-            };
+            // if ($this->exchange->market_type === MarketTypeEnum::FUTURES) {
+                return match($this->exchange->exchange){
+                    ExchangesEnum::BYBIT => "https://www.bybit.com/trade/usdt/{$this->symbol}",
+                    ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$this->symbol}",
+                    ExchangesEnum::BITGET => "https://www.bitget.com/en/mix/usdt/{$this->symbol}",
+                    ExchangesEnum::OKX => "https://www.okx.com/trade-swap/{$this->symbol}-swap",
+                    default => "#{$this->symbol}",
+                };
+            // } else {
+            //     return match($this->exchange->exchange){
+            //         ExchangesEnum::BYBIT => "https://www.bybit.com/en-US/trade/spot/USDT/{$this->symbol}",
+            //         ExchangesEnum::BITGET => "https://www.bitget.com/en/mix/usdt/{$this->symbol}",
+            //         ExchangesEnum::OKX => "https://www.okx.com/trade-spot/{$this->symbol}",
+            //         ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$this->symbol}?theme=dark&type=spot",
+            //     };
+            // }
         }
     }
 }

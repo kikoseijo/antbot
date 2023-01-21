@@ -63,7 +63,7 @@ class Bot extends Model
 
     public function getLogPathAttribute()
     {
-        $log_path = config('antbot.paths.logs_path');
+        $log_path = config('antbot.paths.passivbot_logs');
         $file_name = $this->symbol->nice_name ?? 'XXX12XX';
         return "{$log_path}/{$this->exchange->id}/{$file_name}.log";
     }

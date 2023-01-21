@@ -91,7 +91,7 @@ class ShowExchanges extends Component
     //             session()->flash('message', 'File saved into: ' . $res);
     //         }
     //     } else {
-    //         $bot_path = config('antbot.paths.bot_path');
+    //         $bot_path = config('antbot.paths.passivbot_path');
     //         unlink("$bot_path/configs/live/{$user->id}/XASPUSDT.json");
     //     }
     // }
