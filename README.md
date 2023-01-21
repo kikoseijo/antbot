@@ -74,6 +74,7 @@ cp .env.example .env
 #   DB_PASSWORD=<choose password>
 sed -i 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' .env
 ln -s ../storage/app/public public/storage
+mkdir -p docker/redis/volume docker/mysql/volume
 docker-compose up -d
 ```
 
