@@ -19,8 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    Route::get('/admin/commands', App\Http\Livewire\Admin\AutoUpdater::class)->name('admin.commands');
+});
 
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', App\Http\Livewire\Dashboard::class)->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
