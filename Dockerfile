@@ -28,5 +28,19 @@ FROM php:${PHP_VERSION}-fpm
 
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-enable pdo_mysql
+RUN curl -o /usr/local/bin/php-fpm-healthcheck \
+    https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
+    && chmod +x /usr/local/bin/php-fpm-healthcheck
+
+# Required software
+RUN set -x \
+    && apt update \
+    && apt install -y libfcgi-bin
+
+# Enable php fpm status page
+RUN set -xe && echo "pm.status_path = /status" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
+WORKDIR /var/www/html
 
 COPY --from=build-php /home/app /var/www/html
+CMD php artisan migrate && php-fpm
