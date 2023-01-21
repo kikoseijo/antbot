@@ -202,7 +202,7 @@ The contribution guide its not jet released, but you can always push a new commi
 
 ### Social
 
-[![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/kXzYEcve)
+[![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/HFGEsE9Xgc)
 
 Security Vulnerabilities
 ------------------------
