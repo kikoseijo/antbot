@@ -71,7 +71,7 @@ class Grid extends Model
 
     public function getStoragePathAttribute()
     {
-        $bot_path = config('antbot.paths.bot_path');
+        $bot_path = config('antbot.paths.passivbot_path');
         $u_id = $this->user->id;
 
         return "$bot_path/configs/live/$u_id";

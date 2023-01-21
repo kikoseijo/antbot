@@ -128,7 +128,7 @@ class Exchange extends Model
 
     public function getLogsPathAttribute()
     {
-        $log_path = config('antbot.paths.logs_path');
+        $log_path = config('antbot.paths.passivbot_logs');
         return "{$log_path}/{$this->id}";
     }
 

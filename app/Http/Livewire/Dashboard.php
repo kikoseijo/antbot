@@ -28,7 +28,7 @@ class Dashboard extends Component
 
     public function showLogs(Exchange $exchange)
     {
-        $logs_path = config('antbot.paths.logs_path');
+        $logs_path = config('antbot.paths.passivbot_logs');
         $logs_route =  "{$logs_path}/{$exchange->id}/**.log";
         $file = escapeshellarg($logs_route);
         $line = "tail -n 3 $file 2>&1";

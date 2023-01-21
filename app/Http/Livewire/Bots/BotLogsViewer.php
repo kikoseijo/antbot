@@ -50,7 +50,7 @@ class BotLogsViewer extends Component
 
     protected function getLogFiles()
     {
-        $logs_path = config('antbot.paths.logs_path');
+        $logs_path = config('antbot.paths.passivbot_logs');
         $directory =  "{$logs_path}/{$this->bot->exchange_id}/";
 
         return collect(File::allFiles($directory))
@@ -61,7 +61,7 @@ class BotLogsViewer extends Component
 
     public function deleteLogsFile()
     {
-        $logs_path = config('antbot.paths.logs_path');
+        $logs_path = config('antbot.paths.passivbot_logs');
         $files = $this->getLogFiles();
         $file_name = $files[$this->file]->getFilename();
         $file_path =  "{$logs_path}/{$this->bot->exchange_id}/";
@@ -78,7 +78,7 @@ class BotLogsViewer extends Component
 
     public function truncateAllFiles()
     {
-        $logs_path = config('antbot.paths.logs_path');
+        $logs_path = config('antbot.paths.passivbot_logs');
         $files = $this->getLogFiles();
         foreach ($files as $file) {
             $this->exeTruncateFile($logs_path, $file->getFilename());
@@ -92,7 +92,7 @@ class BotLogsViewer extends Component
 
     public function truncateFile()
     {
-        $logs_path = config('antbot.paths.logs_path');
+        $logs_path = config('antbot.paths.passivbot_logs');
         $files = $this->getLogFiles();
         $file_name = $files[$this->file]->getFilename();
         $this->exeTruncateFile($logs_path, $file_name);
