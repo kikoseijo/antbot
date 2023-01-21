@@ -63,6 +63,16 @@ php artisan key:generate
 php artisan storage:link
 ```
 
+Docker equivalent:
+```bash
+git clone git@github.com:kikoseijo/antbot.git
+cd antbot
+cp .env.example .env
+sed -i 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' .env
+ln -s ../storage/app/public public/storage
+docker-compose up -d
+```
+
 #### Configure your enviroment variables
 
 The `.env` file created in previous step needs your information for database, email and paths for bots to work.
