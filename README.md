@@ -108,9 +108,7 @@ Exchange scrapper needs a CronJob to run every minute, this will maintaine bots 
 * * * * * cd /path/to/antbot && /opt/remi/php81/root/usr/bin/php artisan schedule:run >> /dev/null 2>&1
 ```
 
-
-
-### Configure grid system
+### Configure Passivbot default grids
 
 Passivbot comes with 3 [run modes](https://www.passivbot.com/en/latest/passivbot_modes/), its best starting point for someone new to Passivbot.
 You can leave this settings as default, just make sure the files linked are available inside Passivbot installation.
@@ -126,8 +124,8 @@ You will also be able to create and edit your own grids directly from the contro
 
 
 
-Updates
--------
+## Updates
+
 
 For updating antbot you can follow this steps, its not a zero downtime deployment, but we dont need such advance feature because bots are run separately from the application.
 
@@ -200,9 +198,9 @@ Contributing
 Thank you for considering contributing to the Antbot system!
 The contribution guide its not jet released, but you can always push a new commit with what you can think of new functionality or fixing bugs.
 
-### Social
+### Hanging Up with the crew
 
-[![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/kXzYEcve)
+[![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/HFGEsE9Xgc)
 
 Security Vulnerabilities
 ------------------------
