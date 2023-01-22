@@ -62,8 +62,9 @@ class CreateExchange extends Component
         $this->exchange->slug = \Str::slug(\Str::squish($this->exchange->name));
         $this->validate([
             'exchange.name' => [
-                Rule::unique('exchanges', 'name')
-                    ->ignore(auth()->user()->id, 'user_id')
+                Rule::unique('exchanges', 'name')->where(function ($query) {
+                    return $query->whereUserId(auth()->user()->id);
+                })
             ],
         ]);
 
