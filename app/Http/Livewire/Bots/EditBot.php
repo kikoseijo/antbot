@@ -50,7 +50,7 @@ class EditBot extends Component
         $this->bot->save();
 
         session()->flash('status', 'bot-updated');
-        session()->flash('message', 'Bot Updated Successfully');
+        session()->flash('message', "{$this->bot->name} updated successfully");
 
         return redirect()->route('bots.index', $exc_id);
     }
