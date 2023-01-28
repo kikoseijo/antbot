@@ -105,6 +105,9 @@ class Bot extends Model
         if ($this->exchange->is_testnet) {
             $args = array_merge($args, ['-tm']);
         }
+        if ($this->oh_mode) {
+            $args = array_merge($args, ['-oh']);
+        }
         if ($this->assigned_balance != 0) {
             $args = array_merge($args, ['-ab', $this->assigned_balance]);
         }
