@@ -9,7 +9,7 @@ trait WithValidation
     public Grid $grid;
 
     protected $rules = [
-        'grid.name' => 'required|string|max:12',
+        'grid.name' => 'required|string|max:32',
         'grid.description' => 'sometimes|string',
         'grid.grid_json' => 'required|json'
     ];

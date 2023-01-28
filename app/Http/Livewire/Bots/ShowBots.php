@@ -59,8 +59,9 @@ class ShowBots extends Component
         $this->sub_title = \Str::upper($this->exchange->name) . ' - Bots';
 
         $records = $this->exchange->bots()->where('name', 'like', '%'.$this->search.'%')
+            ->withAggregate('symbol','name')
             ->orderBy(\DB::raw('ISNULL(started_at)'), 'asc')
-            ->orderBy('name', 'asc')
+            ->orderBy('symbol_name', 'asc')
             ->mine()
             ->with('exchange', 'grid', 'symbol')
             ->paginate(255);
@@ -111,7 +112,7 @@ class ShowBots extends Component
     {
         $this->dispatchBrowserEvent('alert',[
             'type' => 'info',
-            'message' => "Restarting {$bot->name}, please wait..."
+            'message' => "{$bot->name} - restarting, please wait..."
         ]);
         $bot->restart();
     }

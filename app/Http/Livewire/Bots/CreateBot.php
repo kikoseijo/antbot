@@ -81,7 +81,7 @@ class CreateBot extends Component
             $this->bot->grid_id = null;
         $this->bot->save();
 
-        session()->flash('message', 'Bot successfully created.');
+        session()->flash('message', "{$this->bot->name} created successfully.");
         // session()->flash('status', 'bot-created');
 
         $this->clearForm();

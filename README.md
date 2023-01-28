@@ -43,6 +43,28 @@ Follow [Passivbot](https://www.passivbot.com/) installation guide, its better if
 
 ...
 
+## Docker install (Comming Soon, under development)
+
+Setup instructions:
+
+```
+git clone git@github.com:kikoseijo/antbot.git
+cd antbot
+cp .env.example .env
+sed -i 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' .env
+ln -s ../storage/app/public public/storage
+docker-compose up -d
+```
+
+Update image with new code (including database migration):
+
+`docker-compose up -d --build`
+
+The data of `mysql` and `redis` is saved in those paths respectively:
+
+`antbot/docker/mysql/volume`
+`antbot/docker/redis/volume`
+
 ## Web server deployment
 
 Antbot its a PHP + MYSQL application, can be run on any webserve, vps, etc.

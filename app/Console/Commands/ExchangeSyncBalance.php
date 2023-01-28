@@ -98,14 +98,15 @@ class ExchangeSyncBalance extends Command
         foreach ($records as $record) {
 
             $symbol = \Arr::get($record, 'marginCoin');
-            $balance = $record['locked'] + $record['available'];
+            $balance = \Arr::get($record, 'available');
+            // $balance = $record['locked'] + $record['available'];
             $new_record = Balance::updateOrCreate([
                 'symbol' => $symbol,
                 'exchange_id' => $exchange->id
             ], [
                 'wallet_balance' => $balance,
                 'equity' => \Arr::get($record, 'equity'),
-                'available_balance' => \Arr::get($record, 'available'),
+                'available_balance' => $balance,
                 'used_margin' => \Arr::get($record, 'locked'),
                 'order_margin' => \Arr::get($record, 'locked'),
                 // 'position_margin' => \Arr::get($record, 'XXXXXXXX'),
