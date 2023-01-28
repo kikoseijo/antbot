@@ -79,8 +79,13 @@ class User extends Authenticatable
 
     public function getConfigsFolderAttribute()
     {
-        $bot_path = config('antbot.paths.passivbot_path');
-        return "$bot_path/configs/live/{$this->id}";
+        $passivbot_path = config('antbot.paths.passivbot_path');
+        return "$passivbot_path/configs/live/{$this->id}";
+    }
+
+    public function getApiKeysFilenameAttribute()
+    {
+        return "api-keys.json";
     }
 
     public function updateExchangesFile()
@@ -106,14 +111,13 @@ class User extends Authenticatable
         }
 
         $path = $this->configs_folder;
-        $file_name = 'XASPUSDT.json';
         $disk = Storage::build([
             'driver' => 'local',
             'root' => $path,
         ]);
-        $disk->put($file_name, json_encode($configs, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT));
+        $disk->put($this->api_keys_filename, json_encode($configs, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT));
 
-        return "$path/$file_name";
+        return "$path/$this->api_keys_filename";
     }
 
     public function destroyResources()

@@ -50,15 +50,18 @@ Setup instructions:
 ```
 git clone git@github.com:kikoseijo/antbot.git
 cd antbot
-cp .env.example .env
-sed -i 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' .env
+sed 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' docker/.env.example > docker/.env
 ln -s ../storage/app/public public/storage
+docker-compose build
 docker-compose up -d
 ```
 
 Update image with new code (including database migration):
 
-`docker-compose up -d --build`
+```
+docker-compose build
+docker-compose up -d
+```
 
 The data of `mysql` and `redis` is saved in those paths respectively:
 
@@ -89,18 +92,19 @@ Docker equivalent:
 ```bash
 git clone git@github.com:kikoseijo/antbot.git
 cd antbot
-cp .env.example .env
-# In .env file, set:
-#   DB_HOST=mysql
+git submodule sync && git submodule update --init
+sed 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' docker/.env.example > docker/.env
+ln -s ../storage/app/public public/storage
+# In docker/.env file, set:
 #   DB_USERNAME=<choose username>
 #   DB_PASSWORD=<choose password>
-sed -i 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' .env
-ln -s ../storage/app/public public/storage
-mkdir -p docker/redis/volume docker/mysql/volume
+cd docker
+mkdir -p redis/volume mysql/volume
+docker-compose build
 docker-compose up -d
 ```
 
-#### Configure your enviroment variables
+#### Configure your environment variables
 
 The `.env` file created in previous step needs your information for database, email and paths for bots to work.
 Email configuration its important, application should be able to send emails at certain moments.
@@ -153,9 +157,9 @@ You will also be able to create and edit your own grids directly from the contro
 
 ```php
 'grid_configs' => [
-    'recursive' => 'configs/live/recursive_grid_mode.example.json',
-    'neat' => 'configs/live/neat_grid_mode.example.json',
-    'static' => 'configs/live/static_grid_mode.example.json',
+    'recursive' => 'recursive_grid_mode.example.json',
+    'neat' => 'neat_grid_mode.example.json',
+    'static' => 'static_grid_mode.example.json',
 ],
 ```
 

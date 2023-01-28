@@ -69,12 +69,15 @@ class Grid extends Model
         return "$base_name.json";
     }
 
+    public function getCommonStoragePathAttribute()
+    {
+        $passivbot_path = config('antbot.paths.passivbot_path');
+        return "$passivbot_path/configs/live";
+    }
+
     public function getStoragePathAttribute()
     {
-        $bot_path = config('antbot.paths.passivbot_path');
-        $u_id = $this->user->id;
-
-        return "$bot_path/configs/live/$u_id";
+        return "{$this->common_storage_path}/{$this->user->id}";
     }
 
     public function getGridAttribute()

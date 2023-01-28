@@ -1,0 +1,3 @@
+[submodule "submodules/passivbot"]
+	path = submodules/passivbot
+	url = https://github.com/enarjord/passivbot.git

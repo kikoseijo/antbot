@@ -41,9 +41,9 @@ return [
     ],
 
     'grid_configs' => [
-        'recursive' => 'configs/live/recursive.json',
-        'neat' => 'configs/live/neat.json',
-        'static' => 'configs/live/static.json',
+        'recursive' => 'recursive.json',
+        'neat' => 'neat.json',
+        'static' => 'static.json',
     ],
 
     'bot_modes' => [

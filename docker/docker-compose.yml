@@ -2,8 +2,11 @@ version: '3.9'
 services:
     php:
       build:
-        context: .
-        dockerfile: ./Dockerfile
+        context: ..
+        dockerfile: docker/Dockerfile
+        args:
+            PASSIVBOT_PATH: ${PASSIVBOT_PATH}
+            PASSIVBOT_LOGS_PATH: ${PASSIVBOT_LOGS_PATH}
       container_name: antbot-php
       restart: unless-stopped
       depends_on:
@@ -28,7 +31,7 @@ services:
         MYSQL_PASSWORD: ${DB_PASSWORD}
         MYSQL_USER: ${DB_USERNAME}
       volumes:
-        - ${PWD}/docker/mysql/initdb.d:/docker-entrypoint-initdb.d
+        - ${PWD}/mysql/initdb.d:/docker-entrypoint-initdb.d
         - mysql-volume:/var/lib/mysql
       ports:
       - "${DB_PORT}:3306"
@@ -59,8 +62,8 @@ services:
       ports:
         - "8080:80"
       volumes:
-        - ${PWD}/:/var/www/html
-        - ${PWD}/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        - ${PWD}/..:/var/www/html
+        - ${PWD}/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       depends_on:
         php:
           condition: service_healthy
@@ -70,10 +73,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ${PWD}/docker/mysql/volume
+      device: ${PWD}/mysql/volume
   redis-volume:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${PWD}/docker/redis/volume
+      device: ${PWD}/redis/volume

@@ -63,9 +63,8 @@ class Bot extends Model
 
     public function getLogPathAttribute()
     {
-        $log_path = config('antbot.paths.passivbot_logs');
         $file_name = $this->symbol->nice_name ?? 'XXX12XX';
-        return "{$log_path}/{$this->exchange->id}/{$file_name}.log";
+        return "{$this->exchange->logs_path}/{$file_name}.log";
     }
 
     public function isRunning($pid = null)
@@ -84,11 +83,12 @@ class Bot extends Model
 
     public function start($force = false)
     {
-        $grid_configs = config('antbot.grid_configs');
         if ($this->grid_mode == GridModeEnum::CUSTOM && $this->grid_id > 0) {
-            $grid_config = "configs/live/{$this->user_id}/{$this->grid->file_name}";
+            $grid_config = "{$this->grid->storage_path}/{$this->grid->file_name}";
         } else {
-            $grid_config = \Arr::get($grid_configs, $this->grid_mode->value);
+            $grid_configs = config('antbot.grid_configs');
+            $grid_config_name = \Arr::get($grid_configs, $this->grid_mode->value);
+            $grid_config = "{$this->grid->common_storage_path}/{$grid_config_name}";
         }
 
         $args = [
@@ -100,7 +100,7 @@ class Bot extends Model
             '-lw', $this->lwe,
             '-sm', $this->sm->value,
             '-sw', $this->swe,
-            '-ak', $this->exchange->getFilePath(),
+            '-ak', $this->exchange->getApiKeysFilePath(),
         ];
         if ($this->exchange->is_testnet) {
             $args = array_merge($args, ['-tm']);
@@ -112,7 +112,11 @@ class Bot extends Model
             $args = array_merge($args, ['-m', $this->market_type->value]);
         }
 
-        $logs_file = $this->show_logs ? $this->log_path : '/dev/null';
+        $logs_file = '/dev/null';
+        if ($this->show_logs) {
+            $this->exchange->createLogsFolder();
+            $logs_file = $this->log_path;
+        }
 
         // logi('$args');
         $pid = \Python::run('passivbot.py', $args, $logs_file);

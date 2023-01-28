@@ -140,9 +140,9 @@ class Exchange extends Model
         }
     }
 
-    public function getFilePath()
+    public function getApiKeysFilePath()
     {
-        return "configs/live/{$this->user->id}/XASPUSDT.json";
+        return "{$this->user->configs_folder}/{$this->user->api_keys_filename}";
     }
 
 }
