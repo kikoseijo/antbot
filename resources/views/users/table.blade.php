@@ -45,7 +45,7 @@
                         {{ $user->grids_count }}
                     </td>
                     <td class="py-2 px-2">
-                        {{ \Carbon\Carbon::parse($user->last_seen)->diffForHumans() }}
+                        {{ $user->last_seen ? \Carbon\Carbon::parse($user->last_seen)->diffForHumans() : '-' }}
                     </td>
                     <td class="py-2 px-2 text-right">
 

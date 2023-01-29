@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // cd /home/antbot/antbot && /opt/remi/php81/root/usr/bin/php artisan sche
+        // * * * * * cd /home/antbot/antbot && php artisan schedule:run >> /dev/null 2>&1
         // https://laravel.com/docs/9.x/scheduling#schedule-frequency-options
         $schedule->command('antbot:sync-symbols')->everyTwoMinutes(); // 1
         $schedule->command('antbot:sync-positions')->everyFiveMinutes(); // 2

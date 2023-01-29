@@ -36,6 +36,7 @@ class CreateExchange extends Component
         $this->rules['exchange.risk_mode'] = ['required', new Enum(ExchangeModeEnum::class)];
         $this->exchange = new Exchange;
         $this->exchange->is_testnet = 0;
+        $this->exchange->api_error = 0;
 
     }
 
