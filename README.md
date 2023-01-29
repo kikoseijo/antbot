@@ -43,24 +43,39 @@ Follow [Passivbot](https://www.passivbot.com/) installation guide, its better if
 
 ...
 
-## Docker install (Comming Soon, under development)
+## Docker install (Coming Soon, under development)
 
 Setup instructions:
 
-```
+```bash
 git clone git@github.com:kikoseijo/antbot.git
 cd antbot
+git submodule sync && git submodule update --init
 sed 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' docker/.env.example > docker/.env
 ln -s ../storage/app/public public/storage
+# In docker/.env file, set:
+#   DB_USERNAME=<choose username>
+#   DB_PASSWORD=<choose password>
+cd docker
+mkdir -p redis/volume mysql/volume
 docker-compose build
-docker-compose up -d
 ```
 
-Update image with new code (including database migration):
+After the setup, you can control the server using these commands (running in the `docker` directory):
 
-```
-docker-compose build
-docker-compose up -d
+* Running the server:
+`docker-compose up -d`
+* Stopping the server:
+`docker-compose down`
+* Display services logs:
+`docker-compose logs`
+* Updating the server (including database migration):
+```bash
+docker-compose down # Stop the server
+git pull # Update code from repo
+git submodule sync && git submodule update --init # Update code from passivbot submodule
+docker-compose build # Build the new image, with the new code
+docker-compose up -d # Start the server again
 ```
 
 The data of `mysql` and `redis` is saved in those paths respectively:
@@ -86,22 +101,6 @@ composer install --no-dev
 cp .env.example .env
 php artisan key:generate
 php artisan storage:link
-```
-
-Docker equivalent:
-```bash
-git clone git@github.com:kikoseijo/antbot.git
-cd antbot
-git submodule sync && git submodule update --init
-sed 's#^APP_KEY=.*$#APP_KEY=base64:'`openssl rand -base64 32`'#g' docker/.env.example > docker/.env
-ln -s ../storage/app/public public/storage
-# In docker/.env file, set:
-#   DB_USERNAME=<choose username>
-#   DB_PASSWORD=<choose password>
-cd docker
-mkdir -p redis/volume mysql/volume
-docker-compose build
-docker-compose up -d
 ```
 
 #### Configure your environment variables
