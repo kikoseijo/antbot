@@ -5,15 +5,19 @@ namespace App\Http\Livewire\Exchanges;
 use App\Models\Exchange;
 use App\Enums\ExchangesEnum;
 use Livewire\Component;
+use Carbon\Carbon;
 
 class ShowTrades extends Component
 {
     public Exchange $exchange;
     public $title;
     public $chart_type = 'daily';
+    public $search_month;
+    public $search_year;
 
     protected $rules = [
         'chart_type' => 'required',
+        'search_month' => 'required',
         'exchange.id' => 'required',
     ];
 
@@ -22,6 +26,8 @@ class ShowTrades extends Component
     public function mount()
     {
         $this->title = $this->exchange->name . " - PNL";
+        $this->search_month = now()->month;
+        $this->search_year = now()->year;
     }
 
     public function render()
@@ -39,10 +45,9 @@ class ShowTrades extends Component
 
     protected function dailyRecords()
     {
-
         $records = $this->exchange->trades()
-                ->whereMonth('created_at', now()->month)
-                ->whereYear('created_at', now()->year)
+                ->whereMonth('created_at', $this->search_month)
+                ->whereYear('created_at', $this->search_year)
                 ->selectRaw(
                     'month(created_at) month, day(created_at) year, count(*) total_trades, sum(closed_pnl) pnl, symbol, monthname(created_at) month_name'
                 )
@@ -57,7 +62,7 @@ class ShowTrades extends Component
 
     protected function montlyRecords()
     {
-        $records = $this->exchange->trades()->where('created_at', '>', '2022-9-30 23:59:59')
+        $records = $this->exchange->trades()->whereYear('created_at', $this->search_year)
                 ->selectRaw(
                     'year(created_at) year, month(created_at) month, count(*) total_trades, sum(closed_pnl) pnl, symbol, monthname(created_at) month_name'
                 )
