@@ -165,7 +165,7 @@ class Bot extends Model
         } else {
             if ($this->exchange->is_testnet) {
                 return match($this->exchange->exchange){
-                    ExchangesEnum::BYBIT => "https://testnet.bybit.com/en-US/trade/spot/{$this->symbol->base_currency}/{$this->symbol->quote_currency}",
+                    ExchangesEnum::BYBIT => "https://testnet.bybit.com/en-US/trade/spot/{optional($this->symbol)->base_currency}/{optional($this->symbol)->quote_currency}",
                     ExchangesEnum::BITGET => "https://www.bitget.com/en/mix/usdt/{$symbol}",
                     ExchangesEnum::OKX => "https://www.okx.com/trade-spot/{$symbol}",
                     ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=spot",
@@ -173,7 +173,7 @@ class Bot extends Model
                 };
             } else {
                 return match($this->exchange->exchange){
-                    ExchangesEnum::BYBIT => "https://www.bybit.com/en-US/trade/spot/{$this->symbol->base_currency}/{$this->symbol->quote_currency}",
+                    ExchangesEnum::BYBIT => "https://www.bybit.com/en-US/trade/spot/{optional($this->symbol)->base_currency}/{optional($this->symbol)->quote_currency}",
                     ExchangesEnum::BITGET => "https://www.bitget.com/en/mix/usdt/{$symbol}",
                     ExchangesEnum::OKX => "https://www.okx.com/trade-spot/{$symbol}",
                     ExchangesEnum::BINANCE => "https://www.binance.com/en/trade/{$symbol}?theme=dark&type=spot",
