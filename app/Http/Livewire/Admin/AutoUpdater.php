@@ -21,6 +21,7 @@ class AutoUpdater extends Component
 
     public function updateAntbot()
     {
+        $this->toast("Updating... Please wait...");
         Artisan::call('antbot:update');
         $this->toast("Application updated succesfully");
     }
