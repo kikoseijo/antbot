@@ -37,6 +37,7 @@ return [
         'recursive' => 'Recursive grid',
         'neat' => 'Neat grid',
         'static' => 'Static grid',
+        'clock' => 'Clock mode',
         'custom' => 'Custom grid',
     ],
 
@@ -44,6 +45,7 @@ return [
         'recursive' => 'configs/live/recursive.json',
         'neat' => 'configs/live/neat.json',
         'static' => 'configs/live/static.json',
+        'clock' => 'configs/live/clock.json',
     ],
 
     'bot_modes' => [

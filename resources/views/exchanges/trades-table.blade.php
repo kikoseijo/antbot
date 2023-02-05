@@ -20,6 +20,8 @@
             @php
                 $total_trades = [];
                 $total_pnl = [];
+                $total_pnl_sum = 0;
+
             @endphp
             @forelse($records as $symbol => $data)
                 <tr class="bg-white dark:bg-gray-{{ $loop->index % 2 == 0 ? '7' : '6' }}00">
@@ -43,6 +45,7 @@
                                 $total_trades[$date] += $n_trades;
                             }
                             if (is_numeric($pnl_value)) {
+                                $total_pnl_sum += $pnl_value;
                                 $total_pnl[$date] += $pnl_value;
                             }
                         @endphp
@@ -68,7 +71,7 @@
         </tbody>
         <tfoot>
             <tr class="text-xs font-semibold text-gray-700 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
-                <th scope="row" class="py-2 px-2 text-right">TOTAL:</th>
+                <th scope="row" class="py-2 px-2 text-right">SUM:&nbsp;${{number($total_pnl_sum, 2)}}</th>
                 @foreach ($dates as $date)
                     <th scope="col" class="py-2 px-2 text-center">{{ $total_trades[$date] }}</th>
                     <th scope="col" class="py-2 px-2 text-right">${{ number($total_pnl[$date], 2) }}</th>
