@@ -10,7 +10,7 @@
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
         "axios": "^1.1.2",
-        "codemirror": "^5.40.0",
+        "codemirror": "^5.58.2",
         "dayjs": "^1.11.7",
         "flowbite": "^1.5.5",
         "laravel-vite-plugin": "^0.7.0",
