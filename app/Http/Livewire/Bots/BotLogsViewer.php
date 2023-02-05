@@ -87,7 +87,7 @@ class BotLogsViewer extends Component
         $this->dispatchBrowserEvent('alert', [
             'type' => 'success',
             'message' => 'All logs truncated succesfully.'
-        ]);;
+        ]);
     }
 
     public function truncateFile()
