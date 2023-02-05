@@ -20,7 +20,9 @@ class ExchangeSyncPositions extends Command
     public function handle()
     {
         // logi('Starting SyncPositions');
-        $exchanges = Exchange::with('balances')->where('api_error', false)->get();
+        $exchanges = Exchange::with('balances')
+            ->where('api_error', false)
+            ->get();
         foreach ($exchanges as $exchange) {
             if ($exchange->exchange == ExchangesEnum::BYBIT) {
                 $this->syncBybitPositions($exchange);
