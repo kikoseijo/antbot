@@ -41,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('exchange/{exchange}/edit', App\Http\Livewire\Exchanges\EditExchange::class)->name('exchanges.edit');
     Route::get('exchange/{exchange}/positions', App\Http\Livewire\Exchanges\ShowPositions::class)->name('exchanges.positions');
     Route::get('exchange/{exchange}/trades', App\Http\Livewire\Exchanges\ShowTrades::class)->name('exchanges.trades');
+    Route::get('exchange/{exchange}/trade-records/{symbol?}', App\Http\Livewire\Exchanges\TradeRecords::class)->name('exchanges.trade-records');
 
     Route::get('grids', App\Http\Livewire\Configs\ShowConfigs::class)->name('configs.index');
     Route::get('grid/add', App\Http\Livewire\Configs\CreateConfig::class)->name('configs.add');

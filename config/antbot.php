@@ -34,11 +34,11 @@ return [
     ],
 
     'grid_modes' => [
-        'recursive' => 'Recursive grid',
-        'neat' => 'Neat grid',
-        'static' => 'Static grid',
+        'recursive' => 'Recursive mode',
+        'neat' => 'Neat mode',
+        'static' => 'Static mode',
         'clock' => 'Clock mode',
-        'custom' => 'Custom grid',
+        'custom' => 'Custom',
     ],
 
     'grid_configs' => [
