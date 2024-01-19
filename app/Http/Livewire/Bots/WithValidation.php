@@ -19,6 +19,8 @@ trait WithValidation
         'bot.grid_id' => 'nullable',
         'bot.show_logs' => 'sometimes',
         'bot.oh_mode' => 'sometimes',
+        'bot.is_on_trend' => 'sometimes',
+        'bot.is_on_routines' => 'sometimes',
         'bot.assigned_balance' => 'required|numeric|between:0,999999',
         'bot.leverage' => 'required|numeric|between:1,50',
         'bot.lm' => 'required|in:n,m,gs,t,p',
@@ -30,6 +32,8 @@ trait WithValidation
     protected $validationAttributes = [
         'grid_id' => 'Custom grid',
         'oh_mode' => 'Enable ohlcv',
+        'is_on_trend' => 'Follow trend',
+        'is_on_routines' => 'Enable routines',
         'lm' => 'Long mode',
         'sm' => 'Short mode',
         'lwe' => 'Long wallet exposure',

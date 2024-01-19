@@ -40,31 +40,32 @@
 
 
 
-        @if (!isset($on_edit))
-            <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
-                <div>
-                    <x-input-label for="api_key" :value="__('Api key')" />
-                    <x-text-input id="api_key" type="text" class="mt-1 block w-full" wire:model.defer="api_key" required />
-                    <x-input-error class="mt-2" :messages="$errors->get('api_key')" />
-                </div>
-                <div>
-                    <x-input-label for="api_secret" :value="__('Api secret')" />
-                    <x-text-input id="api_secret" type="text" class="mt-1 block w-full" wire:model.defer="api_secret" required />
-                    <x-input-error class="mt-2" :messages="$errors->get('api_secret')" />
-                </div>
-                <div>
-                    <x-input-label for="api_frase" :value="__('Passphrase')" />
-                    <x-text-input id="api_frase" type="text" class="mt-1 block w-full" wire:model.defer="api_frase" />
-                    <x-input-error class="mt-2" :messages="$errors->get('api_frase')" />
-                </div>
+
+        <div class="grid grid-cols-3 grid-flow-col gap-4 mb-6">
+            <div>
+                <x-input-label for="api_key" :value="__('Api key')" />
+                <x-text-input id="api_key" type="text" class="mt-1 block w-full" wire:model.defer="exchange.api_key" required />
+                <x-input-error class="mt-2" :messages="$errors->get('exchange.api_key')" />
             </div>
+            <div>
+                <x-input-label for="api_secret" :value="__('Api secret')" />
+                <x-text-input id="api_secret" type="password" class="mt-1 block w-full" wire:model.defer="exchange.api_secret" required />
+                <x-input-error class="mt-2" :messages="$errors->get('exchange.api_secret')" />
+            </div>
+            <div>
+                <x-input-label for="api_frase" :value="__('Passphrase')" />
+                <x-text-input id="api_frase" type="text" class="mt-1 block w-full" wire:model.defer="exchange.api_frase" />
+                <x-input-error class="mt-2" :messages="$errors->get('exchange.api_frase')" />
+            </div>
+        </div>
+        {{-- @if (!isset($on_edit))
         @else
             <span class="text-md text-gray-800 dark:text-gray-400">
                 <span class="font-bold">API Key:</span> <span class="mr-3">{{$exchange->api_key}}</span>
                 <br />
                 <span class="font-bold">API password:</span> <span class="mr-3">{{ Str::mask($exchange->api_secret, '*', 3, strlen($exchange->api_secret) - 6); }}</span>
             </span>
-        @endif
+        @endif --}}
 
         <div class="grid grid-cols-3 grid-flow-col gap-4 mb-4 pb-4">
             <div>

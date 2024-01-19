@@ -13,11 +13,6 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 class PositionsTable extends DataTableComponent
 {
     protected $model = Position::class;
-    public Exchange $exchange;
-
-    protected $rules = [
-        'exchange.id' => 'sometimes',
-    ];
 
     // public function render()
     // {
@@ -39,12 +34,10 @@ class PositionsTable extends DataTableComponent
             ])->setConfigurableAreas([
                 // 'toolbar-left-start' => 'path.to.my.view',
                 // 'toolbar-left-end' => 'path.to.my.view',
-                'toolbar-left-end' => ['exchanges.partials.select-exchange', [
-                    'exchange' => $this->exchange,
-                ]],
-                'toolbar-right-start' => ['exchanges.partials.traded-records-btn', [
-                    'exchange' => $this->exchange,
-                ]],
+                // 'toolbar-left-end' => ['exchanges.partials.select-exchange', [
+                //     'exchange' => $this->exchange,
+                // ]],
+                // 'toolbar-right-start' => 'exchanges.partials.traded-records-btn',
                 // 'toolbar-right-end' => 'path.to.my.view',
                 // 'before-toolbar' => 'path.to.my.view',
                 // 'after-toolbar' => 'path.to.my.view',
@@ -64,7 +57,7 @@ class PositionsTable extends DataTableComponent
                     $ex_css = $row->exchange->hasRunningBotsForSymbol($row->symbol) ? 'text-yellow-300 decoration-yellow-300' : '';
                     return [
                         'default' => false,
-                        'class' => 'whitespace-nowrap text-sm font-bold px-1 py-2 '.$ex_css.' underline hover:no-underline',
+                        'class' => 'whitespace-nowrap text-sm font-bold px-1 py-2 '.$ex_css.' no-underline hover:underline',
                     ];
                 }
                 if($column->isField('side')){
@@ -171,7 +164,7 @@ class PositionsTable extends DataTableComponent
 
     // public function filters(): array
     // {
-    //     $exchanges = auth()->user()->exchanges->pluck('name', 'id');
+    //     $exchanges = auth()->user()->exchanges()->orderBy('name')->get()->pluck('name', 'id');
     //     return [
     //         SelectFilter::make('Exchange', 'exchange_id')
     //             ->options($exchanges->toArray())
@@ -184,7 +177,7 @@ class PositionsTable extends DataTableComponent
     public function builder(): Builder
     {
         return Position::query()
-            ->whereExchangeId($this->exchange->id)
+            ->whereExchangeId(auth()->user()->exchange_id)
             // ->when(true, fn($query, $active) => $query->where('exchange_id', $this->exchange->id))
             ->with('exchange', 'coin', 'orders', 'buy_orders', 'sell_orders')
             ->withCount('orders')

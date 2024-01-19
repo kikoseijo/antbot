@@ -10,18 +10,24 @@ use Livewire\WithPagination;
 class ShowPositions extends Component
 {
     use WithPagination;
-    public Exchange $exchange;
     public $title;
     public $total_wallet_exposure;
 
     public function mount()
     {
-        $this->title = "Exchange - " . $this->exchange->name;
+        $exchange = auth()->user()->exchange;
+        if (!$exchange) {
+            session()->flash('message', 'Please create your first exchange.');
+            return redirect()->route('exchanges.add');
+        }
+
+        $this->title = 'Active positions';
+
         $res = [];
         // dd($this->exchange->balances->toArray()[1]['wallet_balance']);
-        foreach ($this->exchange->balances as $balance) {
+        foreach ($exchange->balances as $balance) {
             $res[$balance->symbol] = 0;
-            foreach ($this->exchange->positions as $position) {
+            foreach ($exchange->positions as $position) {
                 $res[$balance->symbol] += ($position->size * $position->entry_price) / $balance->wallet_balance;
             }
         }
@@ -31,13 +37,10 @@ class ShowPositions extends Component
 
     public function render()
     {
-        if ($this->exchange->user_id != auth()->user()->id) {
-            return abort(403, 'Unauthorized');
-        }
+
 
         $data = [
-            'balances' => $this->exchange->balances,
-            // 'positions' => $this->exchange->positions()->with('exchange', 'orders')->withCount('buy_orders', 'sell_orders')->paginate(20),
+            'balances' => auth()->user()->exchange->balances,
         ];
 
         return view('livewire.exchanges.show-positions', $data)->layoutData([
@@ -45,8 +48,4 @@ class ShowPositions extends Component
         ]);
     }
 
-    public function functionName()
-    {
-
-    }
 }

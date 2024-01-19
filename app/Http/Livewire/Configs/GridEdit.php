@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Configs;
 
 use App\Models\Grid;
 use Livewire\Component;
+use App\Models\Config;
 use Illuminate\Validation\Rule;
 
 class GridEdit extends Component
@@ -12,7 +13,7 @@ class GridEdit extends Component
     public array $common;
     public array $l_grid;
     public array $s_grid;
-    public $title = 'Grid visual editor';
+    public $title = 'Strategy visual editor';
 
     protected $rules = [
         'grid.name' => 'required|string|max:12',
@@ -83,7 +84,8 @@ class GridEdit extends Component
 
     public function render()
     {
-        if ($this->grid->user_id != auth()->user()->id) {
+        $settings = Config::find(1);
+        if ((!$settings->enable_grids || $this->grid->user_id != auth()->user()->id) && !auth()->user()->admin) {
             return abort(403, 'Unauthorized');
         }
 

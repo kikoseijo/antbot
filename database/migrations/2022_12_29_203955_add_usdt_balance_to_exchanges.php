@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::table('exchanges', function (Blueprint $table) {
-            $table->decimal('usd_balance', 10, 2)->nullable()->after('name');
-            $table->decimal('usdt_balance', 10, 2)->nullable()->after('usd_balance');
-            $table->decimal('btc_balance', 10, 2)->nullable()->after('usdt_balance');
-            $table->decimal('eth_balance', 10, 2)->nullable()->after('btc_balance');
+            $table->string('usd_balance', 30)->nullable()->after('name');
+            $table->string('usdt_balance', 30)->nullable()->after('usd_balance');
+            $table->string('btc_balance', 30)->nullable()->after('usdt_balance');
+            $table->string('eth_balance', 30)->nullable()->after('btc_balance');
         });
     }
 

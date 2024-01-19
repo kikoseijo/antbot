@@ -20,14 +20,22 @@ class EditExchange extends Component
         'exchange.risk_mode' => 'required',
         'exchange.is_testnet' => 'sometimes',
         'exchange.api_error' => 'sometimes',
-        // 'exchange.api_frase' => 'sometimes|string|max:250',
+        'exchange.api_key' => 'sometimes|string|max:100',
+        'exchange.api_secret' => 'sometimes|string|max:100',
+        'exchange.api_frase' => 'sometimes|string|max:250',
     ];
+
+    public function mount()
+    {
+        $this->exchange->makeVisible(['api_key', 'api_secret', 'api_frase']);
+    }
 
     public function render()
     {
         if ($this->exchange->user_id != auth()->user()->id) {
             return abort(403, 'Unauthorized');
         }
+        $this->exchange->makeVisible(['api_key', 'api_secret', 'api_frase']);
 
         $this->rules['exchange.exchange'] = ['required', new Enum(ExchangesEnum::class)];
         $this->rules['exchange.risk_mode'] = ['required', new Enum(ExchangeModeEnum::class)];
@@ -58,6 +66,7 @@ class EditExchange extends Component
         if (request()->user()->email <> 'demo@sunnyface.com') {
             $this->exchange->save();
             $res = $this->exchange->user->updateExchangesFile();
+            auth()->user()->update(['exchange_id' => $this->exchange->id]);
             if (auth()->user()->isAdmin()) {
                 session()->flash('message', 'File saved into: ' . $res);
             } else {

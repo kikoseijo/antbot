@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto ml-4 fill-current text-yellow-500 dark:text-yellow-300" />
+                        <x-application-logo class="block h-9 w-auto ml-4 fill-current text-yellow-300 dark:text-yellow-300" />
                     </a>
                 </div>
 
@@ -20,18 +20,50 @@
                             {{ __('Users') }}
                         </x-nav-link>
                     @endif
-                    <x-nav-link :href="route('symbols.index')" :active="request()->routeIs('symbols.*')">
-                        {{ __('Symbols') }}
+                    @if ($settings->enable_routines || (auth() && auth()->user()->admin))
+                        <x-nav-link :href="route('routines.index')" :active="request()->routeIs('routines.*')">
+                            {{ __('Routines') }}
+                        </x-nav-link>
+                    @endif
+                    <x-nav-link data-dropdown-toggle="dropdown-trades" href="#" :active="request()->routeIs('trades.*')">
+                        {{ __('Trades') }}
+                        <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </x-nav-link>
-                    <x-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
+                    <!-- Dropdown menu -->
+                    <div id="dropdown-trades" class="z-10 hidden bg-white divide-gray-100 shadow-lg rounded-lg w-44 dark:bg-gray-700">
+                        <x-dropdown-link :href="route('trades.pnl')">
+                            {{ __('Profit & Loss') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('trades.index')">
+                            {{ __('Trades by Symbol') }}
+                        </x-dropdown-link>
+                    </div>
+                    {{-- <x-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
                         {{ __('Exchanges') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
-                        {{ __('Bots') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('configs.index')" :active="request()->routeIs('configs.*')">
-                        {{ __('Configs') }}
-                    </x-nav-link>
+                    </x-nav-link> --}}
+
+                    @if ($settings->enable_positions || (auth() && auth()->user()->admin))
+                        <x-nav-link :href="route('positions.index')" :active="request()->routeIs('positions.*')">
+                            {{ __('Positions') }}
+                        </x-nav-link>
+                    @endif
+                    @if ($settings->enable_bots || (auth() && auth()->user()->admin))
+                        <x-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
+                            {{ __('Bots') }}
+                        </x-nav-link>
+                    @endif
+                    @if ($settings->enable_grids || (auth() && auth()->user()->admin))
+                        <x-nav-link :href="route('configs.index')" :active="request()->routeIs('configs.*')">
+                            {{ __('Configs') }}
+                        </x-nav-link>
+                    @endif
+                    @if ($settings->enable_what4trade || (auth() && auth()->user()->admin))
+                        <x-nav-link :href="route('symbols.what-to-trade')" :active="request()->routeIs('symbols.*')">
+                            {{ __('What2Trade') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -65,6 +97,12 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('User profile') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('exchanges.index')">
+                            {{ __('Exchanges') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('symbols.index')">
+                            {{ __('Symbols') }}
+                        </x-dropdown-link>
                         <x-dropdown-link :href="route('users.auth-logs', auth()->user())">
                             {{ __('User login logs') }}
                         </x-dropdown-link>
@@ -75,6 +113,9 @@
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
                                 </svg>
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.settings')">
+                                {{ __('Settings') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('admin.commands')">
                                 {{ __('Admin commands') }}
@@ -124,18 +165,40 @@
                     {{ __('Users') }}
                 </x-responsive-nav-link>
             @endif
-            <x-responsive-nav-link :href="route('symbols.index')" :active="request()->routeIs('symbols.*')">
-                {{ __('Symbols') }}
+            @if ($settings->enable_routines || (auth() && auth()->user()->admin))
+                <x-responsive-nav-link :href="route('routines.index')" :active="request()->routeIs('routines.*')">
+                    {{ __('Routines') }}
+                </x-responsive-nav-link>
+            @endif
+            <x-responsive-nav-link :href="route('trades.pnl')">
+                {{ __('Profit & Loss') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
-                {{ __('Bots') }}
+            <x-responsive-nav-link :href="route('trades.index')">
+                {{ __('Trade by symbol') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
+            @if ($settings->enable_positions || (auth() && auth()->user()->admin))
+                <x-responsive-nav-link :href="route('positions.index')" :active="request()->routeIs('positions.*')">
+                    {{ __('Positions') }}
+                </x-responsive-nav-link>
+            @endif
+            @if ($settings->enable_bots || (auth() && auth()->user()->admin))
+                <x-responsive-nav-link :href="route('bots.index')" :active="request()->routeIs('bots.*')">
+                    {{ __('Bots') }}
+                </x-responsive-nav-link>
+            @endif
+            {{-- <x-responsive-nav-link :href="route('exchanges.index')" :active="request()->routeIs('exchanges.*')">
                 {{ __('Exchanges') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('configs.index')" :active="request()->routeIs('configs.*')">
-                {{ __('Configs') }}
-            </x-responsive-nav-link>
+            </x-responsive-nav-link> --}}
+            @if ($settings->enable_grids || (auth() && auth()->user()->admin))
+                <x-responsive-nav-link :href="route('configs.index')" :active="request()->routeIs('configs.*')">
+                    {{ __('Configs') }}
+                </x-responsive-nav-link>
+            @endif
+            @if ($settings->enable_what4trade || (auth() && auth()->user()->admin))
+                <x-responsive-nav-link :href="route('symbols.what-to-trade')" :active="request()->routeIs('symbols.*')">
+                    {{ __('What2Trade') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -149,6 +212,12 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('exchanges.index')">
+                    {{ __('Exchanges') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('symbols.index')">
+                    {{ __('Symbols') }}
+                </x-responsive-nav-link>
 
                 @if (auth() && auth()->user()->admin)
                     <x-responsive-nav-link href="/log-viewer" target="_blank" class="flex content-center">
@@ -156,6 +225,9 @@
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
                         </svg>
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.settings')">
+                        {{ __('Settings') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.commands')">
                         {{ __('Admin commands') }}

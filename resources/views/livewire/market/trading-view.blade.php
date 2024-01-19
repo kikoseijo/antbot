@@ -6,7 +6,7 @@
                 @include('markets.trading-view')
             </div>
 
-            <x-btn-link-accent class="py-4 mt-4" href="{{ route('exchanges.positions', $position->exchange_id) }}" >
+            <x-btn-link-accent class="py-4 mt-4" href="{{ back() }}" >
                 Back to positions
             </x-btn-link-accent>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Bots;
 
 use App\Models\Bot;
 use App\Models\Exchange;
+use App\Models\History;
 use App\Models\Symbol;
 use App\Rules\BotLimits;
 use Livewire\Component;
@@ -13,7 +14,6 @@ class CreateBot extends Component
 {
     use WithValidation;
 
-    public Exchange $exchange;
     public $title = 'Bots';
     public $bot_limits;
 
@@ -27,7 +27,7 @@ class CreateBot extends Component
         }
         $rederData = $this->renderData();
 
-        $rederData['symbols'] = Symbol::where('exchange', $this->exchange->exchange->value)
+        $rederData['symbols'] = Symbol::where('exchange', auth()->user()->exchange->exchange->value)
             ->orderBy('name')
             ->get()
             ->pluck('name', 'id');
@@ -42,6 +42,8 @@ class CreateBot extends Component
         $this->bot = new Bot;
         $this->bot->show_logs = 0;
         $this->bot->oh_mode = 0;
+        $this->bot->is_on_trend = 0;
+        $this->bot->is_on_routines = 1;
         $this->clearForm();
         $this->rules['bot_limits'] = 'bot_limits';
     }
@@ -51,6 +53,8 @@ class CreateBot extends Component
         $this->bot->name = '';
         $this->bot->show_logs = 0;
         $this->bot->oh_mode = 0;
+        $this->bot->is_on_trend = 0;
+        $this->bot->is_on_routines = 1;
         $this->bot->symbol_id = '';
         $this->bot->market_type = 'futures';
         $this->bot->grid_mode = 'recursive';
@@ -66,7 +70,7 @@ class CreateBot extends Component
     public function submit()
     {
         $this->validate();
-        $exc_id = $this->exchange->id;
+        $exc_id = auth()->user()->exchange_id;
         $this->bot->exchange_id = $exc_id;
         $this->validate([
             'bot.symbol_id' => [
@@ -82,6 +86,9 @@ class CreateBot extends Component
         if($this->bot->grid_id == 'null' || $this->bot->grid_id == '')
             $this->bot->grid_id = null;
         $this->bot->save();
+
+        $new_history = (new History)->forResourceCreate(auth()->user(), $this->bot);
+        $new_history->save();
 
         session()->flash('message', "{$this->bot->name} created successfully.");
         // session()->flash('status', 'bot-created');

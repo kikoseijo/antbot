@@ -111,10 +111,21 @@ class ExchangeSyncPositions extends Command
 
     protected function removeNonExistingPositions(Exchange $exchange, $filtered_response)
     {
-        // TODO: its deleting one of the sides. must FIX.
         $symbols = \Arr::pluck($filtered_response, 'data.symbol');
+        if ($exchange->exchange == ExchangesEnum::BYBIT) {
+            $sides = \Arr::pluck($filtered_response, 'data.holdSide');
+        } else {
+            $sides = \Arr::pluck($filtered_response, 'data.side');
+        }
         foreach ($exchange->positions as $exchange_position) {
-            if(!in_array($exchange_position->symbol, $symbols)){
+            $delete = true;
+            foreach ($symbols as $key => $value) {
+                $side = $sides[$key] == 'long' ? 'Buy' : 'Sell';
+                if ($value == $exchange_position->symbol && $side == $exchange_position->side) {
+                    $delete = false;
+                }
+            }
+            if($delete){
                 $exchange_position->delete();
             }
         }

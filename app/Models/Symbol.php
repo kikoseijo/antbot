@@ -25,4 +25,9 @@ class Symbol extends Model
     {
         return str_replace('_UMCBL', '', $this->name);
     }
+
+    public function trades()
+    {
+        return $this->hasMany(Trade::class, 'symbol', 'name');
+    }
 }

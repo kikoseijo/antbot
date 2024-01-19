@@ -24,6 +24,7 @@ class ShowExchanges extends Component
         $data = [
             'records' => Exchange::where('name', 'like', '%'.$this->search.'%')
                 ->withCount('bots', 'positions', 'trades')
+                ->orderBy('name')
                 ->with('bots')
                 ->mine()
                 ->paginate(10),
@@ -67,8 +68,13 @@ class ShowExchanges extends Component
                     $record->delete();
                     auth()->user()->updateExchangesFile();
                     session()->flash('message', 'Exchange successfully deleted.');
-                    if (session(CURRENT_EXCHANGE_ID) == $this->deleteId){
-                        session()->forget(CURRENT_EXCHANGE_ID);
+                    if (auth()->user()->exchange_id == $this->deleteId){
+                        try {
+                            $new_id = auth()->user()->exchanges->first()->id;
+                            auth()->user()->update(['exchange_id' => $new_id]);
+                        } catch (\Exception $e) {
+                            loge("Error:: delete user exchange: ". $e->getMessage());
+                        }
                     }
                 }
             } else {

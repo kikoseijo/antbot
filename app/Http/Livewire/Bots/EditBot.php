@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Bots;
 
 use App\Models\Bot;
 use App\Models\Symbol;
+use App\Models\History;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -48,6 +49,9 @@ class EditBot extends Component
         if($this->bot->grid_id == 'null')
             $this->bot->grid_id = null;
         $this->bot->save();
+
+        $new_history = (new History)->forResourceUpdate(auth()->user(), $this->bot);
+        $new_history->save();
 
         session()->flash('status', 'bot-updated');
         session()->flash('message', "{$this->bot->name} updated successfully");

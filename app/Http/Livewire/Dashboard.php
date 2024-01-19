@@ -14,7 +14,7 @@ class Dashboard extends Component
         $exchanges = Exchange::mine()
             ->orderBy('name', 'asc')
             ->with('bots')
-            ->withCount('bots')
+            ->withCount('bots', 'positions')
             ->get();
 
         $data = [
@@ -24,6 +24,40 @@ class Dashboard extends Component
         return view('livewire.dashboard', $data)->layoutData([
             'title' => $this->title,
         ]);
+    }
+
+    public function showPositions($exchange_id)
+    {
+        $this->setExchange($exchange_id);
+
+        return redirect()->route('positions.index');
+    }
+
+    public function showTrades($exchange_id)
+    {
+        $this->setExchange($exchange_id);
+
+        return redirect()->route('trades.pnl');
+    }
+
+    public function showBots($exchange_id)
+    {
+        $this->setExchange($exchange_id);
+
+        return redirect()->route('bots.index');
+    }
+
+    protected function setExchange($exchange_id)
+    {
+        if ($exchange_id == auth()->user()->exchange_id) {
+
+            return ;
+        }
+
+        $exch_ids = auth()->user()->exchanges->pluck('id');
+        if (in_array($exchange_id, $exch_ids->all())) {
+            auth()->user()->update(['exchange_id' => $exchange_id]);
+        }
     }
 
     public function showLogs(Exchange $exchange)

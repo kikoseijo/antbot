@@ -15,50 +15,25 @@ class ShowBots extends Component
     public $search = '';
     public $deleteId = 0;
     public $title = 'Bots';
-    public $sub_title = 'Your Antbots';
-    public Exchange $exchange;
+    public $sub_title = 'Your Bots';
 
-    protected $rules = [
-        'exchange.id' => 'required',
-    ];
 
-    public function mount($exchange = NULL)
+    public function mount()
     {
-        if ($exchange && $exchange->user_id <> auth()->user()->id){
-            return abort(403, 'Unauthorized');
-        }
-
-        $user_exchanges = auth()->user()->exchanges()->orderBy('name')->get();
-
-        $exchange_count = $user_exchanges->count();
-        if ($exchange_count == 0) {
+        if (!auth()->user()->exchange_id) {
             session()->flash('message', 'Please create your first exchange.');
 
             return redirect()->route('exchanges.add');
         }
-
-        if ($exchange){
-            $this->exchange = $exchange;
-        } else {
-            if($cur_id = session(CURRENT_EXCHANGE_ID)){
-                $current_working_exchange = $user_exchanges->where('id', $cur_id)->first();
-                $this->exchange = $current_working_exchange ??  $user_exchanges->first();
-            } else {
-                $this->exchange = $user_exchanges->first();
-            }
-        }
-        session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
     }
-
-
 
     public function render()
     {
-        session([CURRENT_EXCHANGE_ID => $this->exchange->id]);
 
-        $this->sub_title = \Str::upper($this->exchange->name) . ' - Bots';
+        $cur_exchange = auth()->user()->exchange;
+        $this->sub_title = \Str::upper($cur_exchange->name);
 
-        $records = $this->exchange->bots()->where('name', 'like', '%'.$this->search.'%')
+        $records = $cur_exchange->bots()->where('name', 'like', '%'.$this->search.'%')
             ->withAggregate('symbol','name')
             ->orderBy(\DB::raw('ISNULL(started_at)'), 'asc')
             ->orderBy('symbol_name', 'asc')
@@ -68,7 +43,6 @@ class ShowBots extends Component
 
         $data = [
             'records' => $records,
-            'exchanges' => auth()->user()->exchanges->pluck('name', 'id'),
             'bot_modes' => config('antbot.bot_modes')
         ];
 

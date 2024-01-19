@@ -1,21 +1,7 @@
 <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ isset($on_edit) ? __('Edit Antbot') : __('Create new Antbot') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            @if (isset($on_edit))
-                {{ __("Edit your bot here, your changes will be applied upon bot restart.") }}
-            @else
-                {{ __("Here you can create your Antbots.") }}
-            @endif
-        </p>
-    </header>
-
     <form wire:submit.prevent="submit" class="mt-6 space-y-6">
-
         <x-input-error class="mt-2" :messages="$errors->get('bot_limits')" />
+
 
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             <div>
@@ -32,9 +18,6 @@
                 </x-select-input>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.symbol_id')" />
             </div>
-
-        </div>
-        <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             <div>
                 <x-input-label for="market_type" :value="__('Market type')" />
                 <x-select-input id="market_type" type="text" class="mt-1 block w-full" wire:model="bot.market_type" required>
@@ -50,59 +33,65 @@
                 <x-input-error class="mt-2" :messages="$errors->get('bot.assigned_balance')" />
             </div>
         </div>
-        <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
-            <div>
-                <x-input-label for="grid_mode" :value="__('Grid mode')" />
-                <x-select-input id="grid_mode" type="text" class="mt-1 block w-full" wire:model="bot.grid_mode" required>
-                    @foreach ($grid_modes as $mode_id => $mode_name)
-                        <option value="{{$mode_id}}">{{$mode_name}}</option>
-                    @endforeach
-                </x-select-input>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.grid_mode')" />
+
+        <div class="grid grid-cols-2 grid-flow-col gap-4">
+            <div class="grid grid-cols-2 grid-flow-col gap-4">
+                <div>
+                    <x-input-label for="grid_mode" :value="__('Strategy mode')" />
+                    <x-select-input id="grid_mode" type="text" class="mt-1 block w-full" wire:model="bot.grid_mode" required>
+                        @foreach ($grid_modes as $mode_id => $mode_name)
+                            <option value="{{$mode_id}}">{{$mode_name}}</option>
+                        @endforeach
+                    </x-select-input>
+                    <x-input-error class="mt-2" :messages="$errors->get('bot.grid_mode')" />
+                </div>
+                <div>
+                    <x-input-label for="grid_id" :value="__('Strategy')" />
+                    <x-select-input id="grid_id" type="text" class="mt-1 block w-full" wire:model="bot.grid_id">
+                        @foreach ($my_configs as $my_grid)
+                            <option value="{{$my_grid->id}}">{{$my_grid->name}}</option>
+                        @endforeach
+                    </x-select-input>
+                    <x-input-error class="mt-2" :messages="$errors->get('bot.grid_id')" />
+                </div>
             </div>
             <div>
-                <x-input-label for="grid_id" :value="__('Custom grid')" />
-                <x-select-input id="grid_id" type="text" class="mt-1 block w-full" wire:model="bot.grid_id">
-                    @foreach ($my_configs as $my_grid)
-                        <option value="{{$my_grid->id}}">{{$my_grid->name}}</option>
-                    @endforeach
-                </x-select-input>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.grid_id')" />
+                <div class="grid grid-cols-4 grid-flow-col gap-4">
+
+                    <div>
+                        <x-input-label for="lm" :value="__('Long Mode')" />
+                        <x-select-input id="lm" type="text" class="mt-1 block w-full" wire:model="bot.lm" required>
+                            @foreach ($bot_modes as $mode_id => $mode_name)
+                                <option value="{{$mode_id}}">{{$mode_name}}</option>
+                            @endforeach
+                        </x-select-input>
+                        <x-input-error class="mt-2" :messages="$errors->get('bot.lm')" />
+                    </div>
+                    <div>
+                        <x-input-label for="lwe" :value="__('Long Exposure')" />
+                        <x-text-input id="lwe" type="number" step="0.01" min="0" class="mt-1 block w-full" wire:model.lazy="bot.lwe" required/>
+                        <x-input-error class="mt-2" :messages="$errors->get('bot.lwe')" />
+                    </div>
+                    <div>
+                        <x-input-label for="sm" :value="__('Short Mode')" />
+                        <x-select-input id="sm" type="text" class="mt-1 block w-full" wire:model="bot.sm" required>
+                            @foreach ($bot_modes as $mode_id => $mode_name)
+                                <option value="{{$mode_id}}">{{$mode_name}}</option>
+                            @endforeach
+                        </x-select-input>
+                        <x-input-error class="mt-2" :messages="$errors->get('bot.sm')" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="swe" :value="__('Short Exposure')" />
+                        <x-text-input id="swe" type="number" step="0.01" min="0" class="mt-1 block w-full" wire:model.lazy="bot.swe" required/>
+                        <x-input-error class="mt-2" :messages="$errors->get('bot.swe')" />
+                    </div>
+                </div>
             </div>
+
         </div>
 
-        <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
-            <div>
-                <x-input-label for="lm" :value="__('Long mode (LM)')" />
-                <x-select-input id="lm" type="text" class="mt-1 block w-full" wire:model="bot.lm" required>
-                    @foreach ($bot_modes as $mode_id => $mode_name)
-                        <option value="{{$mode_id}}">{{$mode_name}}</option>
-                    @endforeach
-                </x-select-input>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.lm')" />
-            </div>
-            <div>
-                <x-input-label for="sm" :value="__('Short mode (SM)')" />
-                <x-select-input id="sm" type="text" class="mt-1 block w-full" wire:model="bot.sm" required>
-                    @foreach ($bot_modes as $mode_id => $mode_name)
-                        <option value="{{$mode_id}}">{{$mode_name}}</option>
-                    @endforeach
-                </x-select-input>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.sm')" />
-            </div>
-        </div>
-        <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
-            <div>
-                <x-input-label for="lwe" :value="__('Long wallet exposure (LWE)')" />
-                <x-text-input id="lwe" type="number" step="0.01" min="0" class="mt-1 block w-full" wire:model.lazy="bot.lwe" required/>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.lwe')" />
-            </div>
-            <div>
-                <x-input-label for="swe" :value="__('Short wallet exposure (SWE)')" />
-                <x-text-input id="swe" type="number" step="0.01" min="0" class="mt-1 block w-full" wire:model.lazy="bot.swe" required/>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.swe')" />
-            </div>
-        </div>
         <div class="grid grid-cols-4 grid-flow-col gap-4 mb-6">
             @php
                 $min_lev = optional($bot->symbol)->min_leverage;
@@ -113,41 +102,53 @@
                 <x-text-input id="leverage" type="number" step="1" min="{{$min_lev}}" max="{{$max_lev}}" class="mt-1 block w-full" wire:model.lazy="bot.leverage" required/>
                 <x-input-error class="mt-2" :messages="$errors->get('bot.leverage')" />
             </div>
-            <div>
-                <x-input-label for="show_logs" :value="__('Write logs')" />
-                <div class="flex mt-2">
-                    <div class="flex items-center mr-4">
-                        <input id="show_logs_1" type="radio" value="1"  wire:model="bot.show_logs" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="show_logs_1" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+            <div class="col-span-2">
+                <div class=" grid grid-cols-4 grid-flow-col gap-4 mb-6">
+                    <div>
+                        <x-input-label for="oh_mode" :value="__('Minute marks')" />
+                        <label class="relative inline-flex items-center mr-5 mt-2 cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" wire:model="bot.oh_mode">
+                          <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"></div>
+                        </label>
+                        <x-input-error class="mt-2" :messages="$errors->get('bot.oh_mode')" />
                     </div>
-                    <div class="flex items-center mr-4 ml-4">
-                        <input id="show_logs_2" type="radio" value="0"  wire:model="bot.show_logs" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="show_logs_2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                    <div>
+                        <x-input-label for="is_on_trend" :value="__('Follow Trend')" />
+                        <label class="relative inline-flex items-center mr-5 mt-2 cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" wire:model="bot.is_on_trend">
+                          <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"></div>
+                        </label>
+                        <x-input-error class="mt-2" :messages="$errors->get('bot.is_on_trend')" />
+                    </div>
+                    <div>
+                        <x-input-label for="is_on_routines" :value="__('Routines')" />
+                        <label class="relative inline-flex items-center mr-5 mt-2 cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" wire:model="bot.is_on_routines">
+                          <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"></div>
+                        </label>
+                        <x-input-error class="mt-2" :messages="$errors->get('bot.is_on_routines')" />
+                    </div>
+                    <div>
+                        <x-input-label for="show_logs" :value="__('Write logs')" />
+                        <label class="relative inline-flex items-center mr-5 mt-2 cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" wire:model="bot.show_logs">
+                          <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"></div>
+                        </label>
+                        <x-input-error class="mt-2" :messages="$errors->get('bot.show_logs')" />
+
                     </div>
                 </div>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.show_logs')" />
             </div>
-            <div>
-                <x-input-label for="oh_mode" :value="__('Enable minute mark checks instead of continuously')" />
-                <div class="flex mt-2">
-                    <div class="flex items-center mr-4">
-                        <input id="oh_mode_1" type="radio" value="1"  wire:model="bot.oh_mode" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="oh_mode_1" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
-                    </div>
-                    <div class="flex items-center mr-4 ml-4">
-                        <input id="oh_mode_2" type="radio" value="0"  wire:model="bot.oh_mode" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="oh_mode_2" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
-                    </div>
-                </div>
-                <x-input-error class="mt-2" :messages="$errors->get('bot.oh_mode')" />
-            </div>
+            <div></div>
+
         </div>
 
 
 
 
+
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ isset($on_edit) ? __('Update Antbot') : __('Create Antbot') }}</x-primary-button>
+            <x-primary-button>{{ isset($on_edit) ? __('Update') : __('Create') }}</x-primary-button>
 
             @if (session('status') === 'bot-created' || session('status') === 'bot-updated')
                 <p

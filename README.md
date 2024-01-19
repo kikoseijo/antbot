@@ -33,7 +33,10 @@ Many features can be implemented but the main ones right now are the following:
 - [ ] Panic mode (stoping bots and all orders, if necessary).
 - [ ] Grid editor with live visualisation in a chart.
 - [ ] Export trading records for financial books.
-- [ ] ...
+- [x] Bot routines with WebHooks.
+- [x] Update app using UI.
+- [x] UI settings area.
+- [x] What2Trade + [Direcctional Scalper](https://github.com/donewiththedollar/directional-scalper).
 
 ## Python crypto bots
 

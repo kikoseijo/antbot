@@ -24,7 +24,7 @@
                     <td class="py-2 px-2">
                         {{ \Arr::get($user_roles, $user->role) }}
                     </td>
-                    <td class="py-2 px-2 font-bold underline hover:no-underline">
+                    <td class="py-2 px-2 font-bold no-underline hover:underline">
                         <a href="{{ route('users.edit', $user) }}">
                             {{ $user->name }}
                         </a>

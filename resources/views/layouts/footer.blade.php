@@ -4,8 +4,7 @@
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
                 <a href="/" class="flex items-center">
-                    <x-application-logo class="block h-12 w-auto mx-4 fill-current text-yellow-500 dark:text-yellow-300" />
-                    <span class="self-center text-2xl mt-3 font-semibold whitespace-nowrap text-yellow-500 dark:text-yellow-300">Antbot</span>
+                    <x-application-footer-logo class="h-10 mx-4 sm:h-12" />
                 </a>
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">

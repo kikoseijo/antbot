@@ -23,11 +23,15 @@
                 $total_pnl_sum = 0;
 
             @endphp
+            {{-- {{ dd($records) }} --}}
             @forelse($records as $symbol => $data)
+                @php
+                    $symbol_name = \Arr::get($data,  '.symbol');
+                @endphp
                 <tr class="bg-white dark:bg-gray-{{ $loop->index % 2 == 0 ? '7' : '6' }}00">
                     <td class="py-1 px-2">
                         <span class="text-yellow-800 font-semibold dark:text-yellow-300">
-                            {{ $symbol }}
+                            <a href="{{ route('trades.index', $symbol_name)}}">{{ $symbol }}</a>
                         </span>
                     </td>
                     @foreach ($dates as $date)

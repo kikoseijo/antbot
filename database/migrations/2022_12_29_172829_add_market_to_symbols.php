@@ -16,15 +16,15 @@ return new class extends Migration
         Schema::table('symbols', function (Blueprint $table) {
             $table->string('market', 10)->nullable()->after('name');
             $table->string('last_price', 20)->nullable()->after('market');
-            $table->decimal('prev_price_24h', 30, 8)->nullable()->after('last_price');
+            $table->string('prev_price_24h', 30)->nullable()->after('last_price');
             $table->string('price_24h_pcnt', 20)->nullable()->after('prev_price_24h');
             $table->string('high_price_24h', 20)->nullable()->after('price_24h_pcnt');
             $table->string('low_price_24h', 20)->nullable()->after('high_price_24h');
             $table->string('prev_price_1h', 20)->nullable()->after('low_price_24h');
             $table->string('mark_price', 20)->nullable()->after('prev_price_1h');
             $table->string('index_price', 20)->nullable()->after('mark_price');
-            $table->decimal('turnover_24h', 30, 8)->nullable()->after('index_price');
-            $table->decimal('volume_24h', 30, 8)->nullable()->after('turnover_24h');
+            $table->string('turnover_24h', 30)->nullable()->after('index_price');
+            $table->string('volume_24h', 30)->nullable()->after('turnover_24h');
         });
     }
 

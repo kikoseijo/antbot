@@ -29,7 +29,7 @@
                 @endphp
                 <tr class="bg-white {{ $loop->index % 2 == 0 ? 'bg-gray-100' : ''}} dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-teal-100 hover:dark:bg-[#080C19] hover:dark:text-white">
 
-                    <td class="py-2 px-2 font-bold underline hover:no-underline">
+                    <td class="py-2 px-2 font-bold no-underline hover:underline">
                         <a href="{{ route('exchanges.edit', $record) }}">
                             {{ $record->name }}
                         </a>
@@ -75,10 +75,7 @@
                     </td> --}}
                     <td class="py-2 px-2 text-right">
                         <div class="inline-flex rounded-md shadow-sm" role="group">
-                          <a href="{{route('exchanges.positions', $record->id)}}" title="Open positions" type="button" class="inline-flex items-center px-2 py-2 text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
-                              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
-                          </a>
-                          <a href="{{ route('exchanges.trades', $record) }}" title="Trade records" class="inline-flex items-center px-2 py-2 text-xs font-medium text-gray-900 bg-white border-t border-b border-r border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                          <a href="{{route('trades.pnl')}}" title="Trade records" type="button" class="inline-flex items-center px-2 py-2 text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
                               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                           </a>
                           <a href="{{ route('exchanges.edit', $record) }}" title="Edit" class="inline-flex items-center px-2 py-2 text-xs font-medium text-gray-900 bg-white border-t border-b border-gray-200 rhover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">

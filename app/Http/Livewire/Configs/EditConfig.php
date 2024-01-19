@@ -3,17 +3,19 @@
 namespace App\Http\Livewire\Configs;
 
 use Livewire\Component;
+use App\Models\Config;
 use Illuminate\Validation\Rule;
 
 class EditConfig extends Component
 {
     use WithValidation;
 
-    public $title = 'Grid configurations';
+    public $title = 'Strategy configurations';
 
     public function render()
     {
-        if ($this->grid->user_id != auth()->user()->id) {
+        $settings = Config::find(1);
+        if ((!$settings->enable_grids || $this->grid->user_id != auth()->user()->id) && !auth()->user()->admin) {
             return abort(403, 'Unauthorized');
         }
 

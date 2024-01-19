@@ -17,17 +17,17 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('exchange_id')->index();
             $table->string('symbol', 30);
-            $table->decimal('equity', 15, 8)->nullable();
-            $table->decimal('available_balance', 15, 8)->nullable();
-            $table->decimal('used_margin', 15, 8)->nullable();
-            $table->decimal('order_margin', 15, 8)->nullable();
-            $table->decimal('position_margin', 15, 8)->nullable();
-            $table->decimal('occ_closing_fee', 15, 8)->nullable();
-            $table->decimal('occ_funding_fee', 15, 8)->nullable();
-            $table->decimal('wallet_balance', 15, 8)->nullable();
-            $table->decimal('realised_pnl', 15, 8)->nullable();
-            $table->decimal('unrealised_pnl', 15, 8)->nullable();
-            $table->decimal('cum_realised_pnl', 15, 8)->nullable();
+            $table->string('equity', 30)->nullable();
+            $table->string('available_balance', 30)->nullable();
+            $table->string('used_margin', 30)->nullable();
+            $table->string('order_margin', 30)->nullable();
+            $table->string('position_margin', 30)->nullable();
+            $table->string('occ_closing_fee', 30)->nullable();
+            $table->string('occ_funding_fee', 30)->nullable();
+            $table->string('wallet_balance', 30)->nullable();
+            $table->string('realised_pnl', 30)->nullable();
+            $table->string('unrealised_pnl', 30)->nullable();
+            $table->string('cum_realised_pnl', 30)->nullable();
             $table->timestamps();
         });
     }

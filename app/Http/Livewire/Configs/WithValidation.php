@@ -15,7 +15,7 @@ trait WithValidation
     ];
 
     protected $validationAttributes = [
-        'grid_json' => 'Grid configuration'
+        'grid_json' => 'Strategy configuration'
     ];
 
     protected function renderData()

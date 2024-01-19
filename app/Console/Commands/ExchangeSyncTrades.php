@@ -37,7 +37,9 @@ class ExchangeSyncTrades extends Command
     protected function syncBitget(Exchange $exchange)
     {
         $client = new BitgetSwap($exchange->api_key, $exchange->api_secret, $exchange->api_frase);
-        $symbols = Symbol::where('exchange', $exchange->exchange)->get();
+        $symbols = Symbol::where('exchange', $exchange->exchange)
+            ->where('market', '<>', 'spot')
+            ->get();
         $api_limit = 0;
         foreach ($symbols as $symbol) {
 
@@ -50,7 +52,7 @@ class ExchangeSyncTrades extends Command
                 ->orderBy('created_at', 'desc')
                 ->first();
 
-            $start_time = $last_record->created_at->timestamp ?? now()->subMonths(4)->valueOf();
+            $start_time = $last_record->created_at->timestamp ?? now()->subMonths(2)->valueOf();
 
             $more_pages = 1;
             while ($more_pages) {
@@ -90,7 +92,8 @@ class ExchangeSyncTrades extends Command
                 }
             }
         } else {
-            $this->processApiError($res_msg, $exchange, 'syncTrades');
+            // logi($response);
+            // $this->processApiError($res_msg, $exchange, 'syncTrades');
         }
 
         return false;
@@ -104,7 +107,7 @@ class ExchangeSyncTrades extends Command
             if (( $state == 'filled' || $state == 'partially_filled') &&
                 \Str::contains($side, 'close')) {
                     $order_id = \Arr::get($data, 'orderId');
-                    $record_side = \Arr::get($data, 'posSide') == 'short' ? 'Sell' : 'Buy';
+                    $record_side = \Arr::get($data, 'posSide') == 'short' ? 'Sell' : 'Buy'; // This is correct way, bybit says Buy for shorts.
                     $lot_size = \Arr::get($data, 'size');
                     $create_date = Carbon::createFromTimestamp(\Arr::get($data, 'uTime') / 1000);
                     Trade::updateOrCreate([
@@ -142,7 +145,9 @@ class ExchangeSyncTrades extends Command
         $page = 1;
         $host = $exchange->is_testnet ? 'https://api-testnet.bybit.com' : 'https://api.bybit.com';
         $bybit = new BybitLinear($exchange->api_key, $exchange->api_secret, $host);
-        $symbols = Symbol::where('exchange', $exchange->exchange)->get();
+        $symbols = Symbol::where('exchange', $exchange->exchange)
+            ->where('market', '<>', 'spot')
+            ->get();
 
         foreach ($symbols as $symbol) {
             if ($exchange->api_error) {

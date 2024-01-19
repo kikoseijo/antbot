@@ -23,4 +23,14 @@ class UserController extends Controller
                 echo $user->name . " is offline. Last seen: " . Carbon::parse($user->last_seen)->diffForHumans() . " <br>";
         }
     }
+
+    public function swapExchange(Request $request, $id)
+    {
+        $exch_ids = $request->user()->exchanges->pluck('id');
+        if (in_array($id, $exch_ids->all())) {
+            $request->user()->update(['exchange_id' => $id]);
+        }
+
+        return redirect()->back();
+    }
 }

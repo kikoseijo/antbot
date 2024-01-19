@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Configs;
 
 use App\Models\Grid;
 use App\Models\Bot;
+use App\Models\Config;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,7 +14,7 @@ class ShowConfigs extends Component
 
     public $search = '';
     public $deleteId = 0;
-    public $title = 'Grid configurations';
+    public $title = 'Strategy configurations';
 
     public function updatingSearch()
     {
@@ -22,6 +23,11 @@ class ShowConfigs extends Component
 
     public function render()
     {
+        $settings = Config::find(1);
+        if (!$settings->enable_grids && !auth()->user()->admin) {
+            return abort(403, 'Unauthorized');
+        }
+
         return view('livewire.configs.show-configs', [
             'records' => Grid::where('name', 'like', '%'.$this->search.'%')
                 ->mine()

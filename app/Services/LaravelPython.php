@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-
+use App\Models\Config;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -10,8 +10,11 @@ class LaravelPython
 {
     public function run(string $filename, array $parameters = [], string $log_file)
     {
-        $bot_path = config('antbot.paths.passivbot_path');
-        $python_path = config('antbot.paths.python');
+        // $bot_path = config('antbot.paths.passivbot_path');
+        // $python_path = config('antbot.paths.python');
+        $settings = Config::find(1);
+        $python_path = $settings->python_path;
+        $passivbot_path = $settings->passivbot_path;
         // logi($parameters);
         $params = implode(" ", $parameters);
         $args = [
@@ -20,7 +23,7 @@ class LaravelPython
         ];
         $command = implode(" ", $args);
         // logi($command);
-        chdir($bot_path);
+        chdir($passivbot_path);
         $pid = exec($command, $out);
 
         return $pid;

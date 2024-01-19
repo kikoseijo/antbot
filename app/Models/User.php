@@ -25,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'admin',
+        'exchange_id',
         'role',
         'timezone',
         'password',
@@ -59,6 +60,11 @@ class User extends Authenticatable
         return $this->hasMany(Exchange::class);
     }
 
+    public function exchange()
+    {
+        return $this->belongsTo(Exchange::class);
+    }
+
     public function grids()
     {
         return $this->hasMany(Grid::class);
@@ -76,7 +82,7 @@ class User extends Authenticatable
 
     public function canBeImpersonated()
     {
-        return $this->role != 1;
+        return $this->id != 1;
     }
 
     public function getConfigsFolderAttribute()

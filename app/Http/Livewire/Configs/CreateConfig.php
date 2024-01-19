@@ -10,7 +10,7 @@ class CreateConfig extends Component
 {
     use WithValidation;
 
-    public $title = 'Grid configurations';
+    public $title = 'Strategy configurations';
 
     public function render()
     {
@@ -39,8 +39,9 @@ class CreateConfig extends Component
         $this->validate();
         $this->validate([
             'grid.name' => [
-                Rule::unique('grids', 'name')
-                    ->ignore(auth()->user()->id, 'user_id')
+                Rule::unique('grids', 'name')->where(function ($query) {
+                    return $query->whereUserId(auth()->user()->id);
+                })
             ],
         ]);
         $this->grid->user_id = request()->user()->id;

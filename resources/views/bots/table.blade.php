@@ -5,10 +5,10 @@
             <tr>
                 <th scope="col" class="py-3 px-2"></th>
                 <th scope="col" class="py-3 px-2">Bot</th>
+                <th scope="col" class="py-3 px-2"></th>
                 <th scope="col" class="py-3 px-2">Symbol</th>
-                <th scope="col" class="py-3 px-2">Exchange</th>
-                <th scope="col" class="py-3 px-2 text-center">Market</th>
-                <th scope="col" class="py-3 px-2">Grid/Config</th>
+                <th scope="col" class="py-3 px-2 text-center"></th>
+                <th scope="col" class="py-3 px-2">Strategy</th>
                 <th scope="col" class="py-3 px-2 text-center">Long</th>
                 <th scope="col" class="py-3 px-2 text-center">Short</th>
                 <th scope="col" class="py-3 px-2 text-center">AB</th>
@@ -65,7 +65,9 @@
                             $twel_on[$exchange->id] += $record->lwe;
                         }
                     }
+                    // $color_trend = $record->is_on_routines ? 'yellow' : 'gray';
                     $color_running = $record->is_running ? 'yellow' : 'gray';
+                    $bot_positions = $exchange->positions()->where('symbol', optional($record->symbol)->name)->get();
                 @endphp
                 <tr class="bg-white {{ $loop->index % 2 == 0 ? 'bg-gray-100' : ''}} dark:bg-gray-900{{ $loop->last ? '' : ' border-b dark:border-gray-400'}} hover:bg-teal-100 hover:dark:bg-[#080C19] hover:dark:text-white">
                     <td class="py-2 pr-2 text-center">
@@ -73,13 +75,16 @@
                             x{{ $record->leverage }}
                         </span>
                     </td>
-                    <td class="py-2 px-2 font-bold text-left underline hover:no-underline">
+                    <td class="py-2 px-2 font-bold text-left no-underline hover:underline">
                         <i class="hidden text-yellow-200"></i>
                         <a href="{{ route('bots.edit', $record) }}" class="text-{{ $color_running }}-200">
                             {{ $record->name }}
                         </a>
                     </td>
-                    <td class="py-2 px-2 font-bold text-left underline hover:no-underline text-xs">
+                    <td class="py-2 px-2">
+                        @include('bots.partials.position-pnl', ['positions' => $bot_positions])
+                    </td>
+                    <td class="py-2 px-2 font-bold text-left no-underline hover:underline text-xs">
                         <a href="{{ $record->exchange_link }}" target="_blank" class="flex content-center">
                             {{ optional($record->symbol)->nice_name }}
                             <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -87,15 +92,17 @@
                             </svg>
                         </a>
                     </td>
-                    <td class="py-2 px-2 text-left text-xs">
-                          <a href="{{ route('exchanges.edit', $record->exchange) }}" class="underline hover:no-underline">
-                              {{ optional($record->exchange)->name }}
-                          </a>
+                    <td class="py-2 px-2 text-center font-extrabold">
+                        <span class="flex items-center text-gray-900 dark:text-white">
+                            {{ substr(\Str::of($record->market_type->value)->ucfirst(), 0, 1) }}
+                            @if ($record->is_on_routines)
+                                <span class="flex w-3 h-3 bg-yellow-300 rounded-full ml-2"></span>
+                            @endif
+                        </span>
                     </td>
-                    <td class="py-2 px-2 text-center">{{ \Str::of($record->market_type->value)->ucfirst() }}</td>
                     <td class="py-2 px-2 text-xs uppercase">
                         @if ($record->grid_mode->value == 'custom' && optional($record->grid)->id > 0)
-                            <a href="{{ route('configs.edit', $record->grid) }}" class="underline hover:no-underline">
+                            <a href="{{ route('configs.edit', $record->grid) }}" class="no-underline hover:underline">
                                 {{ optional($record->grid)->name }}
                             </a>
                         @else

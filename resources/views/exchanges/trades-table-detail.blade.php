@@ -16,6 +16,7 @@
             @forelse($records as $record)
                 @php
                     $pnl_color = $record->pnl >= 0 ? 'green' : 'red';
+                    $symbol_name = \Arr::get($data, $date . '.symbol');
                 @endphp
                 @if ($cur_month != $record->month || $cur_year != $record->year)
                     <tr class="bg-white dark:bg-gray-900">
@@ -27,7 +28,7 @@
                 <tr class="bg-white dark:bg-gray-{{ $loop->index % 2 == 0 ? '7' : '6' }}00 border-x-2 dark:border-gray-400">
                     <td class="py-3 px-4">
                         <span class="text-yellow-800 font-semibold dark:text-yellow-300">
-                            {{ $record->symbol }}
+                            <a href="{{ route('trades.index', $symbol_name)}}">{{ $symbol }}</a>
                         </span>
                     </td>
                     <td class="py-3 px-4 text-center">

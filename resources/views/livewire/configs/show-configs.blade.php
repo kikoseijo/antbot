@@ -5,7 +5,7 @@
             <div class="">
                 <section>
                     <x-section-header
-                        :h2text="__('Your Antbot configuration strategies')"
+                        :h2text="__('Configuration strategies')"
                         :ptext="__('Here you can find a list of all your grid configuration strategies.')">
                         <x-btn-link href="{{ route('configs.add') }}" >
                             <svg class="w-5 h-5 mr-1 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

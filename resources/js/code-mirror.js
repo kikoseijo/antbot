@@ -46,7 +46,7 @@ var editor = CodeMirror.fromTextArea(input, {
       }
     }
 });
-
+editor.setSize(null, 500);
 editor.on("change", function() {
     input.dispatchEvent(new CustomEvent('input', {
         detail: editor.getValue(),

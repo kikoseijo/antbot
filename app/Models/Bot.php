@@ -11,7 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bot extends Model
 {
-    use HasFactory, Traits\ScopeMineTrait;
+    use HasFactory;
+    use Traits\ScopeMineTrait;
+    use Traits\Historicable;
 
     protected $guarded = ['id'];
 
@@ -35,6 +37,25 @@ class Bot extends Model
              }
         });
     }
+
+    public function scopeRunning($query)
+    {
+        $query->where('pid', '>', 0)
+            ->whereNotNull('started_at');
+    }
+
+    public function scopeOnTrend($query)
+    {
+        $this->scopeRunning($query);
+        $query->where('is_on_trend', 1);
+    }
+
+    public function scopeOnRoutine($query)
+    {
+        $this->scopeRunning($query);
+        $query->where('is_on_routines', 1);
+    }
+
 
     public function user()
     {
@@ -81,6 +102,8 @@ class Bot extends Model
             return true;
         }
     }
+
+
 
     public function start($force = false)
     {
@@ -138,6 +161,26 @@ class Bot extends Model
             $this->pid = NULL;
             $this->save();
         }
+    }
+
+    public function swapWe($new_trend)
+    {
+        $key_trend = $new_trend == 'LONG' ? 'l' : 's';
+        $long_exp = $key_trend == 'l' ? 0.06 : 0.03;
+        $short_exp = $key_trend == 's' ? 0.06 : 0.03;
+        // $tmp = $this->lwe;
+        $this->lwe = $long_exp;
+        $this->swe = $short_exp;
+        $this->trend_15m = $key_trend; // SHORT
+        $this->save();
+    }
+
+    public function simpleSwapWe()
+    {
+        $temp = $this->lwe;
+        $this->lwe = $this->swe;
+        $this->swe = $temp;
+        $this->save();
     }
 
     public function getExchangeLinkAttribute()
